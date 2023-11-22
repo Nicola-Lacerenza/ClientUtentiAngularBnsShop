@@ -1,0 +1,12 @@
+<div>
+    <label for="userId">User Id:</label>
+    <input type="text" id="userId" [(ngModel)] = userId >
+
+    <label for="password">Password :</label>
+    <input type="password" id="password" [(ngModel)]=password >
+
+    <button (click) = gestAuth()>Connetti</button>
+</div>
+<div *ngIf="!autenticato">
+    {{errMsg}}
+</div>
