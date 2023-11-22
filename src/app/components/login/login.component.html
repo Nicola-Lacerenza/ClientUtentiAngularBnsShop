@@ -5,7 +5,7 @@
     <label for="password">Password :</label>
     <input type="password" id="password" [(ngModel)]=password >
 
-    <button (click) = gestAuth()>Connetti</button>
+    <button class="button is-large" (click) = gestAuth()>Connetti</button>
 </div>
 <div *ngIf="!autenticato">
     {{errMsg}}
