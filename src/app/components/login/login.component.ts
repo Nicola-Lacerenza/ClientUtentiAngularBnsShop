@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthappService } from '../../../services/authapp.service';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit{
 
-  userId : String="Nicola";
-  password : String="";
+  userId : string="";
+  password : string="";
 
   autenticato : boolean= true;
   errMsg : string="Spiacente, la userId e/o la password sono errati";
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit{
 
   sottotitolo : string="Procedi ad inserire la UserId e la Password";
 
-  constructor(private route: Router) { }
+  constructor(private route: Router, private BasicAuth:AuthappService) { }
 
   ngOnInit(): void {
   }
@@ -27,10 +28,10 @@ export class LoginComponent implements OnInit{
   gestAuth = () : void => {
     console.log(this.userId);
 
-    if (this.userId==="Nicola"&& this.password ==="123"){
+    if (this.BasicAuth.autentica(this.userId, this.password)){
       this.route.navigate(['welcome',this.userId]);
 
-      this.autenticato= true;
+      this.autenticato= true; 
       
     } else {
       this.autenticato= false;
