@@ -1,3 +1,4 @@
+<app-jumbotron [Titolo]="titolo" [SottoTitolo]="sottotitolo"></app-jumbotron>
 <div>
     <label for="userId">User Id:</label>
     <input type="text" id="userId" [(ngModel)] = userId >
@@ -5,7 +6,7 @@
     <label for="password">Password :</label>
     <input type="password" id="password" [(ngModel)]=password >
 
-    <button class="button is-large" (click) = gestAuth()>Connetti</button>
+    <button (click) = gestAuth()>Connetti</button>
 </div>
 <div *ngIf="!autenticato">
     {{errMsg}}
