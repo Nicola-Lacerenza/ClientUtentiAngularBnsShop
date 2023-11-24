@@ -1,0 +1,61 @@
+<section class="content-main">
+    <div class="content-header">
+        <h2 class="content-title">Griglia Prodotti</h2>
+        <div>
+            <a href="#" class="btn btn-light">Esporta</a>
+            <a href="#" class="btn btn-light">Importa</a>
+            <a href="#" class="btn btn-primary">Crea</a>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <header class="card-header">
+        <div class="row gx-3">
+            <div class="col-lg-4 col-md-6 me-auto">
+                <input type="text" placeholder="Cerca..." class="form-control">
+            </div>
+            <div class="col-lg-2 col-6 col-md-3">
+                <select title="Seleziona" class="form-select">
+                    <option>Tutte</option>
+                    <option>Alimentari</option>
+                    <option>Chimico</option>
+                    <option>Fresco</option>
+                </select>
+            </div>
+            <div class="col-lg-2 col-6 col-md-3">
+                <select title="Filtra" class="form-select">
+                    <option>Nuovi</option>
+                    <option>Prezzo Basso</option>
+                    <option>Più acquistati</option>
+                </select>
+            </div>
+        </div>
+        </header>
+
+        <div class="card-body">
+
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+      
+              <div class="col">
+                <div class="card card-product-grid">
+                  <a href="#" class="img-wrap"> <img src="assets/images/prodotti/1.jpg" class="img-rounded"  width="180" height="225" alt="Product"> </a>
+                  <div class="info-wrap">
+                    <a href="#" class="title text-truncate">Barilla - Penne Rigate Kg 0.5</a>
+                    <div class="price mb-2">€ 0.89</div> <!-- price.// -->
+      
+                    <a href="#" data-bs-toggle="dropdown" class="btn btn-sm btn-light">
+                        <i class="material-icons md-edit"></i>Modifica
+                    </a>
+                    <a href="#" data-bs-toggle="dropdown" class="btn btn-sm btn-outline-danger">
+                        <i class="material-icons md-delete_forever"></i>Elimina
+                    </a>
+                  </div>
+                </div> <!-- card-product  end// -->
+              </div> <!-- col.// -->
+      
+            </div>
+      
+          </div>
+    </div>
+
+</section>
