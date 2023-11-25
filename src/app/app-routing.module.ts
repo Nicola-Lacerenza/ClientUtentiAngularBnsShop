@@ -6,13 +6,15 @@ import { ErrorComponent } from './components/error/error.component';
 import { ArticoliComponent } from './components/articoli/articoli.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { GridArticoliComponent } from './components/grid-articoli/grid-articoli.component';
+import { authGuard, authGuard1 } from './services/auth.guard';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
   {path:'login',component:LoginComponent},
   {path:'welcome/:userId',component:WelcomeComponent},
-  {path:'articoli',component:ArticoliComponent},
-  {path:'articoli/grid',component:GridArticoliComponent},
+  {path:'articoli',component:ArticoliComponent, canActivate:[authGuard],canActivateChild :[authGuard1], children:[
+    {path:'grid',component:GridArticoliComponent},
+  ]},
   {path:'logout',component:LogoutComponent},
   {path:'**',component:ErrorComponent}
 ];

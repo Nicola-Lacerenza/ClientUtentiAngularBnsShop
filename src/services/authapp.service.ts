@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
+import { user } from '../app/models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthappService {
 
-  constructor() { }
+  private login : user;
 
+  constructor() { 
+    this.login=user.getInstance();
+  }
+   
   autentica = (userid:string, password:string) : boolean =>{
     var retVal = (userid === 'Nicola' && password === '123')? true : false;
        
@@ -17,12 +22,12 @@ export class AuthappService {
    return retVal;
   }
 
-  loggedUser = () : string | null =>(sessionStorage.getItem("Utente")) ? sessionStorage.getItem("Utente") : "";
+  loggedUser = () : string | null => this.login.loggedUser();
 
-  isLogged = () : boolean => (sessionStorage.getItem("Utente")) ? true : false;
+  isLogged = () : boolean => this.login.isLogged();
 
-  clearUser = () : void => sessionStorage.removeItem("Utente");
+  clearUser = () : void => this.login.clearUser();
 
-  clearAll = () : void => sessionStorage.clear();
+  clearAll = () : void => this.login.clearAll();
 
 }
