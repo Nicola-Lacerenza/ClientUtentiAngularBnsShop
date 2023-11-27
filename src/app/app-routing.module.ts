@@ -12,9 +12,8 @@ const routes: Routes = [
   {path:'',component:LoginComponent},
   {path:'login',component:LoginComponent},
   {path:'welcome/:userId',component:WelcomeComponent},
-  {path:'articoli',component:ArticoliComponent, canActivate:[authGuard],canActivateChild :[authGuard1], children:[
-    {path:'grid',component:GridArticoliComponent},
-  ]},
+  {path:'articoli',component:ArticoliComponent, canActivate:[authGuard]},
+  {path:'grid',component:GridArticoliComponent, canActivate:[authGuard]},
   {path:'logout',component:LogoutComponent},
   {path:'**',component:ErrorComponent}
 ];

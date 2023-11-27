@@ -34,9 +34,14 @@
 
         <div class="card-body">
 
-            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
-    
-                <app-articoli-card></app-articoli-card>
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5" *ngIf="articoli$">
+                
+                <app-articoli-card
+                *ngFor="let articolo of articoli$"
+                [articolo]="articolo"
+                (delete)="handleDelete($event)"
+                (edit)="handleEdit($event)"
+                ></app-articoli-card>
                 
             </div>
       
