@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 import { LogoutComponent } from './components/logout/logout.component';
 import { GridArticoliComponent } from './components/grid-articoli/grid-articoli.component';
 import { ArticoliCardComponent } from './componentParts/articoli-card/articoli-card.component';
+import { NewUserComponent } from './components/new-user/new-user.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ArticoliCardComponent } from './componentParts/articoli-card/articoli-c
     ArticoliComponent,
     LogoutComponent,
     GridArticoliComponent,
-    ArticoliCardComponent
+    ArticoliCardComponent,
+    NewUserComponent
   ],
   imports: [
     BrowserModule,
