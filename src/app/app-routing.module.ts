@@ -10,7 +10,7 @@ import { authGuard, authGuard1 } from './services/auth.guard';
 import { NewUserComponent } from './components/new-user/new-user.component';
 
 const routes: Routes = [
-  {path:'',component:LoginComponent},
+  {path:'',component:WelcomeComponent},
   {path:'login',component:LoginComponent},
   {path:'welcome/:userId',component:WelcomeComponent},
   {path:'new-user',component:NewUserComponent},

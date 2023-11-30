@@ -42,6 +42,10 @@
         </li>
       </ul>
 
+      <a type="button" routerLink="/welcome" >
+        <img title="user" class="img-circle" src="/assets/images/logo.jpg" width="50" height="50">
+      </a>
+
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Cerca</button>
@@ -52,7 +56,7 @@
           <img title="user" class="img-circle" src="/assets/images/user.png" width="38" height="38">
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Accedi</a></li>
+          <li><a class="dropdown-item" routerLink="/login">Accedi</a></li>
           <li><a class="dropdown-item" routerLink="/new-user">Registrati</a></li>
           <li><a class="dropdown-item" href="#">Disabilita</a></li>
           <li><hr class="dropdown-divider"></li>
