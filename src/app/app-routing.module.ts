@@ -8,6 +8,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { GridArticoliComponent } from './components/grid-articoli/grid-articoli.component';
 import { authGuard, authGuard1 } from './services/auth.guard';
 import { NewUserComponent } from './components/new-user/new-user.component';
+import { PdpComponent } from './components/pdp/pdp.component';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path:'new-user',component:NewUserComponent},
   {path:'articoli',component:ArticoliComponent, canActivate:[authGuard]},
   {path:'grid',component:GridArticoliComponent, canActivate:[authGuard]},
+  {path:'pdp',component:PdpComponent,canActivate:[authGuard]},
   {path:'logout',component:LogoutComponent},
   {path:'**',component:ErrorComponent}
 ];

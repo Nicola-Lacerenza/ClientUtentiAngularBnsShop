@@ -13,6 +13,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { GridArticoliComponent } from './components/grid-articoli/grid-articoli.component';
 import { ArticoliCardComponent } from './componentParts/articoli-card/articoli-card.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
+import { PdpComponent } from './components/pdp/pdp.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { NewUserComponent } from './components/new-user/new-user.component';
     LogoutComponent,
     GridArticoliComponent,
     ArticoliCardComponent,
-    NewUserComponent
+    NewUserComponent,
+    PdpComponent
   ],
   imports: [
     BrowserModule,
