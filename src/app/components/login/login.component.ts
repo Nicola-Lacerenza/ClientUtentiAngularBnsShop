@@ -1,7 +1,8 @@
 import { Component,OnInit } from '@angular/core';
-import { NgModel } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthappService } from '../../../services/authapp.service';
+import { AuthappService } from '../../services/authapp.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +11,6 @@ import { AuthappService } from '../../../services/authapp.service';
 })
 export class LoginComponent implements OnInit{
 
-  userId : string="";
-  password : string="";
-
-  autenticato : boolean= true;
   errMsg : string="Spiacente, la userId e/o la password sono errati";
   
   titolo : string="Accesso & Autentificazione";
@@ -25,7 +22,7 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  gestAuth = () : void => {
+  /*gestAuth = () : void => {
     console.log(this.userId);
 
     if (this.BasicAuth.autentica(this.userId, this.password)){
@@ -37,5 +34,18 @@ export class LoginComponent implements OnInit{
       this.autenticato= false;
       
     }
-  }
+  }*/
+   public loginNow(form:NgForm){
+      console.log(form);
+      if(form.valid){
+        this.BasicAuth.doLogin(form.value).subscribe({
+          next:(response:any)=>{
+            console.log(response);
+          },
+          error:(error:HttpErrorResponse)=>{
+            console.error(error);
+          }
+        })
+      }
+   }
 }

@@ -14,6 +14,7 @@ import { GridArticoliComponent } from './components/grid-articoli/grid-articoli.
 import { ArticoliCardComponent } from './componentParts/articoli-card/articoli-card.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { PdpComponent } from './components/pdp/pdp.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { PdpComponent } from './components/pdp/pdp.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CoreModule
+    CoreModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
