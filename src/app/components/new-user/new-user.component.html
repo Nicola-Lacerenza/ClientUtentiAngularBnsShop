@@ -4,37 +4,39 @@
   <div class="row">
       <div class="col-md-6 login-form">
           <h3>Registrazione</h3>
+          <form #registerform="ngForm" (ngSubmit)="doRegister(registerform)">
           <div class="form-group">
-              <input type="text" class="form-control"  id="nome" placeholder="Nome"  >
+              <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome" required ngModel >
           </div>
           <div class="form-group">
-              <input type="text" class="form-control"  id="cognome" placeholder="Cognome">
+              <input type="text" class="form-control" name="cognome" id="cognome" placeholder="Cognome" required ngModel>
           </div>
           <div class="form-group">
-            <input type="date" class="form-control"  id="data" placeholder="Data">
+            <input type="date" class="form-control" name="data_nascita" id="data_nascita" placeholder="Data" required ngModel>
           </div>
           <div class="form-group">
-            <input type="number" class="form-control"  id="cap" placeholder="Codice Postale">
+            <input type="text" class="form-control" name="luogo_nascita" id="luogo_nascita" placeholder="luogo_nascita" required ngModel>
           </div>
-          <div class="form-group">
-            <select>
-                <option>Uomo</option>
-                <option>Donna</option>
-                <option>Altro</option>
+          <div class="form-group" >
+            <select name="sesso" id="sesso" required ngModel>
+                <option value="maschio">Uomo</option>
+                <option value="femmina">Donna</option>
+                <option value="altro">Altro</option>
             </select>
           </div>
           <div class="form-group">
-            <input type="email" [formNoValidate]="12/11/2023" class="form-control"  id="email" placeholder="Indirizzo E-Mail">
+            <input type="email" [formNoValidate]="12/11/2023" class="form-control" name="email"  id="email" placeholder="Indirizzo E-Mail" required ngModel>
           </div>
           <div class="form-group">
-            <input type="password" class="form-control"  id="password" placeholder="Password">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required ngModel>
           </div>
           <div class="form-group">
-            <input type="number" [minLength]="10" maxlength="10" class="form-control"  id="phone" placeholder="Cellulare">
+            <input type="text" [minLength]="10" maxlength="10" class="form-control" name="telefono" id="telefono" placeholder="Cellulare" required ngModel>
           </div>
           <div class="form-group">
-              <button  class="btnSubmit">Registrati</button>
+              <button type="submit" class="btnSubmit">Registrati</button>
           </div>
+          </form>
         </div>
   </div>
 </div>

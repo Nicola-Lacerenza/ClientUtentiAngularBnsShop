@@ -9,10 +9,10 @@ import { Observable } from 'rxjs';
 })
 export class AuthappService {
 
-  private login : user;
+  //private login : user;
 
   constructor(private httprequest:HttpRequestService) { 
-    this.login=user.getInstance();
+  //  this.login=user.getInstance();
   }
    
   /*autentica = (userid:string, password:string) : boolean =>{
@@ -29,16 +29,24 @@ export class AuthappService {
     return this.httprequest.postRequest(environment.serverUrl + "/LoginServlet",body);
   }
 
-  public isLogged () : boolean {
-    return true
+  public isLogged():boolean{
+    return localStorage.getItem("token")===undefined;
+  }
+  
+  public doLogout():void{
+    localStorage.removeItem("token");
   }
 
-  loggedUser = () : string | null => this.login.loggedUser();
+  public doRegister(body:any):Observable<any>{
+    return this.httprequest.postRequest(environment.serverUrl + "/RegisterServlet",body);
+  }
+
+  //loggedUser = () : string | null => this.login.loggedUser();
 
   //isLogged = () : boolean => this.login.isLogged();
 
-  clearUser = () : void => this.login.clearUser();
+  //clearUser = () : void => this.login.clearUser();
 
-  clearAll = () : void => this.login.clearAll();
+  //clearAll = () : void => this.login.clearAll();
 
 }

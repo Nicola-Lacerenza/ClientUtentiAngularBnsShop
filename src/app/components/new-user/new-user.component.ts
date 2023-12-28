@@ -1,4 +1,7 @@
 import { Component,OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AuthappService } from '../../services/authapp.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-user',
@@ -7,7 +10,7 @@ import { Component,OnInit } from '@angular/core';
 })
 export class NewUserComponent implements OnInit {
 
-  constructor() {}
+  constructor(private auth:AuthappService) {}
 
   ngOnInit(): void {
     
@@ -17,5 +20,17 @@ export class NewUserComponent implements OnInit {
 
   sottotitolo : string="Procedi ad inserire i dati richiesti";
 
+  public doRegister(form:NgForm):void{
+    if(form.valid){
+      this.auth.doRegister(form.value).subscribe({
+        next:(response:any)=>{
+          console.log(response);
+        },
+        error:(error:HttpErrorResponse)=>{
+          console.error(error);
+        }
+      });
+    }
+  }
 
 }

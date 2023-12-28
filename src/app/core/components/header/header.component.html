@@ -60,7 +60,7 @@
           <li><a class="dropdown-item" routerLink="/new-user">Registrati</a></li>
           <li><a class="dropdown-item" href="#">Disabilita</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" *ngIf="BasicAuth.isLogged()" routerLink="/logout">Logout {{BasicAuth.loggedUser()}}</a></li>
+          <li><a class="dropdown-item" *ngIf="BasicAuth.isLogged()" routerLink="/logout">Logout</a></li>
           <li><a class="dropdown-item disabled" *ngIf="!BasicAuth.isLogged()"  href="#">Logout</a></li>
         </ul>
       </div>

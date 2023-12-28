@@ -12,7 +12,7 @@ export class LogoutComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.BasicAuth.clearAll();
+    this.BasicAuth.doLogout();
   }
 
 }
