@@ -22,6 +22,7 @@ export class NewUserComponent implements OnInit {
 
   public doRegister(form:NgForm):void{
     if(form.valid){
+      console.log(form.value);
       this.auth.doRegister(form.value).subscribe({
         next:(response:any)=>{
           console.log(response);
