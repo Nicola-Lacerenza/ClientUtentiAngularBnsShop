@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ServerResponse } from '../models/ServerResponse.interface';
+import { UserRegister } from '../models/UserRegister.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +11,11 @@ export class HttpRequestService {
 
   constructor(private http:HttpClient) { }
 
-  public getRequest(url:string):Observable<any>{
-    return this.http.get(url);
+  public getRequest(url:string):Observable<ServerResponse>{
+    return this.http.get<ServerResponse>(url);
   }
 
-  public postRequest(url:string,body:any):Observable<any>{
-    return this.http.post(url,body);
+  public postRequest(url:string,body:UserRegister):Observable<ServerResponse>{
+    return this.http.post<ServerResponse>(url,body);
   }
 }

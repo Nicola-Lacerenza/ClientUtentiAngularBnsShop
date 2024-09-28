@@ -3,6 +3,8 @@ import { user } from '../models/user';
 import { HttpRequestService } from './http-request.service';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
+import { ServerResponse } from '../models/ServerResponse.interface';
+import { UserRegister } from '../models/UserRegister.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +39,7 @@ export class AuthappService {
     localStorage.removeItem("token");
   }
 
-  public doRegister(body:any):Observable<any>{
+  public doRegister(body:UserRegister):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/RegisterServlet",body);
   }
 
