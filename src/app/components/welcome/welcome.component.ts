@@ -10,7 +10,7 @@ export class WelcomeComponent implements OnInit{
 
   utente:string="";
   
-  titolo : string="Benvenuti in Avmech Srl";
+  titolo : string="Benvenuti in BNS SHOP";
 
   sottotitolo : string="Visualizza le offerte del giorno";
 

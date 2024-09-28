@@ -21,22 +21,8 @@ export class LoginComponent implements OnInit{
 
   ngOnInit(): void {
   }
-
-  /*gestAuth = () : void => {
-    console.log(this.userId);
-
-    if (this.BasicAuth.autentica(this.userId, this.password)){
-      this.route.navigate(['welcome',this.userId]);
-
-      this.autenticato= true; 
-      
-    } else {
-      this.autenticato= false;
-      
-    }
-  }*/
+  
    public loginNow(form:NgForm){
-      console.log(form);
       if(form.valid){
         this.BasicAuth.doLogin(form.value).subscribe({
           next:(response:any)=>{

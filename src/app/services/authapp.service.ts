@@ -17,15 +17,7 @@ export class AuthappService {
   //  this.login=user.getInstance();
   }
    
-  /*autentica = (userid:string, password:string) : boolean =>{
-    var retVal = (userid === 'Nicola' && password === '123')? true : false;
-       
-  if (retVal){
-      sessionStorage.setItem("Utente",userid);
-    }
 
-   return retVal;
-  }*/
 
   public doLogin(body:any):Observable<any>{
     return this.httprequest.postRequest(environment.serverUrl + "/LoginServlet",body);

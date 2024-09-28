@@ -1,8 +1,9 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,EventEmitter,OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthappService } from '../../services/authapp.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerResponse } from '../../models/ServerResponse.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-user',
@@ -11,7 +12,17 @@ import { ServerResponse } from '../../models/ServerResponse.interface';
 })
 export class NewUserComponent implements OnInit {
 
-  constructor(private auth:AuthappService) {}
+  private _message:string;
+  @Output() registrationSuccess:EventEmitter<string>;
+
+  constructor(private auth:AuthappService,private router:Router) {
+    this.registrationSuccess=new EventEmitter<string>();
+    this._message="";
+  }
+
+  public get message():string{
+    return this._message;
+  }
 
   ngOnInit(): void {
     
@@ -23,13 +34,14 @@ export class NewUserComponent implements OnInit {
 
   public doRegister(form:NgForm):void{
     if(form.valid){
-      console.log(form.value);
       this.auth.doRegister(form.value).subscribe({
         next:(response:ServerResponse)=>{
-          console.log(response.message);
+          this.registrationSuccess.emit(<string>response.message);
+          this.router.navigateByUrl("/");
         },
         error:(error:HttpErrorResponse)=>{
-          console.error(error);
+          console.log(error,error.status,error.statusText);
+          this._message=error.error.message;
         }
       });
     }
