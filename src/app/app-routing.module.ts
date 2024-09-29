@@ -9,6 +9,8 @@ import { GridArticoliComponent } from './components/grid-articoli/grid-articoli.
 import { authGuard, authGuard1 } from './services/auth.guard';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { PdpComponent } from './components/pdp/pdp.component';
+import { CartComponent } from './components/cart/cart.component';
+import { SizeSelectorComponent } from './components/size-selector/size-selector.component';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -18,6 +20,8 @@ const routes: Routes = [
   {path:'articoli',component:ArticoliComponent, canActivate:[authGuard]},
   {path:'grid',component:GridArticoliComponent, canActivate:[authGuard]},
   {path:'pdp',component:PdpComponent,canActivate:[authGuard]},
+  {path:'cart',component:CartComponent},
+  {path:'size-selector',component:SizeSelectorComponent},
   {path:'logout',component:LogoutComponent},
   {path:'**',component:ErrorComponent}
 ];

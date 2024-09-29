@@ -1,0 +1,79 @@
+/* Stile del popup */
+.popup {
+  position: fixed; /* Fissa il popup nella viewport */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Occupa l'intera larghezza della finestra */
+  height: 100vh; /* Occupa l'intera altezza della finestra */
+  background: rgba(0, 0, 0, 0.7); /* Sfondo traslucido */
+  display: flex; /* Usa flexbox per centrare il contenuto */
+  align-items: center; /* Allinea al centro verticalmente */
+  justify-content: center; /* Allinea al centro orizzontalmente */
+  z-index: 999; /* Porta il popup in primo piano */
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px; /* Padding attorno al contenuto */
+  border-radius: 15px;
+  width: 800px; /* Larghezza del popup */
+  max-height: 90vh; /* Limita l'altezza massima */
+  display: flex; /* Usa flexbox per allineare l'immagine e il testo */
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3); /* Ombra per il popup */
+}
+
+
+
+.sizes-container {
+  display: flex; /* Usa flexbox per i bottoni delle taglie */
+  flex-wrap: wrap; /* Permette il wrap dei bottoni */
+  justify-content: center; /* Allinea i bottoni al centro */
+  margin: 15px 0; /* Margine sopra e sotto */
+}
+
+.sizes-container button {
+  margin: 10px; /* Margine per ogni bottone */
+  padding: 20px; /* Maggiore padding attorno al testo del bottone */
+  border: 2px solid #ddd; /* Bordo del bottone */
+  background-color: #f5f5f5; /* Sfondo del bottone */
+  cursor: pointer; /* Cambia il cursore al passaggio */
+  border-radius: 10px; /* Angoli arrotondati */
+  font-size: 18px; /* Dimensione del testo aumentata */
+}
+
+.sizes-container button.selected {
+  border-color: #4CAF50; /* Colore del bordo per la selezione */
+  background-color: #4CAF50; /* Sfondo verde per il bottone selezionato */
+  color: white; /* Testo bianco per il bottone selezionato */
+}
+
+.confirm-button, .close-button {
+  padding: 20px 30px; /* Maggiore padding per i bottoni */
+  margin: 10px; /* Margine attorno ai bottoni */
+  background-color: #4CAF50; /* Sfondo verde */
+  border: none; /* Rimuove il bordo */
+  border-radius: 15px; /* Angoli arrotondati */
+  color: white; /* Testo bianco */
+  cursor: pointer; /* Cambia il cursore al passaggio */
+  font-size: 18px; /* Dimensione del testo aumentata */
+}
+
+.confirm-button:hover, .close-button:hover {
+  background-color: #45a049; /* Colore più scuro al passaggio del mouse */
+}
+
+.image-container {
+  flex: 1; /* Fa occupare all'immagine il 50% dello spazio disponibile */
+  padding-right: 20px; /* Spazio tra l'immagine e il contenuto */
+}
+
+.image-container img {
+  width: 100%; /* L'immagine occupa tutta la larghezza del contenitore */
+  border-radius: 10px; /* Angoli arrotondati per l'immagine */
+  max-height: 300px; /* Limita l'altezza massima dell'immagine */
+  object-fit: cover; /* Mantiene le proporzioni dell'immagine */
+}
+
+.text-container {
+  flex: 2; /* Fa occupare al contenuto del testo il 50% dello spazio disponibile */
+}

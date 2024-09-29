@@ -1,0 +1,64 @@
+<h1>Carrello</h1>
+<div id="cart">
+  <table>
+    <tbody>
+      <tr *ngFor="let item of items" class="product-row">
+        <td class="image-details-container">
+          <img [src]="item.image" alt="{{ item.name }}" class="product-image">
+          <div class="product-details">
+            <p class="product-name">{{ item.name }}</p>
+            <p class="product-category">Scarpa – Ragazzo/a</p>
+            <p class="product-colors">Particle Grey/Smoke Grey/Wolf Grey/Nero</p>
+            <p class="product-size">
+              Taglia/misura 
+              <span class="size" (click)="openSizeSelector(item)">{{ item.size }}</span>
+              <button class="change-size-button" (click)="openSizeSelector(item)">Cambia taglia</button>
+            </p>
+            <p class="product-quantity">
+              Quantità 
+              <select [(ngModel)]="item.quantity" (change)="updateCart()">
+                <option *ngFor="let qty of [1, 2, 3, 4, 5]" [value]="qty">{{ qty }}</option>
+              </select>
+            </p>
+            <button (click)="removeItem(item)" class="remove-button">Rimuovi</button>
+          </div>
+        </td>
+        <td class="total-price-column">
+          <p class="total-price">{{ item.price * item.quantity }}€</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="summary">
+    <h2>Riepilogo</h2>
+    <button class="promo-button" (click)="togglePromoCode()">Inserisci Codice Promozionale <span class="arrow">▼</span></button>
+    
+    <div *ngIf="showPromoCode" id="promo-code-container">
+      <input type="text" id="promo-code" [(ngModel)]="promoCode" class="promo-input">
+      <button class="apply-button" (click)="applyPromoCode()">Applica</button>
+    </div>
+    <hr class="separator">
+    <p class="cost-summary">Costi di spedizione: <span class="summary-price">{{ shippingCost }}€</span></p>
+    <p class="cost-summary">Totale: <span class="summary-price">{{ total + shippingCost }}€</span></p>
+    <button class="payment-button" (click)="payWithPaypal()">Paga con PayPal</button>
+    <button class="payment-button" (click)="goToCheckout()">Vai al Pagamento</button>
+  </div>
+</div>
+
+<!-- Popup di selezione della taglia -->
+<div class="popup" *ngIf="showSizeSelector">
+  <div class="popup-content">
+    <h3>Seleziona la taglia per {{ selectedItem?.name }}</h3>
+    <div class="sizes-container">
+      <button *ngFor="let size of availableSizes"
+              [class.selected]="size === selectedSize"
+              (click)="selectSize(size)">
+        {{ size }}
+      </button>
+    </div>
+    <div class="popup-actions">
+      <button class="confirm-button" (click)="confirmSize()">Conferma</button>
+      <button class="close-button" (click)="closeSizeSelector()">Chiudi</button>
+    </div>
+  </div>
+</div>

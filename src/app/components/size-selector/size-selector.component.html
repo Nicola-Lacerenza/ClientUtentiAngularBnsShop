@@ -1,0 +1,19 @@
+<div class="popup" *ngIf="showPopup">
+  <div class="popup-content">
+    <div class="image-container">
+      <img src="/assets/images/prodotti/image.png" alt="Immagine di prodotto" />
+    </div>
+    <div class="text-container">
+      <h3>Seleziona la taglia</h3>
+      <div class="sizes-container">
+        <button *ngFor="let size of availableSizes"
+                [class.selected]="size === selectedSize"
+                (click)="selectSize(size)">
+          {{ size }}
+        </button>
+      </div>
+      <button class="confirm-button" (click)="confirmSize()">Conferma</button>
+      <button class="close-button" (click)="closePopup()">Chiudi</button>
+    </div>
+  </div>
+</div>

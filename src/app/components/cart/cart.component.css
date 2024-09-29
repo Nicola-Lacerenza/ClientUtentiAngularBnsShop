@@ -1,0 +1,183 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  #cart {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  table {
+    width: 70%;
+    border-collapse: collapse;
+  }
+  
+  .product-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+  }
+  
+  .image-details-container {
+    display: flex;
+    align-items: center;
+    width: 80%;
+  }
+  
+  .product-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-right: 20px;
+  }
+  
+  .product-details {
+    text-align: left;
+    font-size: 14px;
+  }
+  
+  .product-name {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .product-category {
+    font-style: italic;
+    color: #666;
+  }
+  
+  .product-colors {
+    margin-top: 5px;
+    color: #888;
+  }
+  
+  .product-size, .product-quantity {
+    margin-top: 5px;
+  }
+  
+  .size {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .change-size-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 10px;
+  }
+  
+  .remove-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 10px;
+  }
+  
+  .total-price-column {
+    text-align: right;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    padding: 0 10px;
+    width: 20%;
+  }
+  
+  .total-price {
+    margin: 0;
+  }
+  
+  #summary {
+    width: 25%;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .separator {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 20px 0;
+  }
+  
+  .payment-button {
+    background-color: #e0e0e0;
+    color: #888;
+    border: none;
+    padding: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    opacity: 0.6;
+    border-radius: 25px;
+    width: 100%;
+    font-size: 16px;
+  }
+  
+  .payment-button:hover {
+    opacity: 1;
+  }
+
+  /* Stile del popup */
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    text-align: center;
+  }
+  
+  .sizes-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .sizes-container button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .sizes-container button.selected {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .confirm-button,
+  .close-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .confirm-button {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .close-button {
+    background-color: #e0e0e0;
+    color: #333;
+  }

@@ -48,8 +48,9 @@
 
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Cerca</button>
-      </form>
+        <button class="custom-search-button" type="submit">Cerca</button>
+    </form>
+    
 
       <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle thumbnail dduser" data-bs-toggle="dropdown" aria-expanded="false">
@@ -64,6 +65,10 @@
           <li><a class="dropdown-item disabled" *ngIf="!BasicAuth.isLogged()"  href="#">Logout</a></li>
         </ul>
       </div>
+
+      <a type="button" routerLink="/cart" >
+        <img title="user" class="img-circle" src="\assets\images\carrello.png" width="60" height="50">
+      </a>
 
     </div>
   </div>

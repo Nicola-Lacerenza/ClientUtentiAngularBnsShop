@@ -10,3 +10,17 @@ img{
 nav{
     margin-bottom: 0.8%;
 }
+.custom-search-button {
+    background-color: white; /* or any other color that fits your design */
+    border: 1px solid #ccc; /* border color */
+    border-radius: 20px; /* rounded corners */
+    padding: 10px 20px; /* padding for better click area */
+    cursor: pointer; /* change cursor to pointer */
+    display: flex; /* align items */
+    align-items: center; /* center the content vertically */
+    justify-content: center; /* center the content horizontally */
+}
+
+.custom-search-button:hover {
+    background-color: #f0f0f0; /* change color on hover */
+}
