@@ -19,7 +19,7 @@ const routes: Routes = [
   {path:'new-user',component:NewUserComponent},
   {path:'articoli',component:ArticoliComponent, canActivate:[authGuard]},
   {path:'grid',component:GridArticoliComponent, canActivate:[authGuard]},
-  {path:'pdp',component:PdpComponent,canActivate:[authGuard]},
+  {path:'pdp',component:PdpComponent},
   {path:'cart',component:CartComponent},
   {path:'size-selector',component:SizeSelectorComponent},
   {path:'logout',component:LogoutComponent},

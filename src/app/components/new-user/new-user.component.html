@@ -18,11 +18,12 @@
             <input type="text" class="form-control" name="luogo_nascita" id="luogo_nascita" placeholder="luogo_nascita" required ngModel>
           </div>
           <div class="form-group" >
-            <select name="sesso" id="sesso" required ngModel>
-                <option value="maschio">Uomo</option>
-                <option value="femmina">Donna</option>
-                <option value="altro">Altro</option>
-            </select>
+            <select name="sesso" id="sesso" required ngModel title="Sesso">
+              <option value="maschio">Uomo</option>
+              <option value="femmina">Donna</option>
+              <option value="altro">Altro</option>
+          </select>
+          
           </div>
           <div class="form-group">
             <input type="email" [formNoValidate]="12/11/2023" class="form-control" name="email"  id="email" placeholder="Indirizzo E-Mail" required ngModel>

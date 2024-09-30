@@ -1,0 +1,40 @@
+<div class="product-page-container">
+    <div class="product-content">
+        <!-- Colonna sinistra: Immagini del prodotto -->
+        <div class="product-images">
+            <img src="https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/bab5b4cc-d521-4187-8d33-09e9396855a5/air-force-1-07-easyon-shoe-Qr8wx4.png" alt="Nike Air Force 1 '07 EasyOn">
+        </div>
+
+        <!-- Colonna destra: Informazioni prodotto -->
+        <div class="product-info">
+            <h1>Nike Air Force 1 '07 EasyOn</h1> <!-- Nome della scarpa ora sotto l'immagine -->
+            <div class="price">119,99 €</div>
+            <h2>Scarpa - Donna</h2>
+            <p>Le Nike Air Force 1 EasyOn offrono uno stile iconico con una calzata semplificata, progettate per un look sportivo senza tempo. Ideali per chi cerca comfort e un design leggendario.</p>
+
+            <!-- Selezione taglia -->
+            <div class="size-selection">
+                <label>Seleziona la taglia/misura:</label>
+                <div class="size-buttons">
+                    <button [class.selected]="selectedSize === '35.5'" (click)="selectSize('35.5')">EU 35.5</button>
+                    <button [class.selected]="selectedSize === '36'" (click)="selectSize('36')">EU 36</button>
+                    <button [class.selected]="selectedSize === '38'" (click)="selectSize('38')">EU 38</button>
+                    <button [class.selected]="selectedSize === '42'" (click)="selectSize('42')">EU 42</button>
+                    <button [class.selected]="selectedSize === '42.5'" (click)="selectSize('42.5')">EU 42.5</button>
+                </div>
+            </div>
+
+            <!-- Pulsanti azione -->
+            <div class="cta-buttons">
+                <button (click)="addToCart()">Aggiungi al carrello</button>
+            </div>
+            <div class="cta-buttons">
+                <button (click)="addToFavorites()">Aggiungi ai preferiti</button>
+            </div>
+
+            <!-- Ritiro e avvertenze -->
+            <p><strong>Ritiro gratuito:</strong> Trova un negozio</p>
+            <p><small>Questo articolo è escluso dalle promozioni e dagli sconti sul sito.</small></p>
+        </div>
+    </div>
+</div>
