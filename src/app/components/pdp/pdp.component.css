@@ -33,6 +33,8 @@ body {
 .product-info {
     width: 55%;
     padding-left: 40px;
+    height: 100%; /* Imposta l'altezza per abilitare lo scroll */
+    overflow-y: auto; /* Abilita lo scorrimento verticale */
 }
 
 .product-info h1 {
@@ -102,3 +104,17 @@ h2 {
 .cta-buttons button:hover {
     background-color: #333;
 }
+
+.additional-info {
+    margin-top: 30px; /* Spazio sopra le informazioni aggiuntive */
+}
+
+.info-item {
+    margin-bottom: 15px;
+}
+
+.info-header {
+    cursor: pointer;
+    color: #007bff;
+}
+

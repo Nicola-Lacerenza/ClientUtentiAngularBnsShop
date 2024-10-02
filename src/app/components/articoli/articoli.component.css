@@ -1,0 +1,82 @@
+.container {
+    display: flex;
+    height: 100vh; /* Assicura che occupi l'intera altezza della finestra */
+}
+
+.filters {
+    width: 250px; /* Imposta la larghezza della sezione filtri */
+    padding: 10px;
+    background-color: #f8f8f8; /* Colore di sfondo per la sezione filtri */
+    overflow-y: hidden; /* Nasconde lo scroll verticale */
+    transition: overflow-y 0.3s; /* Transizione per l'overflow */
+}
+
+.filters:hover {
+    overflow-y: auto; /* Mostra lo scroll verticale al passaggio del mouse */
+}
+
+.product-grid {
+    flex: 1; /* Occupa tutto lo spazio rimanente */
+    display: flex;
+    flex-wrap: wrap; /* Permette ai prodotti di andare a capo */
+    justify-content: flex-start; /* Allinea i prodotti a sinistra */
+    padding: 10px; 
+    overflow-y: hidden; /* Nasconde lo scroll verticale */
+    transition: overflow-y 0.3s; /* Transizione per l'overflow */
+}
+
+.product-grid:hover {
+    overflow-y: auto; /* Mostra lo scroll verticale al passaggio del mouse */
+    scrollbar-width: thin; /* Abilita scrollbar sottile per Firefox */
+}
+
+.product {
+    width: 30%; /* Dimensione del prodotto, 3 prodotti per riga */
+    margin: 1%; /* Margine tra i prodotti */
+    display: flex;
+    flex-direction: column; /* Disposizione verticale */
+    align-items: center; /* Centra gli elementi */
+    /* border: none; */ /* Assicurati che non ci sia contorno */
+    border-radius: 0; /* Rimuove gli angoli arrotondati, se non desiderato */
+    padding: 10px;
+    box-shadow: none; /* Rimuove l'ombra del prodotto */
+}
+
+.main-image {
+    width: 100%; /* Larghezza dell'immagine principale */
+    max-width: 400px; /* Aumenta la larghezza massima per l'immagine principale */
+    height: auto; /* Altezza automatica per mantenere le proporzioni */
+    margin-bottom: 10px; /* Margine sotto l'immagine principale */
+}
+
+.thumbnail-container {
+    display: flex; /* Usa flexbox per allineare le miniature */
+    justify-content: center; /* Centra le miniature */
+    margin-top: 10px; /* Margine sopra le miniature */
+}
+
+.thumbnail {
+    width: 30px; /* Dimensione delle miniature */
+    height: 30px; /* Altezza delle miniature */
+    margin: 0 5px; /* Margine orizzontale tra le miniature */
+    cursor: pointer; /* Cambia il cursore per indicare cliccabile */
+    transition: transform 0.2s; /* Transizione per l'effetto hover */
+}
+
+.thumbnail:hover {
+    transform: scale(1.1); /* Ingrandisce la miniatura al passaggio del mouse */
+}
+
+/* Stile per le scrollbar personalizzate */
+.product-grid::-webkit-scrollbar {
+    width: 8px; /* Larghezza della scrollbar */
+}
+
+.product-grid::-webkit-scrollbar-thumb {
+    background-color: #888; /* Colore della parte mobile della scrollbar */
+    border-radius: 4px; /* Angoli arrotondati */
+}
+
+.product-grid::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Colore al passaggio del mouse */
+}

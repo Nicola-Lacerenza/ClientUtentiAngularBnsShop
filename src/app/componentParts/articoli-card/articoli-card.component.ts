@@ -18,7 +18,8 @@ export class ArticoliCardComponent implements OnInit {
     prezzo : 0 ,
     active : true,
     data : new Date(),
-    imageUrl : ''
+    imageUrl : '',
+    imageUrls : []
   };
   
   @Output()
