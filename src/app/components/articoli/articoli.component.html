@@ -1,34 +1,41 @@
 <div class="container">
-    <aside class="filters">
-      <h2>Filtri</h2>
-      <div *ngFor="let categoria of tutteLeCategorie">
-        <label>
-          <input type="checkbox" (change)="applicaFiltri(categoria)"> {{ categoria }}
-        </label>
-      </div>
-    </aside>
-  
-    <main class="product-grid">
-      <div *ngFor="let articolo of articoliFiltrati" class="product">
+  <aside class="filters">
+    <h2>Filtri</h2>
+    <div *ngFor="let categoria of tutteLeCategorie">
+      <label>
+        <input type="checkbox" (change)="applicaFiltri(categoria)"> {{ categoria }}
+      </label>
+    </div> 
+  </aside>
+
+  <main class="product-grid">
+    <div *ngFor="let articolo of articoliFiltrati" class="product">
+      <a [routerLink]="['/pdp', articolo.codart]" class="product-link"> <!-- Link per l'intero prodotto -->
         <img 
-          [src]="sanitizer.bypassSecurityTrustUrl(articolo.imageUrl)" 
+          [src]="articolo.imageUrl" 
           [alt]="articolo.descrizione || 'Immagine di prodotto'" 
           title="{{ articolo.descrizione }}" 
           class="main-image" 
         />
-        <div class="thumbnail-container">
+        <div class="thumbnail-container" 
+             (mouseenter)="toggleThumbnails(articolo.codart, true)"
+             (mouseleave)="toggleThumbnails(articolo.codart, false)"
+             *ngIf="showThumbnails[articolo.codart]">
           <img *ngFor="let img of articolo.imageUrls" 
-               [src]="sanitizer.bypassSecurityTrustUrl(img)" 
+               [src]="img" 
                [alt]="'Miniatura di ' + articolo.descrizione" 
                title="{{ 'Miniatura di ' + articolo.descrizione }}" 
-               (click)="cambiaImmagine(img, articolo)" 
+               (mouseenter)="cambiaImmagine(img, articolo)" 
                class="thumbnail" 
           />
         </div>
-        <h3>{{ articolo.descrizione }}</h3>
+        <h3 (mouseenter)="toggleThumbnails(articolo.codart, true)" 
+            (mouseleave)="toggleThumbnails(articolo.codart, false)">
+          <span *ngIf="!showThumbnails[articolo.codart]">{{ articolo.descrizione }}</span>
+        </h3>
         <p>€{{ articolo.prezzo | number:'1.2-2' }}</p>
         <p>Codice: {{ articolo.codart }}</p>
-      </div>
-    </main>
-  </div>
-  
+      </a>
+    </div>
+  </main>
+</div>
