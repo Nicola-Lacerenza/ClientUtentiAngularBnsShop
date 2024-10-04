@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { NewUserComponent } from './components/new-user/new-user.component';
 import { PdpComponent } from './components/pdp/pdp.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SizeSelectorComponent } from './components/size-selector/size-selector.component';
+import { AddProductComponent } from './components/add-product/add-product';
 
 @NgModule({
   declarations: [
@@ -31,12 +32,14 @@ import { SizeSelectorComponent } from './components/size-selector/size-selector.
     ArticoliCardComponent,
     NewUserComponent,
     SizeSelectorComponent,
-    PdpComponent
+    PdpComponent,
+    AddProductComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     CoreModule,
     HttpClientModule
   ],

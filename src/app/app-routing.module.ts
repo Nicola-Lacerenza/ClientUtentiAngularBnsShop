@@ -11,6 +11,7 @@ import { NewUserComponent } from './components/new-user/new-user.component';
 import { PdpComponent } from './components/pdp/pdp.component';
 import { CartComponent } from './components/cart/cart.component';
 import { SizeSelectorComponent } from './components/size-selector/size-selector.component';
+import { AddProductComponent } from './components/add-product/add-product';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path:'articoli',component:ArticoliComponent},
   {path:'grid',component:GridArticoliComponent},
   {path:'pdp',component:PdpComponent},
+  {path:'addProduct',component: AddProductComponent},
   {path:'cart',component:CartComponent},
   {path:'size-selector',component:SizeSelectorComponent},
   {path:'logout',component:LogoutComponent},
