@@ -1,33 +1,153 @@
 form {
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  div {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  input[type="number"],
-  textarea {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  
-  button {
-    padding: 8px 12px;
-    margin-top: 10px;
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.8em;
-  }
-  
+  max-width: 700px;
+  margin: auto;
+}
+
+div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 8px 12px;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+}
+
+/* Stile per le taglie e quantità */
+.sizes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.size-option {
+  display: flex;
+  align-items: center; /* Allinea gli elementi al centro verticalmente */
+}
+
+.size-button {
+  display: flex;
+  justify-content: space-between; /* Spazio tra taglia e controlli */
+  align-items: center; /* Allinea verticalmente al centro */
+  width: 70px; /* Larghezza del pulsante */
+  height: 50px; /* Altezza del pulsante impostata a 50px */
+  padding: 4px; /* Rimuove il padding per rendere il pulsante più compatto */
+  background-color: #f0f0f0; /* Colore di sfondo del pulsante */
+  border: 1px solid #ccc; /* Bordo del pulsante */
+  border-radius: 5px; /* Angoli arrotondati */
+  cursor: pointer;
+  font-size: 15px; /* Dimensione del testo */
+}
+
+/* Cambia colore al passaggio del mouse */
+.size-button:hover {
+  background-color: #e0e0e0; 
+}
+
+.quantity-controls {
+  display: flex;
+  flex-direction: column; /* Disporre frecce e quantità in colonna */
+  align-items: center; /* Allinea verticalmente al centro */
+  margin-left: -40px; /* Sposta le frecce e la quantità a sinistra ulteriormente */
+}
+
+/* Stile per le frecce */
+.arrow {
+  background: transparent;
+  border: 0;
+  font-size: 10px; /* Dimensione delle frecce */
+  cursor: pointer;
+  padding: 0; /* Rimuove il padding per le frecce */
+  margin: 10px; /* Rimuove il margine per avvicinare le frecce alla quantità */
+}
+
+/* Cambia il colore al passaggio del mouse */
+.arrow:hover {
+  color: darkgray; 
+}
+
+/* Stile per la quantità */
+.quantity-controls span {
+  font-size: 12px; /* Dimensione del testo della quantità */
+  display: flex;
+  justify-content: center; /* Centra il testo della quantità */
+  align-items: center; /* Allinea verticalmente al centro */
+  height: 50%; /* Imposta l'altezza al 50% del contenitore */
+  margin: 0 0 -5px 0; /* Rimuove il margine per avvicinare le frecce alla quantità */
+}
+
+/* Spazio verticale tra freccia e quantità */
+.quantity-controls .arrow {
+  margin-bottom: -4px; /* Rimuove lo spazio tra la freccia e la quantità */
+}
+
+/* Opzionale: per migliorare l'allineamento complessivo */
+.size-option {
+  margin-right: 0; /* Spazio tra la taglia e le frecce */
+}
+
+/* Stile per la sezione delle immagini */
+.image-preview-container {
+  display: flex;
+  flex-direction: column; /* Direzione verticale per l'immagine principale e le miniature */
+  align-items: center; /* Allinea al centro */
+  margin-bottom: 20px; /* Spazio sotto la sezione delle immagini */
+}
+
+.main-image {
+  position: relative; /* Posiziona l'icona di cancellazione in modo relativo all'immagine */
+  margin-bottom: 10px; /* Spazio sotto l'immagine principale */
+}
+
+.main-image img {
+  max-width: 500px; /* Massimizza l'immagine grande senza superare il contenitore */
+  height: auto; /* Mantiene le proporzioni dell'immagine */
+}
+
+.remove-button {
+  position: absolute; /* Posizione assoluta per sovrapporre l'icona */
+  top: 5px; /* Posizione verticale */
+  right: 5px; /* Posizione orizzontale */
+  background: red; /* Colore di sfondo rosso per l'icona di cancellazione */
+  color: white; /* Colore del testo */
+  border: none; /* Rimuove il bordo */
+  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+  padding: 5px; /* Spazio interno */
+  border-radius: 50%; /* Forma circolare */
+}
+
+/* Stile per le miniature */
+.thumbnail-container {
+  display: flex; /* Allinea le miniature in una fila */
+  flex-direction: row; /* Direzione orizzontale per le miniature */
+  gap: 10px; /* Spazio tra le miniature */
+}
+
+.thumbnail {
+  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+}
+
+.thumbnail img {
+  width: 100px; /* Larghezza fissa per le miniature */
+  height: 100px; /* Altezza fissa per le miniature per renderle quadrate */
+  object-fit: cover; /* Copre l'intero spazio senza deformare l'immagine */
+  border: 1px solid #ccc; /* Bordo delle miniature */
+}

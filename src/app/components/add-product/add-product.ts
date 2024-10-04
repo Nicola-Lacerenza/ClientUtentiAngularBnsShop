@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -8,13 +8,25 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./add-product.css']
 })
 export class AddProductComponent implements OnInit {
-  productForm!: FormGroup; // Aggiungi il modificatore "!" per l'inizializzazione
+  productForm!: FormGroup;
   submitted = false;
   imageFiles: File[] = [];
+  imagePreviews: string[] = [];
+  mainImagePreview: string = '';
+  availableSizes: number[] = [];
+  selectedSize: number | null = null;
+  quantities: number[] = [];
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
+    // Inizializza le taglie disponibili
+    for (let size = 35.5; size <= 46; size += 0.5) {
+      this.availableSizes.push(Math.round(size * 10) / 10);
+      this.quantities.push(0);
+    }
+
+    // Inizializza il modulo
     this.productForm = this.fb.group({
       images: [null, Validators.required],
       modelName: ['', Validators.required],
@@ -25,51 +37,56 @@ export class AddProductComponent implements OnInit {
       color: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
       publishStatus: [false],
-      sizes: this.fb.array([
-        this.fb.group({
-          size: ['', Validators.required],
-          quantity: [0, [Validators.required, Validators.min(0)]]
-        })
-      ])
+      sizes: this.fb.array([]) // Rimuove il precedente FormArray
     });
-  }
-
-  get sizes(): FormArray {
-    return this.productForm.get('sizes') as FormArray;
-  }
-
-  addSize(): void {
-    this.sizes.push(this.fb.group({
-      size: ['', Validators.required],
-      quantity: [0, [Validators.required, Validators.min(0)]]
-    }));
-  }
-
-  removeSize(index: number): void {
-    if (this.sizes.length > 1) {
-      this.sizes.removeAt(index);
-    }
   }
 
   onImageChange(event: any): void {
     if (event.target.files && event.target.files.length) {
       this.imageFiles = Array.from(event.target.files);
-      this.productForm.patchValue({
-        images: this.imageFiles
-      });
+      this.imagePreviews = this.imageFiles.map((file) => URL.createObjectURL(file));
+      this.mainImagePreview = this.imagePreviews[0]; // Imposta la prima immagine come principale
+      this.productForm.patchValue({ images: this.imageFiles }); // Aggiorna il modulo con le immagini
+    }
+  }
+
+  onThumbnailHover(index: number): void {
+    this.mainImagePreview = this.imagePreviews[index]; // Cambia l'immagine principale al passaggio del mouse
+  }
+
+  removeMainImage(): void {
+    if (this.imageFiles.length > 1) {
+      this.imageFiles.splice(0, 1); // Rimuove l'immagine principale
+      this.imagePreviews.splice(0, 1); // Rimuove il preview dell'immagine principale
+      this.mainImagePreview = this.imagePreviews[0]; // Imposta una nuova immagine principale
+    } else {
+      this.imageFiles = []; // Rimuove tutte le immagini se c'è solo una
+      this.imagePreviews = [];
+      this.mainImagePreview = '';
+    }
+    this.productForm.patchValue({ images: this.imageFiles }); // Aggiorna il modulo
+  }
+
+  increaseQuantity(index: number): void {
+    this.quantities[index] += 1; // Incrementa la quantità per la taglia selezionata
+  }
+
+  decreaseQuantity(index: number): void {
+    if (this.quantities[index] > 0) {
+      this.quantities[index] -= 1; // Decrementa la quantità per la taglia selezionata
     }
   }
 
   onSubmit(): void {
-    this.submitted = true;
-
+    this.submitted = true; // Imposta il flag di submit
     if (this.productForm.invalid) {
-      return;
+      return; // Se il modulo è invalido, non eseguire ulteriori operazioni
     }
 
+    // Logica per l'invio del modulo e delle immagini al server
     const formData = new FormData();
     this.imageFiles.forEach((file) => {
-      formData.append('images', file, file.name);
+      formData.append('images', file); // Aggiungi ciascuna immagine a formData
     });
     formData.append('modelName', this.productForm.get('modelName')?.value);
     formData.append('modelDescription', this.productForm.get('modelDescription')?.value);
@@ -79,20 +96,17 @@ export class AddProductComponent implements OnInit {
     formData.append('color', this.productForm.get('color')?.value);
     formData.append('price', this.productForm.get('price')?.value);
     formData.append('publishStatus', this.productForm.get('publishStatus')?.value);
+    this.quantities.forEach((quantity, index) => {
+      formData.append(`quantities[${index}]`, quantity.toString()); // Aggiungi ciascuna quantità a formData
+    });
 
-    const sizes = this.productForm.get('sizes')?.value;
-    formData.append('sizes', JSON.stringify(sizes));
-
-    this.http.post('https://tuo-backend-api.com/products', formData)
-      .subscribe(response => {
-        console.log('Prodotto aggiunto con successo', response);
-        this.productForm.reset();
-        this.sizes.clear();
-        this.addSize(); // Mantiene almeno una taglia
-        this.imageFiles = [];
-        this.submitted = false;
-      }, error => {
-        console.error('Errore durante l\'inserimento del prodotto', error);
-      });
+    // Invia i dati al server (implementa il tuo endpoint)
+    this.http.post('/api/products', formData).subscribe(response => {
+      console.log('Prodotto inserito con successo:', response);
+      // Aggiungi logica per il messaggio di successo o reindirizzamento
+    }, error => {
+      console.error('Errore nell\'inserimento del prodotto:', error);
+      // Aggiungi logica per gestire l'errore
+    });
   }
 }

@@ -3,7 +3,20 @@
     <label for="images">Immagini del prodotto</label>
     <input type="file" id="images" (change)="onImageChange($event)" multiple accept="image/*" />
     <div *ngIf="submitted && productForm.get('images')?.errors">
-      <small class="error">Seleziona almeno un\'immagine.</small>
+      <small class="error">Seleziona almeno un'immagine.</small>
+    </div>
+  </div>
+
+  <!-- Sezione per visualizzare l'immagine principale e le miniature -->
+  <div class="image-preview-container">
+    <div class="main-image">
+      <img [src]="mainImagePreview" alt="Main Preview" />
+      <button type="button" (click)="removeMainImage()" class="remove-button">X</button>
+    </div>
+    <div class="thumbnail-container">
+      <div class="thumbnail" *ngFor="let preview of imagePreviews; let i = index">
+        <img [src]="preview" alt="Thumbnail" />
+      </div>
     </div>
   </div>
 
@@ -50,7 +63,7 @@
   </div>
 
   <div>
-    <label for="price">Prezzo</label>
+    <label for="price">Prezzo (€)</label>
     <input id="price" formControlName="price" type="number" step="0.01" />
     <div *ngIf="submitted && productForm.get('price')?.errors">
       <small class="error">Inserisci un prezzo valido.</small>
@@ -64,20 +77,21 @@
     </label>
   </div>
 
-  <div formArrayName="sizes">
+  <!-- Sezione per taglie e quantità -->
+  <div>
     <label>Taglie e Quantità</label>
-    <div *ngFor="let size of sizes.controls; let i = index" [formGroupName]="i">
-      <input placeholder="Taglia" formControlName="size" type="text" />
-      <input placeholder="Quantità" formControlName="quantity" type="number" min="0" />
-      <button type="button" (click)="removeSize(i)" [disabled]="sizes.length === 1">Rimuovi</button>
-      <div *ngIf="submitted && size.get('size')?.errors">
-        <small class="error">La taglia è richiesta.</small>
-      </div>
-      <div *ngIf="submitted && size.get('quantity')?.errors">
-        <small class="error">La quantità deve essere almeno 0.</small>
+    <div class="sizes-container">
+      <div *ngFor="let size of availableSizes; let i = index" class="size-option">
+        <button type="button" class="size-button">
+          {{ size }}
+          <div class="quantity-controls">
+            <button type="button" (click)="increaseQuantity(i)" class="arrow up">&#9650;</button>
+            <span>{{ quantities[i] }}</span>
+            <button type="button" (click)="decreaseQuantity(i)" class="arrow down">&#9660;</button>
+          </div>
+        </button>
       </div>
     </div>
-    <button type="button" (click)="addSize()">Aggiungi Taglia</button>
   </div>
 
   <button type="submit">Inserisci Prodotto</button>
