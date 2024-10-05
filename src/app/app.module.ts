@@ -15,9 +15,10 @@ import { GridArticoliComponent } from './components/grid-articoli/grid-articoli.
 import { ArticoliCardComponent } from './componentParts/articoli-card/articoli-card.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { PdpComponent } from './components/pdp/pdp.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { SizeSelectorComponent } from './components/size-selector/size-selector.component';
 import { AddProductComponent } from './components/add-product/add-product';
+import { corsInterceptor } from './cors.interceptor';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { AddProductComponent } from './components/add-product/add-product';
     CoreModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [provideHttpClient(withInterceptors([corsInterceptor]))],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

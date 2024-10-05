@@ -3,6 +3,7 @@ import { NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthappService } from '../../services/authapp.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ServerResponse } from '../../models/ServerResponse.interface';
 
 @Component({
   selector: 'app-login',
@@ -24,8 +25,9 @@ export class LoginComponent implements OnInit{
   
    public loginNow(form:NgForm){
       if(form.valid){
+        console.log(form.value);
         this.BasicAuth.doLogin(form.value).subscribe({
-          next:(response:any)=>{
+          next:(response:ServerResponse)=>{
             console.log(response);
           },
           error:(error:HttpErrorResponse)=>{

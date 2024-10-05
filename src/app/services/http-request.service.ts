@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServerResponse } from '../models/ServerResponse.interface';
 import { UserRegister } from '../models/UserRegister.interface';
+import { UserLogin } from '../models/UserLogin.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class HttpRequestService {
     return this.http.get<ServerResponse>(url);
   }
 
-  public postRequest(url:string,body:UserRegister):Observable<ServerResponse>{
+  public postRequest(url:string,body:UserRegister | UserLogin):Observable<ServerResponse>{
     return this.http.post<ServerResponse>(url,body);
   }
 }

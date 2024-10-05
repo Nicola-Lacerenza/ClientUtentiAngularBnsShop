@@ -1,17 +1,29 @@
-<div class="container">
-    <div class="product-image">
-      <img src="path_to_image.jpg" alt="Nike Air Force 1" />
+<div class="product-page-container">
+  <div class="product-content">
+    <!-- Colonna delle immagini -->
+    <div class="product-images">
+      <div class="thumbnail-images">
+        <img src="path_to_image1.jpg" alt="Thumbnail 1" onmouseover="changeMainImage('path_to_image1.jpg')" />
+        <img src="path_to_image2.jpg" alt="Thumbnail 2" onmouseover="changeMainImage('path_to_image2.jpg')" />
+        <img src="path_to_image3.jpg" alt="Thumbnail 3" onmouseover="changeMainImage('path_to_image3.jpg')" />
+      </div>
+      <div class="main-image">
+        <img id="mainProductImage" src="path_to_image1.jpg" alt="Nike Air Force 1" />
+      </div>
     </div>
-    <div class="product-details">
+
+    <!-- Colonna delle informazioni prodotto -->
+    <div class="product-info">
       <h1 class="product-title">Nike Air Force 1 '07 EasyOn</h1>
       <h2 class="product-price">119,99 €</h2>
       <p class="product-description">
         Scarpe iconiche per ogni occasione, comode e stilose.
       </p>
-  
-      <div class="sizes">
+
+      <!-- Selezione della taglia -->
+      <div class="size-selection">
         <h3>Seleziona la taglia</h3>
-        <div class="size-options">
+        <div class="size-buttons">
           <button *ngFor="let size of ['EU 35.5', 'EU 36', 'EU 36.5', 'EU 37', 'EU 38', 'EU 38.5', 'EU 39', 'EU 40', 'EU 40.5', 'EU 41', 'EU 42', 'EU 42.5', 'EU 43', 'EU 44', 'EU 44.5']"
                   [ngClass]="{'selected': selectedSize === size}"
                   (click)="selectSize(size)">
@@ -19,31 +31,35 @@
           </button>
         </div>
       </div>
-  
-      <button (click)="addToCart()">Aggiungi al carrello</button>
-      <button (click)="addToFavorites()">Aggiungi ai preferiti</button>
-  
-      <div class="info-section">
-        <h3 (click)="toggleInfo('sizeFit')">Taglia/misura e fit</h3>
+
+      <!-- Pulsanti CTA -->
+      <div class="cta-buttons">
+        <button (click)="addToCart()">Aggiungi al carrello</button>
+        <button (click)="addToFavorites()">Aggiungi ai preferiti</button>
+      </div>
+
+      <!-- Sezione Informazioni -->
+      <div class="additional-info">
+        <h3 class="info-header" (click)="toggleInfo('sizeFit')">Taglia/misura e fit</h3>
         <div *ngIf="isInfoVisible['sizeFit']">
           <p>Informazioni dettagliate sulla taglia e fit della scarpa.</p>
         </div>
-  
-        <h3 (click)="toggleInfo('shipping')">Spedizione e resi gratuiti</h3>
+
+        <h3 class="info-header" (click)="toggleInfo('shipping')">Spedizione e resi gratuiti</h3>
         <div *ngIf="isInfoVisible['shipping']">
           <p>Dettagli sulla spedizione e resi gratuiti.</p>
         </div>
-  
-        <h3 (click)="toggleInfo('reviews')">Recensioni (170)</h3>
+
+        <h3 class="info-header" (click)="toggleInfo('reviews')">Recensioni (170)</h3>
         <div *ngIf="isInfoVisible['reviews']">
           <p>Recensioni dei clienti e feedback sulla scarpa.</p>
         </div>
-  
-        <h3 (click)="toggleInfo('moreInfo')">Ulteriori informazioni</h3>
+
+        <h3 class="info-header" (click)="toggleInfo('moreInfo')">Ulteriori informazioni</h3>
         <div *ngIf="isInfoVisible['moreInfo']">
           <p>Ulteriori informazioni sul prodotto e il brand.</p>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
