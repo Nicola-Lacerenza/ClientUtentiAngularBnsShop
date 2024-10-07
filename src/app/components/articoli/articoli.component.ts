@@ -11,6 +11,11 @@ export class ArticoliComponent implements OnInit {
   articoliFiltrati: IArticoli[] = []; // Array contenente gli articoli filtrati
   tutteLeCategorie: string[] = ["Elettronica", "Abbigliamento", "Casa", "Giardino"];
   showThumbnails: { [key: string]: boolean } = {}; // Oggetto per gestire lo stato delle miniature
+  generi: string[] = ["Uomo", "Donna", "Unisex"];
+  taglie: string[] = Array.from({ length: 12 }, (_, i) => (35 + i).toString());
+  colori: string[] = ["Rosso", "Blu", "Verde", "Nero", "Bianco"];
+  brands: string[] = ["Nike", "Adidas", "Puma", "Reebok", "New Balance"];
+  expandedGroups: { [key: string]: boolean } = {};
 
   constructor() {}
 
@@ -189,5 +194,13 @@ export class ArticoliComponent implements OnInit {
   // Funzione per mostrare le miniature quando il cursore è sopra la descrizione
   toggleThumbnails(codart: string, isHovered: boolean): void {
     this.showThumbnails[codart] = isHovered; // Imposta true o false
+  }
+
+  toggleGroup(group: string): void {
+    this.expandedGroups[group] = !this.expandedGroups[group];
+  }
+
+  isGroupExpanded(group: string): boolean {
+    return this.expandedGroups[group];
   }
 }
