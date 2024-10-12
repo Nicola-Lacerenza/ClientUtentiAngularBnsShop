@@ -25,10 +25,9 @@ export class LoginComponent implements OnInit{
   
    public loginNow(form:NgForm){
       if(form.valid){
-        console.log(form.value);
         this.BasicAuth.doLogin(form.value).subscribe({
           next:(response:ServerResponse)=>{
-            console.log(response);
+            this.BasicAuth.setLogged(<string>response.message);
           },
           error:(error:HttpErrorResponse)=>{
             console.error(error);

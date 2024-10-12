@@ -18,7 +18,7 @@ import { PdpComponent } from './components/pdp/pdp.component';
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { SizeSelectorComponent } from './components/size-selector/size-selector.component';
 import { AddProductComponent } from './components/add-product/add-product';
-import { corsInterceptor } from './cors.interceptor';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import { corsInterceptor } from './cors.interceptor';
     CoreModule,
     HttpClientModule
   ],
-  providers: [provideHttpClient(withInterceptors([corsInterceptor]))],
+  providers: [provideHttpClient(withInterceptors([authInterceptor]))],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

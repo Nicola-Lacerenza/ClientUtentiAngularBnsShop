@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import { ServerResponse } from '../models/ServerResponse.interface';
 import { UserRegister } from '../models/UserRegister.interface';
 import { UserLogin } from '../models/UserLogin.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthappService {
 
-  constructor(private httprequest:HttpRequestService) { 
+  constructor(private httprequest:HttpRequestService,private router:Router) { 
   
   }
 
@@ -20,7 +21,11 @@ export class AuthappService {
   }
 
   public isLogged():boolean{
-    return localStorage.getItem("token")===undefined;
+    if(localStorage.getItem("token") && localStorage.getItem("token")!==null){
+      return true;
+    }else{
+      return false;
+    }
   }
   
   public doLogout():void{
@@ -31,4 +36,15 @@ export class AuthappService {
     return this.httprequest.postRequest(environment.serverUrl + "/RegisterServlet",body);
   }
 
+  public setLogged(token:string){
+    localStorage.setItem("token",token);
+    this.router.navigateByUrl("/welcome");
+  }
+
+  public getUser(){
+    if(this.isLogged()===true){
+      return this.httprequest.getRequest(environment.serverUrl + "/LoginServlet");
+    }
+    return false;
+  }
 }
