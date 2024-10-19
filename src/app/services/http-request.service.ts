@@ -16,7 +16,7 @@ export class HttpRequestService {
     return this.http.get<ServerResponse>(url);
   }
 
-  public postRequest(url:string,body:UserRegister | UserLogin):Observable<ServerResponse>{
+  public postRequest(url:string,body:UserRegister | UserLogin | {message:string | null}):Observable<ServerResponse>{
     return this.http.post<ServerResponse>(url,body);
   }
 }

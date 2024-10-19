@@ -12,6 +12,7 @@ import { PdpComponent } from './components/pdp/pdp.component';
 import { CartComponent } from './components/cart/cart.component';
 import { SizeSelectorComponent } from './components/size-selector/size-selector.component';
 import { AddProductComponent } from './components/add-product/add-product';
+import { roleGuard } from './services/role-guard.guard';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -21,7 +22,7 @@ const routes: Routes = [
   {path:'articoli',component:ArticoliComponent, canActivate:[authGuard]},
   {path:'grid',component:GridArticoliComponent, canActivate:[authGuard]},
   {path:'pdp',component:PdpComponent, canActivate:[authGuard]},
-  {path:'addProduct',component: AddProductComponent, canActivate:[authGuard]},
+  {path:'addProduct',component: AddProductComponent, canActivate:[authGuard,roleGuard]},
   {path:'cart',component:CartComponent, canActivate:[authGuard]},
   {path:'size-selector',component:SizeSelectorComponent, canActivate:[authGuard]},
   {path:'logout',component:LogoutComponent},

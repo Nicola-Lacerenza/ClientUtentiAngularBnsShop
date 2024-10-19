@@ -47,4 +47,8 @@ export class AuthappService {
     }
     return false;
   }
+
+  public checkRuolo() : Observable<ServerResponse>{
+    return this.httprequest.postRequest(environment.serverUrl + "/ControllaRuoloServlet",{message:localStorage.getItem("token")});
+  }
 }
