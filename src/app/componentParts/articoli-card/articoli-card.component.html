@@ -5,7 +5,7 @@
         <a href="#" class="title text-truncate">{{articolo.descrizione}}</a>
         <div class="price mb-2">{{articolo.prezzo | currency:'EUR'}}</div> <!-- price.// -->
 
-        <button href="#" class="btn btn-sm btn-light" (click)="editArt()">
+        <button href="#"  routerLink="/addProduct" class="btn btn-sm btn-light" (click)="editArt()">
             <i class="material-icons md-edit"></i>Modifica
         </button>
         <button href="#" class="btn btn-sm btn-outline-danger" (click)="delArt()">

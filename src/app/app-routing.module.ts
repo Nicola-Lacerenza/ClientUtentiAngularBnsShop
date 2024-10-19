@@ -17,14 +17,14 @@ import { roleGuard } from './services/role-guard.guard';
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
   {path:'login',component:LoginComponent},
-  {path:'welcome',component:WelcomeComponent, canActivate:[authGuard]},
+  {path:'welcome',component:WelcomeComponent},
   {path:'new-user',component:NewUserComponent},
-  {path:'articoli',component:ArticoliComponent, canActivate:[authGuard]},
-  {path:'grid',component:GridArticoliComponent, canActivate:[authGuard]},
-  {path:'pdp',component:PdpComponent, canActivate:[authGuard]},
+  {path:'articoli',component:ArticoliComponent},
+  {path:'grid',component:GridArticoliComponent, canActivate:[authGuard,roleGuard]},
+  {path:'pdp',component:PdpComponent},
   {path:'addProduct',component: AddProductComponent, canActivate:[authGuard,roleGuard]},
-  {path:'cart',component:CartComponent, canActivate:[authGuard]},
-  {path:'size-selector',component:SizeSelectorComponent, canActivate:[authGuard]},
+  {path:'cart',component:CartComponent},
+  {path:'size-selector',component:SizeSelectorComponent},
   {path:'logout',component:LogoutComponent},
   {path:'**',component:ErrorComponent}
 ];
