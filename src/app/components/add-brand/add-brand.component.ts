@@ -18,12 +18,12 @@ export class AddBrandComponent {
   constructor(private auth:AuthappService,private brandService: BrandService,private popUp:PopUpManagerService){
   }
 
-  public inserisciBrand(form:NgForm){
+  public insertBrand(form:NgForm){
       if(form.valid){
         const newBrand : Brand={id:0,nome:form.value.nome,descrizione:form.value.descrizione};
         const dataRequest : ServerRequest={body:newBrand};
         console.log(form);
-        this.brandService.inserisciBrand(dataRequest).subscribe({         
+        this.brandService.insertBrand(dataRequest).subscribe({         
           next:(data:ServerResponse)=>{
             console.log(data);
             form.reset();

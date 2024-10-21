@@ -21,7 +21,7 @@ export class BrandService {
     return this.httprequest.getRequest(environment.serverUrl + "/BrandServlet");
   }
 
-  public inserisciBrand(body:ServerRequest):Observable<ServerResponse>{
+  public insertBrand(body:ServerRequest):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/BrandServlet",body)
   }
 }
