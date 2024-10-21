@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestService } from './http-request.service';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ServerResponse } from '../models/ServerResponse.interface';
 import { UserRegister } from '../models/UserRegister.interface';
 import { UserLogin } from '../models/UserLogin.interface';
 import { Router } from '@angular/router';
+import { NewUserComponent } from './../components/new-user/new-user.component';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +52,10 @@ export class AuthappService {
   public checkRuolo() : Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/ControllaRuoloServlet",{message:localStorage.getItem("token")});
   }
+
+  //public isAdmin():Observable<boolean>{
+  //  this.checkRuolo().pipe(
+  //    map(Response)
+  //  )
+  //}
 }
