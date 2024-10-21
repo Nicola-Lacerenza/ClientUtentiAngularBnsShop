@@ -7,6 +7,7 @@ import { UserRegister } from '../models/UserRegister.interface';
 import { UserLogin } from '../models/UserLogin.interface';
 import { Router } from '@angular/router';
 import { NewUserComponent } from './../components/new-user/new-user.component';
+import { ServerRequest } from '../models/ServerRequest.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthappService {
   
   }
 
-  public doLogin(body:UserLogin):Observable<ServerResponse>{
+  public doLogin(body:ServerRequest):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/LoginServlet",body);
   }
 
@@ -33,7 +34,7 @@ export class AuthappService {
     localStorage.removeItem("token");
   }
 
-  public doRegister(body:UserRegister):Observable<ServerResponse>{
+  public doRegister(body:ServerRequest):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/RegisterServlet",body);
   }
 
@@ -53,9 +54,9 @@ export class AuthappService {
     return this.httprequest.postRequest(environment.serverUrl + "/ControllaRuoloServlet",{message:localStorage.getItem("token")});
   }
 
-  //public isAdmin():Observable<boolean>{
-  //  this.checkRuolo().pipe(
-  //    map(Response)
-  //  )
-  //}
+  public isAdmin():Observable<boolean>{
+    return this.checkRuolo().pipe(
+      map(response => response.message==="admin")
+    )
+  }
 }

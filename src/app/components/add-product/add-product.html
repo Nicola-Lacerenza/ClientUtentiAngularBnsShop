@@ -21,30 +21,24 @@
   </div>
 
   <div>
-    <label for="modelName">Nome Modello</label>
-    <input id="modelName" formControlName="modelName" type="text" />
+    <label for="model">Nome Modello</label>
+    <input id="model" formControlName="model" type="text" />
     <div *ngIf="submitted && productForm.get('modelName')?.errors">
       <small class="error">Il nome del modello è richiesto.</small>
     </div>
   </div>
 
   <div>
-    <label for="modelDescription">Descrizione Modello</label>
-    <textarea id="modelDescription" formControlName="modelDescription"></textarea>
+    <label for="brand">Nome Brand</label>
+    <select id="brand" formControlName="brand">
+      <option></option>
+      <option *ngFor="let brand of brands" [value]="brand.id">
+        {{brand.nome}} - {{brand.descrizione}}
+      </option>
+    </select>
   </div>
+  <button (click)="addBrand()">+</button>
 
-  <div>
-    <label for="brandName">Nome Brand</label>
-    <input id="brandName" formControlName="brandName" type="text" />
-    <div *ngIf="submitted && productForm.get('brandName')?.errors">
-      <small class="error">Il nome del brand è richiesto.</small>
-    </div>
-  </div>
-
-  <div>
-    <label for="brandDescription">Descrizione Brand</label>
-    <textarea id="brandDescription" formControlName="brandDescription"></textarea>
-  </div>
 
   <div>
     <label for="category">Categoria</label>

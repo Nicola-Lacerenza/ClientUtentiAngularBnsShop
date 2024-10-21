@@ -19,6 +19,9 @@ import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/
 import { SizeSelectorComponent } from './components/size-selector/size-selector.component';
 import { AddProductComponent } from './components/add-product/add-product';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MaterialModule } from './material.module';
+import { AddBrandComponent } from './components/add-brand/add-brand.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     NewUserComponent,
     SizeSelectorComponent,
     PdpComponent,
-    AddProductComponent
+    AddProductComponent,
+    AddBrandComponent
   ],
   imports: [
     BrowserModule,
@@ -42,9 +46,10 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     FormsModule,
     ReactiveFormsModule,
     CoreModule,
-    HttpClientModule
+    HttpClientModule,
+    MaterialModule
   ],
-  providers: [provideHttpClient(withInterceptors([authInterceptor]))],
+  providers: [provideHttpClient(withInterceptors([authInterceptor])), provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

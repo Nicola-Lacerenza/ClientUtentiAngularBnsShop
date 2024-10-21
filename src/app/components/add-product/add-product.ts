@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Brand } from '../../models/brand.interface';
+import { BrandService } from './../../services/brand.service';
+import { ServerResponse } from '../../models/ServerResponse.interface';
+import { AuthappService } from '../../services/authapp.service';
+import { PopUpManagerService } from '../../services/pop-up-manager.service';
 
 @Component({
   selector: 'app-add-product',
@@ -16,10 +21,28 @@ export class AddProductComponent implements OnInit {
   availableSizes: number[] = [];
   selectedSize: number | null = null;
   quantities: number[] = [];
-
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  
+  private _brands : Brand[]=[]; 
+  
+  constructor(private fb: FormBuilder, private http: HttpClient,private brandService: BrandService,private auth : AuthappService,private popUp : PopUpManagerService) {}
 
   ngOnInit(): void {
+
+    this.brandService.getBrands().subscribe({
+      next:(data: ServerResponse)=>{
+        this._brands=<Brand[]>data.message;
+      },
+      error:(error:HttpErrorResponse)=>{
+        if(error.status===401 || error.status===403){
+          this.auth.doLogout();
+        }else{
+          //In questo punto ricordarsi di gestire l'errore
+          console.error(error);
+        }
+      }
+    });
+
+  
     // Inizializza le taglie disponibili
     for (let size = 35.5; size <= 46; size += 0.5) {
       this.availableSizes.push(Math.round(size * 10) / 10);
@@ -29,10 +52,8 @@ export class AddProductComponent implements OnInit {
     // Inizializza il modulo
     this.productForm = this.fb.group({
       images: [null, Validators.required],
-      modelName: ['', Validators.required],
-      modelDescription: [''],
-      brandName: ['', Validators.required],
-      brandDescription: [''],
+      model: ['', Validators.required],
+      brand: ['', Validators.required],
       category: ['', Validators.required],
       color: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
@@ -88,10 +109,8 @@ export class AddProductComponent implements OnInit {
     this.imageFiles.forEach((file) => {
       formData.append('images', file); // Aggiungi ciascuna immagine a formData
     });
-    formData.append('modelName', this.productForm.get('modelName')?.value);
-    formData.append('modelDescription', this.productForm.get('modelDescription')?.value);
-    formData.append('brandName', this.productForm.get('brandName')?.value);
-    formData.append('brandDescription', this.productForm.get('brandDescription')?.value);
+    formData.append('model', this.productForm.get('modelName')?.value);
+    formData.append('brand', this.productForm.get('brandName')?.value);
     formData.append('category', this.productForm.get('category')?.value);
     formData.append('color', this.productForm.get('color')?.value);
     formData.append('price', this.productForm.get('price')?.value);
@@ -108,5 +127,13 @@ export class AddProductComponent implements OnInit {
       console.error('Errore nell\'inserimento del prodotto:', error);
       // Aggiungi logica per gestire l'errore
     });
+  }
+
+  public get brands(): Brand[]{
+    return this._brands;
+  }
+
+  public addBrand() : void{
+    this.popUp.openForm();
   }
 }
