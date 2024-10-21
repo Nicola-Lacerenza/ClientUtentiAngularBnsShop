@@ -1,0 +1,39 @@
+<form #shoeForm="ngForm" (ngSubmit)="onSubmit(shoeForm)">
+    <h2>Aggiungi Modello</h2>
+    <!-- Campo Nome -->
+    <div class="form-group">
+        <label for="name">Nome</label>
+        <input id="name" type="text" name="name" [(ngModel)]="shoe.name" required minlength="3" />
+    </div>
+
+    <!-- Categoria dropdown con pulsante di aggiungi -->
+    <div class="form-group">
+        <label for="category">Categoria</label>
+        <div class="dropdown-group">
+        <select id="category" name="category" [(ngModel)]="shoe.category" required>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+        <button type="button" (click)="addCategory()">Aggiungi</button>
+        </div>
+    </div>
+
+    <!-- Brand dropdown con pulsante di aggiungi -->
+    <div class="form-group">
+        <label for="brand">Brand</label>
+        <div class="dropdown-group">
+        <select id="brand" name="brand" [(ngModel)]="shoe.brand" required>
+            <option *ngFor="let brand of brands" [value]="brand">{{ brand }}</option>
+        </select>
+        <button type="button" (click)="addBrand()">Aggiungi</button>
+        </div>
+    </div>
+
+    <!-- Campo Descrizione -->
+    <div class="form-group">
+        <label for="description">Descrizione</label>
+        <textarea id="description" name="description" [(ngModel)]="shoe.description"></textarea>
+    </div>
+
+    <!-- Pulsante di submit -->
+    <button type="submit" [disabled]="shoeForm.invalid">Salva Modello</button>
+</form>

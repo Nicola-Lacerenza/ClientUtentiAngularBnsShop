@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddBrandComponent } from '../components/add-brand/add-brand.component';
+import { AddModelComponent } from '../components/add-model/add-model.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class PopUpManagerService {
   }
 
   public openForm(): void{
-    this.dialog.open(AddBrandComponent);
+    this.dialog.open(AddModelComponent);
   }
 
   public closeForm():void{

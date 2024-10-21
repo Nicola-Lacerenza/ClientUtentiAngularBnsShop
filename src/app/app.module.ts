@@ -22,6 +22,7 @@ import { authInterceptor } from './interceptors/auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MaterialModule } from './material.module';
 import { AddBrandComponent } from './components/add-brand/add-brand.component';
+import { AddModelComponent } from './components/add-model/add-model.component';
 
 @NgModule({
   declarations: [
@@ -38,10 +39,11 @@ import { AddBrandComponent } from './components/add-brand/add-brand.component';
     SizeSelectorComponent,
     PdpComponent,
     AddProductComponent,
-    AddBrandComponent
+    AddBrandComponent,
+    AddModelComponent
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
