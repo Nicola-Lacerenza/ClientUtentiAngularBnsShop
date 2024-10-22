@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestService } from './http-request.service';
 import { Observable } from 'rxjs';
-import { Brand } from '../models/brand.interface';
 import { environment } from '../../environments/environment';
 import { ServerResponse } from '../models/ServerResponse.interface';
 import { ServerRequest } from '../models/ServerRequest.interface';

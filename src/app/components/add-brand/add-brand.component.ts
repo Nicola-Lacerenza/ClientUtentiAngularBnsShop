@@ -19,6 +19,7 @@ export class AddBrandComponent {
   }
 
   public insertBrand(form:NgForm){
+    
       if(form.valid){
         const newBrand : Brand={id:0,nome:form.value.nome,descrizione:form.value.descrizione};
         const dataRequest : ServerRequest={body:newBrand};

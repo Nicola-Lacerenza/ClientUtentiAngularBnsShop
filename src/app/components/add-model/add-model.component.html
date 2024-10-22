@@ -7,22 +7,28 @@
     </div>
 
     <!-- Categoria dropdown con pulsante di aggiungi -->
-    <div class="form-group">
+    <div>
         <label for="category">Categoria</label>
         <div class="dropdown-group">
-        <select id="category" name="category" [(ngModel)]="shoe.category" required>
-            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        <select id="category"  name="category" formControlName="category">
+          <option></option>
+          <option *ngFor="let categoria of categorie" [value]="categoria.id">
+            {{categoria.nome_categoria}}
+          </option>
         </select>
         <button type="button" (click)="addCategory()">Aggiungi</button>
         </div>
     </div>
 
-    <!-- Brand dropdown con pulsante di aggiungi -->
-    <div class="form-group">
+    <!-- Brand dropdown con pulsante di aggiungi-->
+    <div>
         <label for="brand">Brand</label>
         <div class="dropdown-group">
-        <select id="brand" name="brand" [(ngModel)]="shoe.brand" required>
-            <option *ngFor="let brand of brands" [value]="brand">{{ brand }}</option>
+        <select id="brand" formControlName="brand">
+          <option></option>
+          <option *ngFor="let brand of brands" [value]="brand.id">
+            {{brand.nome}} - {{brand.descrizione}}
+          </option>
         </select>
         <button type="button" (click)="addBrand()">Aggiungi</button>
         </div>

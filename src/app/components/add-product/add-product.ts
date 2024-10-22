@@ -6,6 +6,8 @@ import { BrandService } from './../../services/brand.service';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { AuthappService } from '../../services/authapp.service';
 import { PopUpManagerService } from '../../services/pop-up-manager.service';
+import { Modello } from '../../models/modello.interface';
+import { ModelloService } from '../../services/modello.service';
 
 @Component({
   selector: 'app-add-product',
@@ -22,15 +24,16 @@ export class AddProductComponent implements OnInit {
   selectedSize: number | null = null;
   quantities: number[] = [];
   
-  private _brands : Brand[]=[]; 
-  
-  constructor(private fb: FormBuilder, private http: HttpClient,private brandService: BrandService,private auth : AuthappService,private popUp : PopUpManagerService) {}
+
+  private _models : Modello[]=[];
+
+  constructor(private fb: FormBuilder, private http: HttpClient,private brandService: BrandService , private modelService : ModelloService,private auth : AuthappService,private popUp : PopUpManagerService) {}
 
   ngOnInit(): void {
 
-    this.brandService.getBrands().subscribe({
+    this.modelService.getModels().subscribe({
       next:(data: ServerResponse)=>{
-        this._brands=<Brand[]>data.message;
+        this._models=<Modello[]>data.message;
       },
       error:(error:HttpErrorResponse)=>{
         if(error.status===401 || error.status===403){
@@ -53,9 +56,6 @@ export class AddProductComponent implements OnInit {
     this.productForm = this.fb.group({
       images: [null, Validators.required],
       model: ['', Validators.required],
-      brand: ['', Validators.required],
-      category: ['', Validators.required],
-      color: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
       publishStatus: [false],
       sizes: this.fb.array([]) // Rimuove il precedente FormArray
@@ -109,9 +109,7 @@ export class AddProductComponent implements OnInit {
     this.imageFiles.forEach((file) => {
       formData.append('images', file); // Aggiungi ciascuna immagine a formData
     });
-    formData.append('model', this.productForm.get('modelName')?.value);
-    formData.append('brand', this.productForm.get('brandName')?.value);
-    formData.append('category', this.productForm.get('category')?.value);
+    formData.append('model', this.productForm.get('model')?.value);
     formData.append('color', this.productForm.get('color')?.value);
     formData.append('price', this.productForm.get('price')?.value);
     formData.append('publishStatus', this.productForm.get('publishStatus')?.value);
@@ -129,11 +127,13 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  public get brands(): Brand[]{
-    return this._brands;
+
+
+  public get models(): Modello[]{
+    return this._models;
   }
 
-  public addBrand() : void{
+  public addModel() : void{
     this.popUp.openForm();
   }
 }
