@@ -11,15 +11,24 @@ import { ServerRequest } from '../models/ServerRequest.interface';
 export class ModelloService {
 
   constructor(private httprequest:HttpRequestService) { }
-  public getModel(id:number):Observable<ServerResponse>{
+
+  public getModello(id:number):Observable<ServerResponse>{
     return this.httprequest.getRequest(environment.serverUrl + "/ModelloServlet/"+id);
   }
 
-  public getModels(): Observable<ServerResponse>{
+  public getModelli(): Observable<ServerResponse>{
     return this.httprequest.getRequest(environment.serverUrl + "/ModelloServlet");
   }
 
-  public insertModel(body:ServerRequest):Observable<ServerResponse>{
+  public insertModello(body:ServerRequest):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/ModelloServlet",body)
+  }
+
+  public updateModello(id: number, body: ServerRequest): Observable<ServerResponse> {
+    return this.httprequest.putRequest(environment.serverUrl + "/ModelloServlet/" + id, body);
+  }
+
+  public deleteModello(id: number): Observable<ServerResponse> {
+    return this.httprequest.deleteRequest(environment.serverUrl + "/ModelloServlet/" + id);
   }
 }

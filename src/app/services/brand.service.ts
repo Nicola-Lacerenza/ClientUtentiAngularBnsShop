@@ -23,4 +23,12 @@ export class BrandService {
   public insertBrand(body:ServerRequest):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/BrandServlet",body)
   }
+
+  public updateBrand(id: number, body: ServerRequest): Observable<ServerResponse> {
+    return this.httprequest.putRequest(environment.serverUrl + "/BrandServlet/" + id, body);
+  }
+
+  public deleteBrand(id: number): Observable<ServerResponse> {
+    return this.httprequest.deleteRequest(environment.serverUrl + "/BrandServlet/" + id);
+  }
 }

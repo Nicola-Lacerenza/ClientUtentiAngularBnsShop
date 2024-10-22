@@ -1,18 +1,17 @@
-
-<div class="container login-container">
+<form #brandform="ngForm" (ngSubmit)="insertBrand(brandform)">
     <h3>Aggiungi Brand</h3>
-    <form #brandform="ngForm" (ngSubmit)="insertBrand(brandform)">
-        <div class="form-group">
-            <label for="nome">Nome</label>
-            <input class="form-control" id="nome" type="text" name="nome" ngModel required/>
-        </div>
 
-        <div class="form-group">
-            <label for="descrizione">Descrizione</label>
-            <input class="form-control" id="descrizione"  type="text" name="descrizione" ngModel required />
-        </div>
-        <div>
-            <button type="submit">Inerisci Brand</button>
-        </div>
-    </form>
-</div>
+    <!-- Campo Nome -->
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" name="nome" ngModel required/>
+    </div>
+
+    <!-- Campo Descrizione -->
+    <div class="form-group">
+        <label for="descrizione">Descrizione</label>
+        <textarea id="descrizione" name="descrizione" ngModel required></textarea>
+    </div>
+
+    <button type="submit">Inserisci Brand</button>
+</form>

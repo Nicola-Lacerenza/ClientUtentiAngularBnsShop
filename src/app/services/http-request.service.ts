@@ -20,4 +20,12 @@ export class HttpRequestService {
   public postRequest(url:string,body:ServerRequest | {message:string | null}):Observable<ServerResponse>{
     return this.http.post<ServerResponse>(url,body);
   }
+
+  public putRequest(url: string, body: ServerRequest): Observable<ServerResponse> {
+    return this.http.put<ServerResponse>(url, body);
+  }
+  
+  public deleteRequest(url: string): Observable<ServerResponse> {
+    return this.http.delete<ServerResponse>(url);
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Brand } from '../../models/brand.interface';
 import { BrandService } from './../../services/brand.service';
@@ -8,6 +8,8 @@ import { AuthappService } from '../../services/authapp.service';
 import { PopUpManagerService } from '../../services/pop-up-manager.service';
 import { Modello } from '../../models/modello.interface';
 import { ModelloService } from '../../services/modello.service';
+import { AddModelComponent } from '../add-model/add-model.component';
+import { ServerRequest } from './../../models/ServerRequest.interface';
 
 @Component({
   selector: 'app-add-product',
@@ -110,7 +112,6 @@ export class AddProductComponent implements OnInit {
       formData.append('images', file); // Aggiungi ciascuna immagine a formData
     });
     formData.append('model', this.productForm.get('model')?.value);
-    formData.append('color', this.productForm.get('color')?.value);
     formData.append('price', this.productForm.get('price')?.value);
     formData.append('publishStatus', this.productForm.get('publishStatus')?.value);
     this.quantities.forEach((quantity, index) => {
@@ -133,7 +134,18 @@ export class AddProductComponent implements OnInit {
     return this._models;
   }
 
-  public addModel() : void{
-    this.popUp.openForm();
+  // Funzione che apre il dialog con AddModelComponent
+  public addModel(): void {
+    this.popUp.openForm(AddModelComponent); 
   }
+
+  // Funzione inserimento prodotto nel DB
+  public insertProduct(form:NgForm){
+    
+    if(form.valid){
+      form.reset();
+      this.popUp.closeForm();
+    }
+  }
+
 }

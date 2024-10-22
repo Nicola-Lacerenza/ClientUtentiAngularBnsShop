@@ -23,4 +23,12 @@ export class CategoriaService {
   public insertCategoria(body:ServerRequest):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/CategoriaServlet",body)
   }
+
+  public updateCategoria(id: number, body: ServerRequest): Observable<ServerResponse> {
+    return this.httprequest.putRequest(environment.serverUrl + "/CategoriaServlet/" + id, body);
+  }
+
+  public deleteCategoria(id: number): Observable<ServerResponse> {
+    return this.httprequest.deleteRequest(environment.serverUrl + "/CategoriaServlet/" + id);
+  }
 }

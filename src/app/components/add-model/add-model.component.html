@@ -1,45 +1,57 @@
-<form #shoeForm="ngForm" (ngSubmit)="onSubmit(shoeForm)">
-    <h2>Aggiungi Modello</h2>
+<form #shoeForm="ngForm" (ngSubmit)="insertModello(shoeForm)">
+    <h2>Aggiungi/Modifica Modello</h2>
+  
     <!-- Campo Nome -->
     <div class="form-group">
-        <label for="name">Nome</label>
-        <input id="name" type="text" name="name" [(ngModel)]="shoe.name" required minlength="3" />
+      <label for="nome">Nome</label>
+      <input id="nome" type="text" name="nome" [(ngModel)]="shoe.name" required minlength="3" />
     </div>
-
-    <!-- Categoria dropdown con pulsante di aggiungi -->
-    <div>
-        <label for="category">Categoria</label>
-        <div class="dropdown-group">
-        <select id="category"  name="category" formControlName="category">
-          <option></option>
-          <option *ngFor="let categoria of categorie" [value]="categoria.id">
-            {{categoria.nome_categoria}}
-          </option>
+  
+    <!-- Categoria dropdown con menu a tendina per le opzioni -->
+    <div class="form-group">
+      <label for="id_categoria">Categoria</label>
+      <div class="dropdown-group">
+        <select id="id_categoria" name="id_categoria" [(ngModel)]="shoe.category">
+          <option value="">Seleziona una categoria</option>
+          <option *ngFor="let categoria of categorie" [value]="categoria.id">{{ categoria.nome_categoria }}</option>
         </select>
-        <button type="button" (click)="addCategory()">Aggiungi</button>
+        <div class="dropdown">
+          <button class="dropdown-toggle" type="button">{{ selectedCategoriaAction || 'Seleziona azione' }}</button>
+          <div class="dropdown-menu">
+            <button type="button" (click)="onCategoriaAction('Aggiungi')">Aggiungi</button>
+            <button type="button" (click)="onCategoriaAction('Modifica')">Modifica</button>
+            <button type="button" (click)="onCategoriaAction('Elimina')">Elimina</button>
+          </div>
         </div>
+      </div>
     </div>
-
-    <!-- Brand dropdown con pulsante di aggiungi-->
-    <div>
-        <label for="brand">Brand</label>
-        <div class="dropdown-group">
-        <select id="brand" formControlName="brand">
-          <option></option>
-          <option *ngFor="let brand of brands" [value]="brand.id">
-            {{brand.nome}} - {{brand.descrizione}}
-          </option>
+  
+    <!-- Brand dropdown con menu a tendina per le opzioni -->
+    <div class="form-group">
+      <label for="id_brand">Brand</label>
+      <div class="dropdown-group">
+        <select id="id_brand" name="id_brand" [(ngModel)]="shoe.brand">
+          <option value="">Seleziona un brand</option>
+          <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.nome }} - {{ brand.descrizione }}</option>
         </select>
-        <button type="button" (click)="addBrand()">Aggiungi</button>
+        <div class="dropdown">
+          <button class="dropdown-toggle" type="button">{{ selectedBrandAction || 'Seleziona azione' }}</button>
+          <div class="dropdown-menu">
+            <button type="button" (click)="onBrandAction('Aggiungi')">Aggiungi</button>
+            <button type="button" (click)="onBrandAction('Modifica')">Modifica</button>
+            <button type="button" (click)="onBrandAction('Elimina')">Elimina</button>
+          </div>
         </div>
+      </div>
     </div>
-
+  
     <!-- Campo Descrizione -->
     <div class="form-group">
-        <label for="description">Descrizione</label>
-        <textarea id="description" name="description" [(ngModel)]="shoe.description"></textarea>
+      <label for="descrizione">Descrizione</label>
+      <textarea id="descrizione" name="descrizione" [(ngModel)]="shoe.description"></textarea>
     </div>
-
+  
     <!-- Pulsante di submit -->
     <button type="submit" [disabled]="shoeForm.invalid">Salva Modello</button>
-</form>
+  </form>
+  
