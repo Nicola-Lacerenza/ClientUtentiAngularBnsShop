@@ -1,153 +1,247 @@
+/* Stile globale per il form */
 form {
-  max-width: 700px;
+  max-width: 1000px;
   margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 }
 
-div {
+h2 {
+  font-size: 1.8em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
   margin-bottom: 15px;
 }
 
 label {
   display: block;
   font-weight: bold;
-  margin-bottom: 5px;
+  color: #555;
+  margin-bottom: 10px;
 }
 
 input[type="text"],
 input[type="number"],
-textarea {
+textarea,
+select {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
   box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 button {
-  padding: 8px 12px;
-  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 
 .error {
-  color: red;
-  font-size: 0.8em;
+  color: #d9534f;
+  font-size: 0.9em;
 }
 
-/* Stile per le taglie e quantità */
+/* Stile per il menu a tendina */
+.dropdown-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-toggle {
+  padding: 8px 12px;
+  background-color: #e9ecef;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background-color: #ddd;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu button {
+  padding: 8px 12px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f1f1f1;
+}
+
+/* Stile per la sezione delle taglie e quantità */
 .sizes-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-}
-
-.size-option {
-  display: flex;
-  align-items: center; /* Allinea gli elementi al centro verticalmente */
+  padding: 40px;
 }
 
 .size-button {
+  width: 100px; /* Aumentata la larghezza per contenere meglio le frecce e la quantità */
+  height: 65px;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   display: flex;
-  justify-content: space-between; /* Spazio tra taglia e controlli */
-  align-items: center; /* Allinea verticalmente al centro */
-  width: 70px; /* Larghezza del pulsante */
-  height: 50px; /* Altezza del pulsante impostata a 50px */
-  padding: 4px; /* Rimuove il padding per rendere il pulsante più compatto */
-  background-color: #f0f0f0; /* Colore di sfondo del pulsante */
-  border: 1px solid #ccc; /* Bordo del pulsante */
-  border-radius: 5px; /* Angoli arrotondati */
-  cursor: pointer;
-  font-size: 15px; /* Dimensione del testo */
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1em;
+  position: relative; /* Necessario per posizionare le frecce all'interno */
+  transition: background-color 0.3s ease;
+  color: #333; /* Colore del testo della taglia */
+  font-weight: bold; /* Grassetto per migliorare la visibilità */
 }
 
-/* Cambia colore al passaggio del mouse */
 .size-button:hover {
-  background-color: #e0e0e0; 
+  background-color: #e9ecef;
 }
 
 .quantity-controls {
   display: flex;
-  flex-direction: column; /* Disporre frecce e quantità in colonna */
-  align-items: center; /* Allinea verticalmente al centro */
-  margin-left: -40px; /* Sposta le frecce e la quantità a sinistra ulteriormente */
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  right: 5px; /* Posiziona le frecce all'interno del pulsante sulla destra */
 }
 
-/* Stile per le frecce */
 .arrow {
-  background: transparent;
-  border: 0;
-  font-size: 10px; /* Dimensione delle frecce */
+  background: none;
+  border: none;
+  font-size: 10px;
   cursor: pointer;
-  padding: 0; /* Rimuove il padding per le frecce */
-  margin: 10px; /* Rimuove il margine per avvicinare le frecce alla quantità */
+  color: #007bff;
+  padding: 2px; /* Ridotto padding per far rientrare le frecce */
 }
 
-/* Cambia il colore al passaggio del mouse */
 .arrow:hover {
-  color: darkgray; 
+  color: #0056b3;
 }
 
-/* Stile per la quantità */
 .quantity-controls span {
-  font-size: 12px; /* Dimensione del testo della quantità */
-  display: flex;
-  justify-content: center; /* Centra il testo della quantità */
-  align-items: center; /* Allinea verticalmente al centro */
-  height: 50%; /* Imposta l'altezza al 50% del contenitore */
-  margin: 0 0 -5px 0; /* Rimuove il margine per avvicinare le frecce alla quantità */
-}
-
-/* Spazio verticale tra freccia e quantità */
-.quantity-controls .arrow {
-  margin-bottom: -4px; /* Rimuove lo spazio tra la freccia e la quantità */
-}
-
-/* Opzionale: per migliorare l'allineamento complessivo */
-.size-option {
-  margin-right: 0; /* Spazio tra la taglia e le frecce */
+  font-size: 0.9em;
+  margin: 2px 0;
 }
 
 /* Stile per la sezione delle immagini */
 .image-preview-container {
   display: flex;
-  flex-direction: column; /* Direzione verticale per l'immagine principale e le miniature */
-  align-items: center; /* Allinea al centro */
-  margin-bottom: 20px; /* Spazio sotto la sezione delle immagini */
-}
-
-.main-image {
-  position: relative; /* Posiziona l'icona di cancellazione in modo relativo all'immagine */
-  margin-bottom: 10px; /* Spazio sotto l'immagine principale */
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .main-image img {
-  max-width: 500px; /* Massimizza l'immagine grande senza superare il contenitore */
-  height: auto; /* Mantiene le proporzioni dell'immagine */
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .remove-button {
-  position: absolute; /* Posizione assoluta per sovrapporre l'icona */
-  top: 5px; /* Posizione verticale */
-  right: 5px; /* Posizione orizzontale */
-  background: red; /* Colore di sfondo rosso per l'icona di cancellazione */
-  color: white; /* Colore del testo */
-  border: none; /* Rimuove il bordo */
-  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
-  padding: 5px; /* Spazio interno */
-  border-radius: 50%; /* Forma circolare */
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
 }
 
-/* Stile per le miniature */
 .thumbnail-container {
-  display: flex; /* Allinea le miniature in una fila */
-  flex-direction: row; /* Direzione orizzontale per le miniature */
-  gap: 10px; /* Spazio tra le miniature */
-}
-
-.thumbnail {
-  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+  display: flex;
+  gap: 10px;
 }
 
 .thumbnail img {
-  width: 100px; /* Larghezza fissa per le miniature */
-  height: 100px; /* Altezza fissa per le miniature per renderle quadrate */
-  object-fit: cover; /* Copre l'intero spazio senza deformare l'immagine */
-  border: 1px solid #ccc; /* Bordo delle miniature */
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.thumbnail:hover img {
+  transform: scale(1.05);
+}
+
+.thumbnail {
+  cursor: pointer;
+}
+
+input[type="file"] {
+  display: block;
+  margin-top: 10px;
+}
+
+/* Stile per il pulsante “Aggiungi prodotto” fisso in basso a destra */
+.button-add-product {
+  position: fixed;
+  bottom: 20px; /* Distanza dal bordo inferiore */
+  right: 20px; /* Distanza dal bordo destro */
+  padding: 15px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 1000; /* Assicura che il pulsante rimanga sopra altri elementi */
+}
+
+.button-add-product:hover {
+  background-color: #0056b3;
 }

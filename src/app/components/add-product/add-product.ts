@@ -33,7 +33,7 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.modelService.getModels().subscribe({
+    this.modelService.getModelli().subscribe({
       next:(data: ServerResponse)=>{
         this._models=<Modello[]>data.message;
       },
