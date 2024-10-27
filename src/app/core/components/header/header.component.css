@@ -1,26 +1,120 @@
-img{
-    display: inline-block;
+/* Stile generale per la barra di navigazione */
+.navbar {
+    background-color: #2c3e50; /* Colore di sfondo scuro */
+    border-bottom: 2px solid #efb326; /* Bordo inferiore verde */
 }
 
-.dduser{
-    margin-right :50px;
-    margin-left: 20px;
+.navbar-brand {
+    color: #eaa911; /* Colore bianco per maggiore leggibilità */
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
-nav{
-    margin-bottom: 0.8%;
+.navbar-brand:hover {
+    color: #1abc9c; /* Verde chiaro in hover */
 }
+
+.navbar-toggler {
+    border: none;
+    color: #eaa911;
+}
+
+.navbar-toggler-icon {
+    filter: invert(100%); /* Cambia il colore dell'icona per vederla su sfondo scuro */
+}
+
+/* Stile per i link di navigazione */
+.nav-link {
+    color: #eaa911; /* Colore bianco per leggibilità */
+    font-size: 1rem;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+    display: inline-block; /* Mostra i link uno accanto all'altro */
+}
+
+.nav-link:hover {
+    color: #1abc9c; /* Verde chiaro in hover */
+}
+
+/* Posizionamento dei link "Prodotti" e "Aggiungi Prodotti" */
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item .nav-link + .nav-link {
+    margin-left: 15px; /* Spazio tra "Prodotti" e "Aggiungi Prodotti" */
+}
+
+/* Stile per il pulsante di ricerca */
 .custom-search-button {
-    background-color: white; /* or any other color that fits your design */
-    border: 1px solid #ccc; /* border color */
-    border-radius: 20px; /* rounded corners */
-    padding: 10px 20px; /* padding for better click area */
-    cursor: pointer; /* change cursor to pointer */
-    display: flex; /* align items */
-    align-items: center; /* center the content vertically */
-    justify-content: center; /* center the content horizontally */
+    background-color: #1abc9c; /* Colore pulsante verde */
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .custom-search-button:hover {
-    background-color: #f0f0f0; /* change color on hover */
+    background-color: #16a085; /* Colore scuro in hover */
+    transform: scale(1.05); /* Leggera espansione */
+}
+
+/* Stile per l'input di ricerca */
+.form-control {
+    border-radius: 20px;
+    border: 1px solid #1abc9c; /* Bordo verde per richiamare lo stile */
+    background-color: #34495e;
+    color: #ffffff;
+}
+
+.form-control::placeholder {
+    color: #bdc3c7;
+}
+
+/* Stile per le immagini */
+.img-circle {
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+.img-circle:hover {
+    border-color: #1abc9c;
+}
+
+/* Stile per il menu a discesa utente */
+.dropdown-menu {
+    background-color: #34495e;
+    border: none;
+}
+
+.dropdown-item {
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #1abc9c;
+    color: #ffffff;
+}
+
+/* Stile per l'icona carrello */
+a[type="button"] img {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+
+a[type="button"] img:hover {
+    transform: scale(1.1);
+}
+
+/* Migliora lo spazio interno */
+.navbar .btn-group, .navbar .form-control, .navbar .dropdown-toggle {
+    margin-left: 15px;
+    margin-right: 15px;
 }
