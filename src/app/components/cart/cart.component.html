@@ -48,6 +48,8 @@
 <!-- Popup di selezione della taglia -->
 <div class="popup" *ngIf="showSizeSelector">
   <div class="popup-content">
+    <!-- Immagine del prodotto nel popup -->
+    <img [src]="selectedItem?.image" alt="{{ selectedItem?.name }}" class="popup-product-image">
     <h3>Seleziona la taglia per {{ selectedItem?.name }}</h3>
     <div class="sizes-container">
       <button *ngFor="let size of availableSizes"

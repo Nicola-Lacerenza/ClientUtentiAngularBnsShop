@@ -10,6 +10,7 @@ import { Modello } from '../../models/modello.interface';
 import { ModelloService } from '../../services/modello.service';
 import { AddModelComponent } from '../add-model/add-model.component';
 import { ServerRequest } from './../../models/ServerRequest.interface';
+import { ProdottiService } from '../../services/prodotti.service';
 
 @Component({
   selector: 'app-add-product',
@@ -29,7 +30,14 @@ export class AddProductComponent implements OnInit {
 
   private _models : Modello[]=[];
 
-  constructor(private fb: FormBuilder, private http: HttpClient,private brandService: BrandService , private modelService : ModelloService,private auth : AuthappService,private popUp : PopUpManagerService) {}
+  constructor(
+    private fb: FormBuilder, 
+    private http: HttpClient,
+    private prodottiService: ProdottiService, 
+    private modelService : ModelloService,
+    private auth : AuthappService,
+    private popUp : PopUpManagerService
+  ) {}
 
   ngOnInit(): void {
 
@@ -147,5 +155,21 @@ export class AddProductComponent implements OnInit {
       this.popUp.closeForm();
     }
   }
-
+  public inserimentoProdotti(form: NgForm) {
+    console.log(form.value);
+    if (form.valid) {
+      this.prodottiService.insertProdotti(form.value).subscribe({
+        next: (data: ServerResponse) => {
+          form.reset();
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 401 || error.status === 403) {
+            this.auth.doLogout();
+          } else {
+            console.error(error);
+          }
+        }
+      });
+    }
+  }
 }

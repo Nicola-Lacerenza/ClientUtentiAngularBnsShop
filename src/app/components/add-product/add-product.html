@@ -1,5 +1,5 @@
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-  <div>
+<form #shoeForm="ngForm" (ngSubmit)="inserimentoProdotti(shoeForm)" enctype="multipart/form-data">
+  <div class="form-group">
     <label for="images">Immagini del prodotto</label>
     <input type="file" id="images" (change)="onImageChange($event)" multiple accept="image/*" />
     <div *ngIf="submitted && productForm.get('images')?.errors">
@@ -67,4 +67,7 @@
   </div>
 
   <button type="submit">Inserisci Prodotto</button>
+  <p>  </p>
+  <p>  </p>
+  <p> g </p>
 </form>

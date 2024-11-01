@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit {
   items = [
-    { name: 'Nike Air Max Dn', price: 20, quantity: 1, size: '37.5', image: 'assets/images/prodotti/image.png' },
-    { name: 'Nike Air Max Dn', price: 90, quantity: 1, size: '38.5', image: 'assets/images/prodotti/image.png' },
-    { name: 'Nike Air Max Dn', price: 90, quantity: 1, size: '38.5', image: 'assets/images/prodotti/image.png' }
+    { name: 'Nike Air Max Dn', price: 20, quantity: 1, size: '37.5', image: 'assets/images/prodotti/prodotto1.png' },
+    { name: 'Nike Air Max Dn', price: 90, quantity: 1, size: '38.5', image: 'assets/images/prodotti/prodotto2.png' },
+    { name: 'Nike Air Max Dn', price: 90, quantity: 1, size: '38.5', image: 'assets/images/prodotti/prodotto1.png' }
   ];
   total = 0;
   shippingCost = 5; // Esempio di costo di spedizione
