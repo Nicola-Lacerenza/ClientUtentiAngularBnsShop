@@ -30,11 +30,11 @@ export class ArticoliComponent implements OnInit {
         prezzo: 299.99,
         active: true,
         data: new Date(),
-        imageUrl: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/6d0dba9a-5a9f-4b30-b9db-9022d3a29609/AIR+MAX+DN.png',
+        imageUrl: 'assets/images/prodotti/prodotto1.png',
         imageUrls: [
-          'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/23806611-1042-4020-8706-be473f72fce5/AIR+MAX+DN.png',
-          'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/6d0dba9a-5a9f-4b30-b9db-9022d3a29609/AIR+MAX+DN.png',
-          'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/6d0dba9a-5a9f-4b30-b9db-9022d3a29609/AIR+MAX+DN.png'
+          'assets/images/prodotti/prodotto1.png',
+          'assets/images/prodotti/prodotto3.png',
+          'assets/images/prodotti/prodotto4.png'
         ]
       },
       {

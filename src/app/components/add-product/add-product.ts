@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Brand } from '../../models/brand.interface';
-import { BrandService } from './../../services/brand.service';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { AuthappService } from '../../services/authapp.service';
 import { PopUpManagerService } from '../../services/pop-up-manager.service';
 import { Modello } from '../../models/modello.interface';
 import { ModelloService } from '../../services/modello.service';
 import { AddModelComponent } from '../add-model/add-model.component';
-import { ServerRequest } from './../../models/ServerRequest.interface';
 import { ProdottiService } from '../../services/prodotti.service';
 
 @Component({
@@ -23,9 +20,7 @@ export class AddProductComponent implements OnInit {
   imageFiles: File[] = [];
   imagePreviews: string[] = [];
   mainImagePreview: string = '';
-  availableSizes: number[] = [];
-  selectedSize: number | null = null;
-  quantities: number[] = [];
+  taglie : {taglia:number,quantita:number}[]=[];
   
 
   private _models : Modello[]=[];
@@ -58,8 +53,7 @@ export class AddProductComponent implements OnInit {
   
     // Inizializza le taglie disponibili
     for (let size = 35.5; size <= 46; size += 0.5) {
-      this.availableSizes.push(Math.round(size * 10) / 10);
-      this.quantities.push(0);
+      this.taglie.push({taglia:size,quantita:0})
     }
 
     // Inizializza il modulo
@@ -98,13 +92,28 @@ export class AddProductComponent implements OnInit {
     this.productForm.patchValue({ images: this.imageFiles }); // Aggiorna il modulo
   }
 
-  increaseQuantity(index: number): void {
-    this.quantities[index] += 1; // Incrementa la quantità per la taglia selezionata
+  // Incrementa la quantità per la taglia selezionata 
+  increaseQuantity(t: number): void {
+    let index:number = 0;
+    while(index<this.taglie.length && this.taglie[index].taglia !== t){
+      index++;
+    }
+    if(index>=this.taglie.length){
+      return;
+    }
+    this.taglie[index].quantita++;
   }
 
-  decreaseQuantity(index: number): void {
-    if (this.quantities[index] > 0) {
-      this.quantities[index] -= 1; // Decrementa la quantità per la taglia selezionata
+  decreaseQuantity(t: number): void {
+    let index:number = 0;
+    while(index<this.taglie.length && this.taglie[index].taglia !== t){
+      index--;
+    }
+    if(index>=this.taglie.length){
+      return;
+    }
+    if(this.taglie[index].quantita-1>=0){
+      this.taglie[index].quantita--;
     }
   }
 
@@ -113,30 +122,7 @@ export class AddProductComponent implements OnInit {
     if (this.productForm.invalid) {
       return; // Se il modulo è invalido, non eseguire ulteriori operazioni
     }
-
-    // Logica per l'invio del modulo e delle immagini al server
-    const formData = new FormData();
-    this.imageFiles.forEach((file) => {
-      formData.append('images', file); // Aggiungi ciascuna immagine a formData
-    });
-    formData.append('model', this.productForm.get('model')?.value);
-    formData.append('price', this.productForm.get('price')?.value);
-    formData.append('publishStatus', this.productForm.get('publishStatus')?.value);
-    this.quantities.forEach((quantity, index) => {
-      formData.append(`quantities[${index}]`, quantity.toString()); // Aggiungi ciascuna quantità a formData
-    });
-
-    // Invia i dati al server (implementa il tuo endpoint)
-    this.http.post('/api/products', formData).subscribe(response => {
-      console.log('Prodotto inserito con successo:', response);
-      // Aggiungi logica per il messaggio di successo o reindirizzamento
-    }, error => {
-      console.error('Errore nell\'inserimento del prodotto:', error);
-      // Aggiungi logica per gestire l'errore
-    });
   }
-
-
 
   public get models(): Modello[]{
     return this._models;

@@ -1,7 +1,7 @@
 <form #shoeForm="ngForm" (ngSubmit)="inserimentoProdotti(shoeForm)" enctype="multipart/form-data">
   <div class="form-group">
     <label for="images">Immagini del prodotto</label>
-    <input type="file" id="images" (change)="onImageChange($event)" multiple accept="image/*" />
+    <input type="file" id="images" name="images"(change)="onImageChange($event)" multiple accept="image/*" ngModel />
     <div *ngIf="submitted && productForm.get('images')?.errors">
       <small class="error">Seleziona almeno un'immagine.</small>
     </div>
@@ -23,7 +23,7 @@
   <div>
     <label for="model">Modello</label>
     <div class="dropdown-group">
-    <select name="model" formControlName="brand">
+    <select id="id_modello" name="id_modello" ngModel>
       <option></option>
       <option *ngFor="let model of models" [value]="model.id">
         {{model.nome}} - {{model.descrizione}}
@@ -36,7 +36,7 @@
   
   <div>
     <label for="price">Prezzo (€)</label>
-    <input id="price" formControlName="price" type="number" step="0.01" />
+    <input id="prezzo" name="prezzo" type="number" step="0.01" ngModel/>
     <div *ngIf="submitted && productForm.get('price')?.errors">
       <small class="error">Inserisci un prezzo valido.</small>
     </div>
@@ -44,7 +44,7 @@
 
   <div>
     <label for="publishStatus">
-      <input id="publishStatus" formControlName="publishStatus" type="checkbox" />
+      <input id="stato_pubblicazione" name="stato_pubblicazione" type="checkbox" ngModel />
       Pubblica sul sito e-commerce
     </label>
   </div>
@@ -53,13 +53,15 @@
   <div>
     <label>Taglie e Quantità</label>
     <div class="sizes-container">
-      <div *ngFor="let size of availableSizes; let i = index" class="size-option">
+      <div *ngFor="let size of taglie; let i = index" class="size-option">
         <button type="button" class="size-button">
-          {{ size }}
+          {{ size.taglia }}
           <div class="quantity-controls">
-            <button type="button" (click)="increaseQuantity(i)" class="arrow up">&#9650;</button>
-            <span>{{ quantities[i] }}</span>
-            <button type="button" (click)="decreaseQuantity(i)" class="arrow down">&#9660;</button>
+            <button type="button" (click)="increaseQuantity(size.taglia)" class="arrow up">&#9650;</button>
+            <span>{{ size.quantita }}</span>
+            <input type="hidden" name="taglia" [ngModel]="size.taglia">
+            <input type="hidden" name="quantita" [ngModel]="size.quantita">
+            <button type="button" (click)="decreaseQuantity(size.taglia)" class="arrow down">&#9660;</button>
           </div>
         </button>
       </div>
