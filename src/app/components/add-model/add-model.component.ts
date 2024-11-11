@@ -27,7 +27,7 @@ export class AddModelComponent {
   selectedCategoriaAction: string | null = null;
 
   // Lista dei colori primari in formato esadecimale
-  primaryColors: string[] = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+  primaryColors: string[] = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF','FFFFFF'];
   
   // Mappatura tra il valore esadecimale e il nome del colore
   colorNames: { [key: string]: string } = {
@@ -36,7 +36,8 @@ export class AddModelComponent {
     '#0000FF': 'BLU',
     '#FFFF00': 'GIALLO',
     '#FF00FF': 'MAGENTA',
-    '#00FFFF': 'CYAN'
+    '#00FFFF': 'CYAN',
+    'FFFFFF' : 'BIANCO'
   };
 
   // Memorizza il colore selezionato (in formato esadecimale)
