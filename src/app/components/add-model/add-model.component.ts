@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core';  
 import { Brand } from '../../models/brand.interface';
 import { BrandService } from '../../services/brand.service';
 import { AuthappService } from '../../services/authapp.service';
@@ -25,6 +25,22 @@ export class AddModelComponent {
   
   selectedBrandAction: string | null = null;
   selectedCategoriaAction: string | null = null;
+
+  // Lista dei colori primari in formato esadecimale
+  primaryColors: string[] = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+  
+  // Mappatura tra il valore esadecimale e il nome del colore
+  colorNames: { [key: string]: string } = {
+    '#FF0000': 'ROSSO',
+    '#00FF00': 'VERDE',
+    '#0000FF': 'BLU',
+    '#FFFF00': 'GIALLO',
+    '#FF00FF': 'MAGENTA',
+    '#00FFFF': 'CYAN'
+  };
+
+  // Memorizza il colore selezionato (in formato esadecimale)
+  selectedColorHex: string | null = null;
 
   constructor(
     private popUp: PopUpManagerService,
@@ -67,7 +83,8 @@ export class AddModelComponent {
     category: '',
     brand: '',
     name: '',
-    description: ''
+    description: '',
+    colore: ''  // Il colore sarà inviato come stringa (es. "ROSSO")
   };
 
   public get brands(): Brand[] {
@@ -80,6 +97,9 @@ export class AddModelComponent {
 
   public insertModello(form: NgForm) {
     if (form.valid) {
+      // Se il colore è stato selezionato, mappiamo l'esadecimale al nome del colore
+      form.value.colore = this.selectedColorHex ? this.colorNames[this.selectedColorHex] : '';
+      
       this.modelloService.insertModello(form.value).subscribe({
         next: (data: ServerResponse) => {
           form.reset();
@@ -95,7 +115,6 @@ export class AddModelComponent {
       });
     }
   }
-   
 
   // Gestione azioni per Categoria
   public onCategoriaAction(action: string): void {
@@ -106,11 +125,9 @@ export class AddModelComponent {
         break;
       case 'Modifica':
         console.log('Modifica Categoria');
-        // Implementa logica di modifica
         break;
       case 'Elimina':
         console.log('Elimina Categoria');
-        // Implementa logica di eliminazione
         break;
     }
   }
@@ -124,13 +141,21 @@ export class AddModelComponent {
         break;
       case 'Modifica':
         console.log('Modifica Brand');
-        // Implementa logica di modifica
         break;
       case 'Elimina':
-        
         console.log('Elimina Brand');
-        // Implementa logica di eliminazione
         break;
     }
   }
+
+  // Gestione selezione colore
+  public selectColor(colorHex: string): void {
+    // Se il colore è già selezionato, deselezioniamo
+    if (this.selectedColorHex === colorHex) {
+      this.selectedColorHex = null;
+    } else {
+      this.selectedColorHex = colorHex; // Memorizziamo il colore esadecimale selezionato
+    }
+  }
+
 }

@@ -141,23 +141,7 @@ export class AddProductComponent implements OnInit {
       this.popUp.closeForm();
     }
   }
-  //public inserimentoProdotti(form: NgForm) {
-  //  console.log(form.value);
-  //  if (form.valid) {
-  //    this.prodottiService.insertProdotti(form.value).subscribe({
-  //      next: (data: ServerResponse) => {
-  //        form.reset();
-  //      },
-  //      error: (error: HttpErrorResponse) => {
-  //        if (error.status === 401 || error.status === 403) {
-  //          this.auth.doLogout();
-  //        } else {
-  //          console.error(error);
-  //        }
-  //      }
-  //    });
-  //  }
-  //}
+
   public inserimentoProdotti(form: NgForm) {
     console.log(form.value);
   
