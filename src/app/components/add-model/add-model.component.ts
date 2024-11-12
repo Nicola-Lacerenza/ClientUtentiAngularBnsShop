@@ -40,8 +40,8 @@ export class AddModelComponent {
     'FFFFFF' : 'BIANCO'
   };
 
-  // Memorizza il colore selezionato (in formato esadecimale)
-  selectedColorHex: string | null = null;
+// Memorizza i colori selezionati (in formato esadecimale)
+selectedColorsHex: string[] = [];
 
   constructor(
     private popUp: PopUpManagerService,
@@ -98,8 +98,8 @@ export class AddModelComponent {
 
   public insertModello(form: NgForm) {
     if (form.valid) {
-      // Se il colore è stato selezionato, mappiamo l'esadecimale al nome del colore
-      form.value.colore = this.selectedColorHex ? this.colorNames[this.selectedColorHex] : '';
+      // Mappa i colori selezionati in nomi
+      form.value.colore = this.selectedColorsHex.map(color => this.colorNames[color]).join(', ');
       
       this.modelloService.insertModello(form.value).subscribe({
         next: (data: ServerResponse) => {
@@ -116,7 +116,7 @@ export class AddModelComponent {
       });
     }
   }
-
+  
   // Gestione azioni per Categoria
   public onCategoriaAction(action: string): void {
     this.selectedCategoriaAction = action;
@@ -133,7 +133,6 @@ export class AddModelComponent {
     }
   }
 
-  // Gestione azioni per Brand
   public onBrandAction(action: string): void {
     this.selectedBrandAction = action;
     switch (action) {
@@ -144,19 +143,54 @@ export class AddModelComponent {
         console.log('Modifica Brand');
         break;
       case 'Elimina':
-        console.log('Elimina Brand');
+        if (this.shoe.brand) {
+          // Converti il valore di shoe.brand in numero (se non lo è già)
+          const brandId = Number(this.shoe.brand);
+          if (!isNaN(brandId)) {
+            this.deleteBrand(brandId);
+          } else {
+            console.warn('ID del brand non valido');
+          }
+        } else {
+          console.warn("Nessun brand selezionato per l'eliminazione.");
+        }
         break;
     }
   }
+  
+  private deleteBrand(brandId: number): void {
+    this.brandService.deleteBrand(brandId).subscribe({
+      next: (response) => {
+        console.log('Brand eliminato con successo');
+        // Rimuovi il brand dalla lista locale dei brand
+        this._brands = this._brands.filter(brand => brand.id !== brandId);
+        // Resetta la selezione del brand nel form
+        this.shoe.brand = '';
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.auth.doLogout();
+        } else {
+          console.error('Errore durante l\'eliminazione del brand:', error);
+        }
+      }
+    });
+  }
+  
+  
 
   // Gestione selezione colore
-  public selectColor(colorHex: string): void {
-    // Se il colore è già selezionato, deselezioniamo
-    if (this.selectedColorHex === colorHex) {
-      this.selectedColorHex = null;
-    } else {
-      this.selectedColorHex = colorHex; // Memorizziamo il colore esadecimale selezionato
-    }
+// Gestione selezione colore
+public selectColor(colorHex: string): void {
+  const index = this.selectedColorsHex.indexOf(colorHex);
+  if (index === -1) {
+    // Se il colore non è presente, lo aggiungiamo
+    this.selectedColorsHex.push(colorHex);
+  } else {
+    // Se il colore è già presente, lo rimuoviamo
+    this.selectedColorsHex.splice(index, 1);
   }
+}
+
 
 }

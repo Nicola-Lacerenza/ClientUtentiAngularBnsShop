@@ -45,18 +45,19 @@
     </div>
   </div>
 
-  <!-- Selezione Colore -->
-  <div class="form-group">
-    <label for="colori">Seleziona il Colore</label>
-    <div class="color-picker">
-      <div *ngFor="let color of primaryColors" 
-           [style.background]="color" 
-           class="color-ball" 
-           [class.selected]="selectedColorHex === color"
-           (click)="selectColor(color)">
-      </div>
+<!-- Selezione Colore -->
+<div class="form-group">
+  <label for="colori">Seleziona i Colori</label>
+  <div class="color-picker">
+    <div *ngFor="let color of primaryColors" 
+         [style.background]="color" 
+         class="color-ball" 
+         [class.selected]="selectedColorsHex.includes(color)"
+         (click)="selectColor(color)">
     </div>
   </div>
+</div>
+
 
   <!-- Campo Descrizione -->
   <div class="form-group">
