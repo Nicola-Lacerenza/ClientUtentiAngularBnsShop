@@ -147,22 +147,32 @@ export class AddProductComponent implements OnInit {
   
     // Controlla se il form è valido prima di procedere
     if (form.valid) {
-
+  
       // Itera attraverso l'array di taglie usando un ciclo for
       for (let i = 0; i < this.taglie.length; i++) {
         if (this.taglie[i].quantita > 0) {
-          // Crea una copia dei valori del form e aggiungi la taglia e quantità corrente
-          const productData = {
-            ...form.value,
-            taglia: this.taglie[i].taglia,
-            quantita: this.taglie[i].quantita
-          };
-          console.log(productData.value);
-          // Esegui l'inserimento del prodotto
-          this.prodottiService.insertProdotti(productData).subscribe({
+  
+          // Crea un nuovo FormData per ogni taglia
+          const formData = new FormData();
+  
+          // Aggiungi le immagini
+          for (let j = 0; j < this.imageFiles.length; j++) {
+            formData.append("image" + j, this.imageFiles[j], this.imageFiles[j].name);
+          }
+  
+          // Aggiungi i dati generali del form
+          formData.append("id_modello", form.value.id_modello);
+          formData.append("prezzo", form.value.prezzo);
+          formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
+  
+          // Aggiungi la taglia e la quantità corrente
+          formData.append("taglia", JSON.stringify(this.taglie[i].taglia));
+          formData.append("quantita", JSON.stringify(this.taglie[i].quantita));
+  
+          // Esegui l'inserimento del prodotto per questa singola taglia
+          this.prodottiService.insertProdotti(formData).subscribe({
             next: (data: ServerResponse) => {
               console.log(`Inserito prodotto per taglia ${this.taglie[i].taglia} con quantità ${this.taglie[i].quantita}`);
-              // Se necessario, aggiungi ulteriori azioni dopo l'inserimento con successo
             },
             error: (error: HttpErrorResponse) => {
               if (error.status === 401 || error.status === 403) {
@@ -179,5 +189,6 @@ export class AddProductComponent implements OnInit {
       form.reset();
     }
   }
+  
   
 }

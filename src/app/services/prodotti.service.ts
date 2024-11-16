@@ -20,7 +20,7 @@ export class ProdottiService {
     return this.httprequest.getRequest(environment.serverUrl + "/ProdottiServlet");
   }
 
-  public insertProdotti(body:ServerRequest):Observable<ServerResponse>{
+  public insertProdotti(body:ServerRequest | FormData):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/ProdottiServlet",body)
   }
 
