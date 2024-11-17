@@ -5,9 +5,13 @@ import { ServerResponse } from '../../models/ServerResponse.interface';
 import { AuthappService } from '../../services/authapp.service';
 import { PopUpManagerService } from '../../services/pop-up-manager.service';
 import { Modello } from '../../models/modello.interface';
-import { ModelloService } from '../../services/modello.service';
-import { AddModelComponent } from '../add-model/add-model.component';
 import { ProdottiService } from '../../services/prodotti.service';
+import { AddCategoriaComponent } from '../add-categoria/add-categoria.component';
+import { Brand } from '../../models/brand.interface';
+import { Categoria } from '../../models/categoria.interface';
+import { AddBrandComponent } from '../add-brand/add-brand.component';
+import { BrandService } from '../../services/brand.service';
+import { CategoriaService } from '../../services/categoria.service';
 
 @Component({
   selector: 'app-add-product',
@@ -21,36 +25,68 @@ export class AddProductComponent implements OnInit {
   imagePreviews: string[] = [];
   mainImagePreview: string = '';
   taglie : {taglia:number,quantita:number}[]=[];
+  private _brands: Brand[] = [];
+  private _categorie: Categoria[] = [];
   
+  selectedBrandAction: string | null = null;
+  selectedCategoriaAction: string | null = null;
+
+    // Lista dei colori primari in formato esadecimale
+    primaryColors: string[] = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF','FFFFFF'];
+  
+    // Mappatura tra il valore esadecimale e il nome del colore
+    colorNames: { [key: string]: string } = {
+      '#FF0000': 'ROSSO',
+      '#00FF00': 'VERDE',
+      '#0000FF': 'BLU',
+      '#FFFF00': 'GIALLO',
+      '#FF00FF': 'MAGENTA',
+      '#00FFFF': 'CYAN',
+      'FFFFFF' : 'BIANCO'
+    };
+
+    // Memorizza i colori selezionati (in formato esadecimale)
+selectedColorsHex: string[] = [];
 
   private _models : Modello[]=[];
 
   constructor(
     private fb: FormBuilder, 
-    private http: HttpClient,
     private prodottiService: ProdottiService, 
-    private modelService : ModelloService,
     private auth : AuthappService,
+    private brandService: BrandService,
+    private categoriaService: CategoriaService,
     private popUp : PopUpManagerService
   ) {}
 
   ngOnInit(): void {
 
-    this.modelService.getModelli().subscribe({
-      next:(data: ServerResponse)=>{
-        this._models=<Modello[]>data.message;
+    this.brandService.getBrands().subscribe({
+      next: (data: ServerResponse) => {
+        this._brands = <Brand[]>data.message;
       },
-      error:(error:HttpErrorResponse)=>{
-        if(error.status===401 || error.status===403){
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
           this.auth.doLogout();
-        }else{
-          //In questo punto ricordarsi di gestire l'errore
+        } else {
           console.error(error);
         }
       }
     });
 
-  
+    this.categoriaService.getCategorie().subscribe({
+      next: (data: ServerResponse) => {
+        this._categorie = <Categoria[]>data.message;
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.auth.doLogout();
+        } else {
+          console.error(error);
+        }
+      }
+    });
+   
     // Inizializza le taglie disponibili
     for (let size = 35.5; size <= 46; size += 0.5) {
       this.taglie.push({taglia:size,quantita:0})
@@ -66,6 +102,23 @@ export class AddProductComponent implements OnInit {
     });
   }
 
+  // Modello di dati per il form
+  shoe = {
+    category: '',
+    brand: '',
+    name: '',
+    description: '',
+    colore: ''  // Il colore sarà inviato come stringa (es. "ROSSO")
+  };
+
+  public get brands(): Brand[] {
+    return this._brands;
+  }
+  
+  public get categorie(): Categoria[] {
+    return this._categorie;
+  }
+  
   onImageChange(event: any): void {
     if (event.target.files && event.target.files.length) {
       this.imageFiles = Array.from(event.target.files);
@@ -73,6 +126,65 @@ export class AddProductComponent implements OnInit {
       this.mainImagePreview = this.imagePreviews[0]; // Imposta la prima immagine come principale
       this.productForm.patchValue({ images: this.imageFiles }); // Aggiorna il modulo con le immagini
     }
+  }
+  // Gestione azioni per Categoria
+  public onCategoriaAction(action: string): void {
+    this.selectedCategoriaAction = action;
+    switch (action) {
+      case 'Aggiungi':
+        this.popUp.openForm(AddCategoriaComponent);
+        break;
+      case 'Modifica':
+        console.log('Modifica Categoria');
+        break;
+      case 'Elimina':
+        console.log('Elimina Categoria');
+        break;
+    }
+  }
+
+  public onBrandAction(action: string): void {
+    this.selectedBrandAction = action;
+    switch (action) {
+      case 'Aggiungi':
+        this.popUp.openForm(AddBrandComponent);
+        break;
+      case 'Modifica':
+        console.log('Modifica Brand');
+        break;
+      case 'Elimina':
+        if (this.shoe.brand) {
+          // Converti il valore di shoe.brand in numero (se non lo è già)
+          const brandId = Number(this.shoe.brand);
+          if (!isNaN(brandId)) {
+            this.deleteBrand(brandId);
+          } else {
+            console.warn('ID del brand non valido');
+          }
+        } else {
+          console.warn("Nessun brand selezionato per l'eliminazione.");
+        }
+        break;
+    }
+  }
+
+  private deleteBrand(brandId: number): void {
+    this.brandService.deleteBrand(brandId).subscribe({
+      next: (response) => {
+        console.log('Brand eliminato con successo');
+        // Rimuovi il brand dalla lista locale dei brand
+        this._brands = this._brands.filter(brand => brand.id !== brandId);
+        // Resetta la selezione del brand nel form
+        this.shoe.brand = '';
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.auth.doLogout();
+        } else {
+          console.error('Errore durante l\'eliminazione del brand:', error);
+        }
+      }
+    });
   }
 
   onThumbnailHover(index: number): void {
@@ -148,6 +260,9 @@ export class AddProductComponent implements OnInit {
     // Controlla se il form è valido prima di procedere
     if (form.valid) {
   
+      // Mappa i colori selezionati in nomi
+      form.value.colore = this.selectedColorsHex.map(color => this.colorNames[color]).join(', ');
+      
       // Itera attraverso l'array di taglie usando un ciclo for
       for (let i = 0; i < this.taglie.length; i++) {
         if (this.taglie[i].quantita > 0) {
@@ -162,9 +277,13 @@ export class AddProductComponent implements OnInit {
   
           // Aggiungi i dati generali del form
           formData.append("id_modello", form.value.id_modello);
+          formData.append("id_categoria", form.value.id_categoria);
+          formData.append("id_brand", form.value.id_brand);
+          formData.append("nome", form.value.nome);
+          formData.append("descrizione", form.value.descrizione);
           formData.append("prezzo", form.value.prezzo);
           formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
-  
+          formData.append("colori", form.value.colore);
           // Aggiungi la taglia e la quantità corrente
           formData.append("taglia", JSON.stringify(this.taglie[i].taglia));
           formData.append("quantita", JSON.stringify(this.taglie[i].quantita));
@@ -189,6 +308,18 @@ export class AddProductComponent implements OnInit {
       form.reset();
     }
   }
+
+  // Gestione selezione colore
+public selectColor(colorHex: string): void {
+  const index = this.selectedColorsHex.indexOf(colorHex);
+  if (index === -1) {
+    // Se il colore non è presente, lo aggiungiamo
+    this.selectedColorsHex.push(colorHex);
+  } else {
+    // Se il colore è già presente, lo rimuoviamo
+    this.selectedColorsHex.splice(index, 1);
+  }
+}
   
   
 }

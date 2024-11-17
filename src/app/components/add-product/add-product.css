@@ -245,3 +245,28 @@ input[type="file"] {
 .button-add-product:hover {
   background-color: #0056b3;
 }
+
+
+.color-picker {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.color-ball {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  transition: transform 0.3s;
+}
+
+.color-ball.selected {
+  border-color: #000;
+  transform: scale(1.1);
+}
+
+.color-ball:hover {
+  transform: scale(1.2);
+}

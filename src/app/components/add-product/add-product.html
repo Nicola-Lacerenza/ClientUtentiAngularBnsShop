@@ -20,20 +20,68 @@
     </div>
   </div>
 
-  <div>
-    <label for="model">Modello</label>
+  <div class="form-group">
+    <label for="nome">Nome</label>
+    <input id="nome" type="text" name="nome" ngModel required minlength="3" />
+  </div>
+
+  <div class="form-group">
+    <label for="id_categoria">Categoria</label>
     <div class="dropdown-group">
-    <select id="id_modello" name="id_modello" ngModel>
-      <option></option>
-      <option *ngFor="let model of models" [value]="model.id">
-        {{model.nome}} - {{model.descrizione}}
-      </option>
-    </select>
-    <button (click)="addModel()">Aggiungi Modello</button>
+      <select id="id_categoria" name="id_categoria" [(ngModel)]="shoe.category">
+        <option value="">Seleziona una categoria</option>
+        <option *ngFor="let categoria of categorie" [value]="categoria.id">{{ categoria.nome_categoria }}</option>
+      </select>
+      <div class="dropdown">
+        <button class="dropdown-toggle" type="button">{{ selectedCategoriaAction || 'Seleziona azione' }}</button>
+        <div class="dropdown-menu">
+          <button type="button" (click)="onCategoriaAction('Aggiungi')">Aggiungi</button>
+          <button type="button" (click)="onCategoriaAction('Modifica')">Modifica</button>
+          <button type="button" (click)="onCategoriaAction('Elimina')">Elimina</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  
+  <!-- Brand dropdown con menu a tendina per le opzioni -->
+  <div class="form-group">
+    <label for="id_brand">Brand</label>
+    <div class="dropdown-group">
+      <select id="id_brand" name="id_brand" [(ngModel)]="shoe.brand">
+        <option value="">Seleziona un brand</option>
+        <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.nome }} - {{ brand.descrizione }}</option>
+      </select>
+      <div class="dropdown">
+        <button class="dropdown-toggle" type="button">{{ selectedBrandAction || 'Seleziona azione' }}</button>
+        <div class="dropdown-menu">
+          <button type="button" (click)="onBrandAction('Aggiungi')">Aggiungi</button>
+          <button type="button" (click)="onBrandAction('Modifica')">Modifica</button>
+          <button type="button" (click)="onBrandAction('Elimina')">Elimina</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <!-- Selezione Colore -->
+<div class="form-group">
+  <label for="colori">Seleziona i Colori</label>
+  <div class="color-picker">
+    <div *ngFor="let color of primaryColors" 
+         [style.background]="color" 
+         class="color-ball" 
+         [class.selected]="selectedColorsHex.includes(color)"
+         (click)="selectColor(color)">
+    </div>
+  </div>
+</div>
+
+
+  <!-- Campo Descrizione -->
+  <div class="form-group">
+    <label for="descrizione">Descrizione</label>
+    <textarea id="descrizione" name="descrizione" [(ngModel)]="shoe.description"></textarea>
+  </div>
+ 
   <div>
     <label for="price">Prezzo (€)</label>
     <input id="prezzo" name="prezzo" step="0.01" ngModel/>

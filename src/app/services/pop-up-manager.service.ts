@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddModelComponent } from '../components/add-model/add-model.component';
 
 @Injectable({
   providedIn: 'root'
