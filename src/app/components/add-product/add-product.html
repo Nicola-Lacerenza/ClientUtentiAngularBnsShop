@@ -116,6 +116,11 @@
     </div>
   </div>
 
+    <!-- Messaggio di successo -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+    
   <button type="submit">Inserisci Prodotto</button>
   <p>  </p>
   <p>  </p>

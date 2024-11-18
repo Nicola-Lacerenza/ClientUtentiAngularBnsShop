@@ -27,7 +27,8 @@ export class AddProductComponent implements OnInit {
   taglie : {taglia:number,quantita:number}[]=[];
   private _brands: Brand[] = [];
   private _categorie: Categoria[] = [];
-  
+  successMessage: string | null = null;  // Variabile per il messaggio di successo
+
   selectedBrandAction: string | null = null;
   selectedCategoriaAction: string | null = null;
 
@@ -57,7 +58,7 @@ selectedColorsHex: string[] = [];
     private brandService: BrandService,
     private categoriaService: CategoriaService,
     private popUp : PopUpManagerService
-  ) {}
+    ) {}
 
   ngOnInit(): void {
 
@@ -236,15 +237,6 @@ selectedColorsHex: string[] = [];
     }
   }
 
-  public get models(): Modello[]{
-    return this._models;
-  }
-
-  // Funzione che apre il dialog con AddModelComponent
-  public addModel(): void {
-    this.popUp.openForm(AddModelComponent); 
-  }
-
   // Funzione inserimento prodotto nel DB
   public insertProduct(form:NgForm){
     
@@ -276,7 +268,6 @@ selectedColorsHex: string[] = [];
           }
   
           // Aggiungi i dati generali del form
-          formData.append("id_modello", form.value.id_modello);
           formData.append("id_categoria", form.value.id_categoria);
           formData.append("id_brand", form.value.id_brand);
           formData.append("nome", form.value.nome);
@@ -285,9 +276,18 @@ selectedColorsHex: string[] = [];
           formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
           formData.append("colori", form.value.colore);
           // Aggiungi la taglia e la quantità corrente
-          formData.append("taglia", JSON.stringify(this.taglie[i].taglia));
-          formData.append("quantita", JSON.stringify(this.taglie[i].quantita));
-  
+          //formData.append("taglia", JSON.stringify(this.taglie[i].taglia));
+          //formData.append("quantita", JSON.stringify(this.taglie[i].quantita));
+          
+          // Aggiungi tutte le taglie e quantità per il prodotto
+          this.taglie.forEach(size => {
+          if (size.quantita > 0) {
+              // Aggiungi taglia e quantità come stringa JSON
+              formData.append("taglie[]", JSON.stringify({ taglia: size.taglia, quantita: size.quantita }));
+          }
+          });
+
+          
           // Esegui l'inserimento del prodotto per questa singola taglia
           this.prodottiService.insertProdotti(formData).subscribe({
             next: (data: ServerResponse) => {
@@ -304,8 +304,7 @@ selectedColorsHex: string[] = [];
         }
       }
   
-      // Resetta il form dopo tutte le chiamate, se desiderato
-      form.reset();
+
     }
   }
 

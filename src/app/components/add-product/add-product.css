@@ -270,3 +270,12 @@ input[type="file"] {
 .color-ball:hover {
   transform: scale(1.2);
 }
+
+.alert-success {
+  background-color: #28a745; /* Verde */
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}

@@ -22,7 +22,6 @@ import { authInterceptor } from './interceptors/auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MaterialModule } from './material.module';
 import { AddBrandComponent } from './components/add-brand/add-brand.component';
-import { AddModelComponent } from './components/add-model/add-model.component';
 import { AddCategoriaComponent } from './components/add-categoria/add-categoria.component';
 
 @NgModule({
@@ -41,7 +40,6 @@ import { AddCategoriaComponent } from './components/add-categoria/add-categoria.
     PdpComponent,
     AddProductComponent,
     AddBrandComponent,
-    AddModelComponent,
     AddCategoriaComponent
   ],
   imports: [

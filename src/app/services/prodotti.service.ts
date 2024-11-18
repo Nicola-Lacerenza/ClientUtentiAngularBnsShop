@@ -12,11 +12,11 @@ export class ProdottiService {
 
   constructor(private httprequest:HttpRequestService) { }
 
-  public getProdotti(id:number):Observable<ServerResponse>{
+  public getProdotto(id:number):Observable<ServerResponse>{
     return this.httprequest.getRequest(environment.serverUrl + "/ProdottiServlet/"+id);
   }
 
-  public getProdotto(): Observable<ServerResponse>{
+  public getProdotti(): Observable<ServerResponse>{
     return this.httprequest.getRequest(environment.serverUrl + "/ProdottiServlet");
   }
 
