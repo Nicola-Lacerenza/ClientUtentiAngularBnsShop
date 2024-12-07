@@ -255,10 +255,6 @@ selectedColorsHex: string[] = [];
       // Mappa i colori selezionati in nomi
       form.value.colore = this.selectedColorsHex.map(color => this.colorNames[color]).join(', ');
       
-      // Itera attraverso l'array di taglie usando un ciclo for
-      //for (let i = 0; i < this.taglie.length; i++) {
-        //if (this.taglie[i].quantita > 0) {
-  
           // Crea un nuovo FormData per ogni taglia
           const formData = new FormData();
   
@@ -275,39 +271,45 @@ selectedColorsHex: string[] = [];
           formData.append("prezzo", form.value.prezzo);
           formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
           formData.append("colori", form.value.colore);
-          // Aggiungi la taglia e la quantità corrente
-          //formData.append("taglia", JSON.stringify(this.taglie[i].taglia));
-          //formData.append("quantita", JSON.stringify(this.taglie[i].quantita));
           const taglie1 : {quantita:number,taglia:number}[]=[];
 
           // Aggiungi tutte le taglie e quantità per il prodotto
           this.taglie.forEach(size => {
           if (size.quantita > 0) {
-              // Aggiungi taglia e quantità come stringa JSON
-              //formData.append("taglie[]", JSON.stringify({ taglia: size.taglia, quantita: size.quantita }));
               taglie1.push({quantita:size.quantita,taglia:size.taglia});
             }
           });
           formData.append("taglie",JSON.stringify(taglie1));
-      
           
           // Esegui l'inserimento del prodotto per questa singola taglia
           this.prodottiService.insertProdotti(formData).subscribe({
             next: (data: ServerResponse) => {
-              //console.log(`Inserito prodotto per taglia ${this.taglie[i].taglia} con quantità ${this.taglie[i].quantita}`);
+               // Mostra il messaggio di successo
+               this.successMessage = "Prodotto inserito con successo!";
+              // Attendi 2 secondi e torna indietro
+              setTimeout(() => {
+              this.successMessage = null;
+              window.history.back();
+              }, 2000);
             },
             error: (error: HttpErrorResponse) => {
               if (error.status === 401 || error.status === 403) {
-                this.auth.doLogout();
-              } else {
+                // Mostra un messaggio di errore
+                this.successMessage = "Errore durante l'inserimento del prodotto.";
                 console.error(error);
+                // Resetta il messaggio dopo 3 secondi
+                setTimeout(() => {
+                this.successMessage = null;
+                }, 3000);
+              } else {
+                this.successMessage = "Compila correttamente tutti i campi obbligatori.";
+                // Resetta il messaggio dopo 3 secondi
+                setTimeout(() => {
+                  this.successMessage = null;
+                }, 3000);
               }
             }
           });
-        //}
-      //}
-  
-
     }
   }
 
