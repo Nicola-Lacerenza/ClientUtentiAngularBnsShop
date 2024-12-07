@@ -256,8 +256,8 @@ selectedColorsHex: string[] = [];
       form.value.colore = this.selectedColorsHex.map(color => this.colorNames[color]).join(', ');
       
       // Itera attraverso l'array di taglie usando un ciclo for
-      for (let i = 0; i < this.taglie.length; i++) {
-        if (this.taglie[i].quantita > 0) {
+      //for (let i = 0; i < this.taglie.length; i++) {
+        //if (this.taglie[i].quantita > 0) {
   
           // Crea un nuovo FormData per ogni taglia
           const formData = new FormData();
@@ -278,20 +278,23 @@ selectedColorsHex: string[] = [];
           // Aggiungi la taglia e la quantità corrente
           //formData.append("taglia", JSON.stringify(this.taglie[i].taglia));
           //formData.append("quantita", JSON.stringify(this.taglie[i].quantita));
-          
+          const taglie1 : {quantita:number,taglia:number}[]=[];
+
           // Aggiungi tutte le taglie e quantità per il prodotto
           this.taglie.forEach(size => {
           if (size.quantita > 0) {
               // Aggiungi taglia e quantità come stringa JSON
-              formData.append("taglie[]", JSON.stringify({ taglia: size.taglia, quantita: size.quantita }));
-          }
+              //formData.append("taglie[]", JSON.stringify({ taglia: size.taglia, quantita: size.quantita }));
+              taglie1.push({quantita:size.quantita,taglia:size.taglia});
+            }
           });
-
+          formData.append("taglie",JSON.stringify(taglie1));
+      
           
           // Esegui l'inserimento del prodotto per questa singola taglia
           this.prodottiService.insertProdotti(formData).subscribe({
             next: (data: ServerResponse) => {
-              console.log(`Inserito prodotto per taglia ${this.taglie[i].taglia} con quantità ${this.taglie[i].quantita}`);
+              //console.log(`Inserito prodotto per taglia ${this.taglie[i].taglia} con quantità ${this.taglie[i].quantita}`);
             },
             error: (error: HttpErrorResponse) => {
               if (error.status === 401 || error.status === 403) {
@@ -301,8 +304,8 @@ selectedColorsHex: string[] = [];
               }
             }
           });
-        }
-      }
+        //}
+      //}
   
 
     }
