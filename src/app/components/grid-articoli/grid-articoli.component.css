@@ -1,9 +1,10 @@
-
 .content-main {
   padding: 30px 3%;
   margin-left: auto;
   margin-right: auto;
-  background-color: rgb(255, 255, 255);
+  background-color: #f8f9fa; /* Colore di sfondo chiaro */
+  border-radius: 8px; /* Angoli arrotondati */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombra per un effetto di profondità */
 }
 
 .content-header {
@@ -11,12 +12,120 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
+  padding: 10px 0;
+  border-bottom: 2px solid #e9ecef; /* Linea divisoria */
 }
 
 .content-header a {
-  margin-right: 5px;
+  margin-right: 10px;
+  padding: 8px 15px;
+  font-size: 14px;
+  color: #495057;
+  background-color: #f1f3f5;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Animazione al passaggio del mouse */
+}
+
+.content-header a:hover {
+  background-color: #e2e6ea;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra leggera al passaggio del mouse */
 }
 
 .content-header .content-title {
   margin-bottom: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #212529;
+}
+
+.card {
+  border: none; /* Rimuove il bordo predefinito */
+  border-radius: 8px; /* Angoli arrotondati */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+  background-color: #ffffff; /* Colore di sfondo */
+  transition: transform 0.3s, box-shadow 0.3s; /* Animazione per hover */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Solleva leggermente la carta */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Ombra più accentuata */
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #495057;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #868e96;
+  margin-bottom: 15px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #a71d2a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.img-circle {
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.img-circle:hover {
+  transform: scale(1.1); /* Ingrandisce leggermente l'immagine */
+}
+
+.form-control {
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  transition: box-shadow 0.3s;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-select {
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  transition: box-shadow 0.3s;
+}
+
+.form-select:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

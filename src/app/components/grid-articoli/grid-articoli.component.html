@@ -1,54 +1,63 @@
 <section class="content-main">
-    <div class="content-header">
-        <h2 class="content-title">Griglia Prodotti</h2>
-        <div>
-            <a href="#" class="btn btn-light">Esporta</a>
-            <a href="#" class="btn btn-light">Importa</a>
-            <a href="#" class="btn btn-primary">Crea</a>
-        </div>
+  <div class="content-header">
+    <h2 class="content-title">Griglia Prodotti</h2>
+    <div>
+      <a href="#" class="btn btn-light">Esporta</a>
+      <a href="#" class="btn btn-light">Importa</a>
+      <a href="#" class="btn btn-primary">Crea</a>
     </div>
+  </div>
 
-    <div class="card mb-4">
-        <header class="card-header">
-        <div class="row gx-3">
-            <div class="col-lg-4 col-md-6 me-auto">
-                <input type="text" placeholder="Cerca..." class="form-control">
-            </div>
-            <div class="col-lg-2 col-6 col-md-3">
-                <select title="Seleziona" class="form-select">
-                    <option>Tutte</option>
-                    <option>Alimentari</option>
-                    <option>Chimico</option>
-                    <option>Fresco</option>
-                </select>
-            </div>
-            <div class="col-lg-2 col-6 col-md-3">
-                <select title="Filtra" class="form-select">
-                    <option>Nuovi</option>
-                    <option>Prezzo Basso</option>
-                    <option>Più acquistati</option>
-                </select>
-            </div>
+  <div class="card mb-4">
+    <header class="card-header">
+      <div class="row gx-3">
+        <div class="col-lg-4 col-md-6 me-auto">
+          <input type="text" placeholder="Cerca..." class="form-control">
         </div>
-        </header>
+        <div class="col-lg-2 col-6 col-md-3">
+          <select title="Seleziona" class="form-select">
+            <option>Tutte</option>
+            <option>Alimentari</option>
+            <option>Chimico</option>
+            <option>Fresco</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-6 col-md-3">
+          <select title="Filtra" class="form-select">
+            <option>Nuovi</option>
+            <option>Prezzo Basso</option>
+            <option>Più acquistati</option>
+          </select>
+        </div>
+      </div>
+    </header>
 
-        <div class="card-body">
-
-            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5" *ngIf="articoli$">
-                
-                <app-articoli-card
-                *ngFor="let articolo of articoli$"
-                [articolo]="articolo"
-                (delete)="handleDelete($event)"
-                (edit)="handleEdit($event)"
-                ></app-articoli-card>
-                
-                <a type="button" routerLink="/addProduct" >
-                    <img title="user" class="img-circle" src="/assets/images/aggiungi.png" width="80" height="80">
-                 </a>
-            
+    <div class="card-body">
+      <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+        <!-- Itera su _prodotti per visualizzare ogni prodotto -->
+        <div *ngFor="let prodotto of _prodotti" class="col">
+          <div class="card">
+            <img 
+              *ngFor="let immagine of prodotto.immagini"
+              [src]="generateUrl(immagine)" 
+              alt="Immagine prodotto" 
+              class="card-img-top" 
+            >
+            <div class="card-body">
+              <h5 class="card-title">{{ prodotto.prodotto.nome_modello }}</h5>
+              <p class="card-text">{{ prodotto.prodotto.descrizione_modello }}</p>
+              <p class="card-text">€ {{ prodotto.prodotto.prezzo }}</p>
+              <button class="btn btn-primary" (click)="handleEdit(prodotto.prodotto.id)">Modifica</button>
+              <button class="btn btn-danger" (click)="handleDelete(prodotto.prodotto.id)">Elimina</button>
             </div>
           </div>
-    </div>
+        </div>
 
+        <!-- Pulsante per aggiungere un nuovo prodotto -->
+        <a type="button" routerLink="/addProduct" class="col-auto">
+          <img title="Aggiungi" class="img-circle" src="/assets/images/aggiungi.png" width="80" height="80">
+        </a>
+      </div>
+    </div>
+  </div>
 </section>

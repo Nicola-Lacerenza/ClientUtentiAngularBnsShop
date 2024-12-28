@@ -1,4 +1,6 @@
 export interface Taglia{
     id : number;
-    taglia : string;
+    taglia_Eu : string;
+    taglia_Uk : string;
+    taglia_Us : string;
 }
