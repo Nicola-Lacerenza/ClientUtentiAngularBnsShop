@@ -2,9 +2,9 @@
   padding: 30px 3%;
   margin-left: auto;
   margin-right: auto;
-  background-color: #f8f9fa; /* Colore di sfondo chiaro */
-  border-radius: 8px; /* Angoli arrotondati */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombra per un effetto di profondità */
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .content-header {
@@ -13,7 +13,7 @@
   justify-content: space-between;
   margin-bottom: 30px;
   padding: 10px 0;
-  border-bottom: 2px solid #e9ecef; /* Linea divisoria */
+  border-bottom: 2px solid #e9ecef;
 }
 
 .content-header a {
@@ -25,12 +25,12 @@
   border: 1px solid #ced4da;
   border-radius: 4px;
   text-decoration: none;
-  transition: background-color 0.3s, box-shadow 0.3s; /* Animazione al passaggio del mouse */
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .content-header a:hover {
   background-color: #e2e6ea;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra leggera al passaggio del mouse */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .content-header .content-title {
@@ -41,16 +41,16 @@
 }
 
 .card {
-  border: none; /* Rimuove il bordo predefinito */
-  border-radius: 8px; /* Angoli arrotondati */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera */
-  background-color: #ffffff; /* Colore di sfondo */
-  transition: transform 0.3s, box-shadow 0.3s; /* Animazione per hover */
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-5px); /* Solleva leggermente la carta */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Ombra più accentuata */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .card-body {
@@ -99,33 +99,108 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.primary-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.secondary-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 5px;
+  width: 100%;
+}
+
+.secondary-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 .img-circle {
   border-radius: 50%;
   transition: transform 0.3s;
 }
 
 .img-circle:hover {
-  transform: scale(1.1); /* Ingrandisce leggermente l'immagine */
+  transform: scale(1.1);
 }
 
-.form-control {
-  border-radius: 4px;
-  border: 1px solid #ced4da;
-  transition: box-shadow 0.3s;
-}
-
-.form-control:focus {
-  border-color: #80bdff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
+.form-control,
 .form-select {
   border-radius: 4px;
   border: 1px solid #ced4da;
   transition: box-shadow 0.3s;
 }
 
+.form-control:focus,
 .form-select:focus {
   border-color: #80bdff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+ 
+.image-carousel {
+  position: relative;
+  width: 100%;
+  max-height: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.carousel-controls {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  visibility: hidden;  /* Le frecce sono nascoste per impostazione predefinita */
+}
+
+.image-carousel:hover .carousel-controls {
+  visibility: visible;  /* Le frecce diventano visibili al passaggio del mouse */
+}
+
+.carousel-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-button.left {
+  margin-left: 10px;
+}
+
+.carousel-button.right {
+  margin-right: 10px;
 }

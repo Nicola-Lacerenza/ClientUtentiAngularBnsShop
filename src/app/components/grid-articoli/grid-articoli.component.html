@@ -37,12 +37,25 @@
         <!-- Itera su _prodotti per visualizzare ogni prodotto -->
         <div *ngFor="let prodotto of _prodotti" class="col">
           <div class="card">
-            <img 
-              *ngFor="let immagine of prodotto.immagini"
-              [src]="generateUrl(immagine)" 
-              alt="Immagine prodotto" 
-              class="card-img-top" 
-            >
+            <div class="image-carousel">
+              <img 
+                [src]="generateUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])"
+                alt="Immagine prodotto" 
+                class="carousel-image"
+              >
+              <div class="carousel-controls">
+                <button 
+                  class="carousel-button left" 
+                  (click)="prevImage(prodotto.prodotto.id, prodotto.immagini.length)">
+                  &lt;
+                </button>
+                <button 
+                  class="carousel-button right" 
+                  (click)="nextImage(prodotto.prodotto.id, prodotto.immagini.length)">
+                  &gt;
+                </button>
+              </div>
+            </div>
             <div class="card-body">
               <h5 class="card-title">{{ prodotto.prodotto.nome_modello }}</h5>
               <p class="card-text">{{ prodotto.prodotto.descrizione_modello }}</p>

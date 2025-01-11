@@ -29,6 +29,6 @@ export class ProdottiService {
   }
 
   public deleteProdotti(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/ProdottiServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/ProdottiServlet?id=" + id);
   }
 }

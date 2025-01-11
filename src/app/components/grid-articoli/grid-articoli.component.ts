@@ -7,17 +7,16 @@ import { Prodotti } from '../../models/prodotti.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthappService } from '../../services/authapp.service';
 import { environment } from '../../../environments/environment';
-import { Immagini } from './../../models/immagini.interface';
 
 @Component({
   selector: 'app-grid-articoli',
   templateUrl: './grid-articoli.component.html',
-  styleUrls: ['./grid-articoli.component.css'] // Corretto
+  styleUrls: ['./grid-articoli.component.css']
 })
 export class GridArticoliComponent implements OnInit {
-
   public articoli$: IArticoli[] = [];
-  public _prodotti: {immagini:string[],prodotto:Prodotti}[] = [];
+  public _prodotti: { immagini: string[], prodotto: Prodotti }[] = [];
+  public currentImageIndex: { [id: number]: number } = {}; // Stato dell'immagine corrente per ogni prodotto
 
   constructor(
     private articoliService: ArticoliService,
@@ -32,49 +31,52 @@ export class GridArticoliComponent implements OnInit {
 
   private fetchArticoli(): void {
     this.articoli$ = this.articoliService.getArticoli();
-    console.log('Articoli:', this.articoli$);
   }
 
   private fetchProdotti(): void {
-    this.prodottiService.getProdotti().subscribe({ 
+    this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
-        console.log('Risposta ricevuta dal server:', data);
-        const tmp : Prodotti[] = <Prodotti[]>data.message; 
-        for(let i = 0;i<tmp.length;i++){
-          const attuale : Prodotti=tmp[i];
-          let j = 0;
-          while(j<this._prodotti.length && this._prodotti[j].prodotto.id !== attuale.id){
-            j++;
+        const tmp: Prodotti[] = <Prodotti[]>data.message;
+        tmp.forEach(attuale => {
+          if (!this._prodotti.find(p => p.prodotto.id === attuale.id)) {
+            this._prodotti.push({ immagini: [], prodotto: attuale });
           }
-          //let k;
-          if (j>= this._prodotti.length){
-            this._prodotti.push({immagini:[],prodotto:attuale})
-          }
-        }
-        for(let i = 0;i<tmp.length;i++){
-          const attuale : Prodotti=tmp[i];
-          let j = 0;
-          while(j<this._prodotti.length && this._prodotti[j].prodotto.id !== attuale.id){
-            j++;
-          }
-          this._prodotti[j].immagini.push(attuale.url);
-        }
-        console.log('Prodotti:', this._prodotti);
+        });
+
+        tmp.forEach(attuale => {
+          const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
+          if (prodotto) prodotto.immagini.push(attuale.url);
+        });
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
           this.auth.doLogout();
         } else {
-          console.error('Errore:', error);
+          console.error(error);
         }
       }
     });
   }
 
-  public generateUrl(filename : string):string{
-      return environment.serverUrl+"/"+filename;
+  public generateUrl(filename: string): string {
+    return `${environment.serverUrl}/${filename}`;
   }
 
+  public prevImage(productId: number, totalImages: number): void {
+    if (this.currentImageIndex[productId] === undefined) {
+      this.currentImageIndex[productId] = 0;
+    }
+    this.currentImageIndex[productId] = 
+      (this.currentImageIndex[productId] - 1 + totalImages) % totalImages;
+  }
+
+  public nextImage(productId: number, totalImages: number): void {
+    if (this.currentImageIndex[productId] === undefined) {
+      this.currentImageIndex[productId] = 0;
+    }
+    this.currentImageIndex[productId] = 
+      (this.currentImageIndex[productId] + 1) % totalImages;
+  }
 
   handleEdit(id: number): void {
     console.log('Modifica prodotto con ID:', id);
@@ -82,15 +84,20 @@ export class GridArticoliComponent implements OnInit {
 
   handleDelete(id: number): void {
     console.log('Elimina prodotto con ID:', id);
+    
+    // Chiamata al servizio per eliminare il prodotto
     this.prodottiService.deleteProdotti(id).subscribe({
-      next:(data:ServerResponse) => {
+      next: (data: ServerResponse) => {
         console.log(data);
+        
+        // Rimuoviamo il prodotto dalla lista _prodotti
+        this._prodotti = this._prodotti.filter(prodotto => prodotto.prodotto.id !== id);
+        console.log('Prodotti aggiornati:', this._prodotti);
       },
-      error:(error:HttpErrorResponse) =>{
-        console.error(error);
+      error: (error: HttpErrorResponse) => {
+        console.error('Errore durante l\'eliminazione del prodotto:', error);
       }
     });
-    //this._prodotti = this._prodotti.filter(prodotto => prodotto.prodotto.id !== id);
-    console.log('Prodotti aggiornati:', this._prodotti);
   }
+  
 }
