@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IArticoli } from '../../models/Articoli';
+import { Prodotti } from '../../models/prodotti.interface';
+import { ArticoliService } from '../../services/articoli.service';
+import { ProdottiService } from '../../services/prodotti.service';
+import { AuthappService } from '../../services/authapp.service';
+import { environment } from '../../../environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ServerResponse } from '../../models/ServerResponse.interface';
 
 @Component({
   selector: 'app-articoli',
@@ -7,6 +14,9 @@ import { IArticoli } from '../../models/Articoli';
   styleUrls: ['./articoli.component.css']
 })
 export class ArticoliComponent implements OnInit {
+  public _prodotti: { immagini: string[], prodotto: Prodotti }[] = [];
+  public currentImageIndex: { [id: number]: number } = {}; // Stato dell'immagine corrente per ogni prodotto
+
   articoli: IArticoli[] = [];
   articoliFiltrati: IArticoli[] = []; // Array contenente gli articoli filtrati
   tutteLeCategorie: string[] = ["Elettronica", "Abbigliamento", "Casa", "Giardino"];
@@ -17,9 +27,14 @@ export class ArticoliComponent implements OnInit {
   brands: string[] = ["Nike", "Adidas", "Puma", "Reebok", "New Balance"];
   expandedGroups: { [key: string]: boolean } = {};
 
-  constructor() {}
+  constructor(   
+    private articoliService: ArticoliService,
+    private prodottiService: ProdottiService,
+    private auth: AuthappService
+  ) {}
 
   ngOnInit(): void {
+    this.fetchProdotti();
     this.articoli = [
       {
         codart: '001',
@@ -174,6 +189,43 @@ export class ArticoliComponent implements OnInit {
     this.articoli.forEach(articolo => {
       this.showThumbnails[articolo.codart] = false; // Inizializza a false
     });
+  }
+
+  private fetchProdotti(): void {
+    this.prodottiService.getProdotti().subscribe({
+      next: (data: ServerResponse) => {
+        const tmp: Prodotti[] = <Prodotti[]>data.message;
+        tmp.forEach(attuale => {
+          if (!this._prodotti.find(p => p.prodotto.id === attuale.id)) {
+            this._prodotti.push({ immagini: [], prodotto: attuale });
+          }
+        });
+
+        tmp.forEach(attuale => {
+          const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
+          if (prodotto) prodotto.immagini.push(attuale.url);
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.auth.doLogout();
+        } else {
+          console.error(error);
+        }
+      }
+    });
+  }
+
+  public generateUrl(filename: string): string {
+    return `${environment.serverUrl}/${filename}`;
+  }
+
+  public prevImage(productId: number, totalImages: number): void {
+    if (this.currentImageIndex[productId] === undefined) {
+      this.currentImageIndex[productId] = 0;
+    }
+    this.currentImageIndex[productId] = 
+      (this.currentImageIndex[productId] - 1 + totalImages) % totalImages;
   }
 
   cambiaImmagine(img: string, articolo: IArticoli): void {
