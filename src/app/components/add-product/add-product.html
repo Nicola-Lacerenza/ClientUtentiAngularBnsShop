@@ -47,8 +47,8 @@
   <div class="form-group">
     <label for="id_brand">Brand</label>
     <div class="dropdown-group">
-      <select id="id_brand" name="id_brand" [(ngModel)]="shoe.brand">
-        <option value="">Seleziona un brand</option>
+      <select id="id_brand" name="id_brand" [(ngModel)]="shoe.brand" (ngModelChange)="updateidSelected()" #brandSelect>
+        <option value="" >Seleziona un brand</option>
         <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.nome }} - {{ brand.descrizione }}</option>
       </select>
       <div class="dropdown">

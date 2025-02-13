@@ -1,4 +1,4 @@
-<form #brandform="ngForm" (ngSubmit)="insertBrand(brandform)">
+<form #brandform="ngForm" (ngSubmit)="insertBrand(brandform)" *ngIf="this.action === 'insert'">
     <h3>Aggiungi Brand</h3>
 
     <!-- Campo Nome -->
@@ -14,4 +14,22 @@
     </div>
 
     <button type="submit">Inserisci Brand</button>
+</form>
+
+<form #brandform1="ngForm" (ngSubmit)="updateBrand(brandform1)" *ngIf="this.action === 'update'">
+    <h3>Modifica Brand</h3>
+
+    <!-- Campo Nome -->
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" name="nome" ngModel required/>
+    </div>
+
+    <!-- Campo Descrizione -->
+    <div class="form-group">
+        <label for="descrizione">Descrizione</label>
+        <textarea id="descrizione" name="descrizione" ngModel required></textarea>
+    </div>
+
+    <button type="submit">Modifica Brand</button>
 </form>

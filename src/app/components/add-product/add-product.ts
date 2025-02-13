@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServerResponse } from '../../models/ServerResponse.interface';
@@ -31,7 +31,8 @@ export class AddProductComponent implements OnInit {
 
   selectedBrandAction: string | null = null;
   selectedCategoriaAction: string | null = null;
-
+  
+  private _actualBrandSelected : number | undefined;
     // Lista dei colori primari in formato esadecimale
     primaryColors: string[] = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF','FFFFFF'];
   
@@ -49,6 +50,7 @@ export class AddProductComponent implements OnInit {
     // Memorizza i colori selezionati (in formato esadecimale)
 selectedColorsHex: string[] = [];
 
+  @ViewChild("brandSelect") brandSelect!:ElementRef<HTMLSelectElement>;
   private _models : Modello[]=[];
 
   constructor(
@@ -59,6 +61,15 @@ selectedColorsHex: string[] = [];
     private categoriaService: CategoriaService,
     private popUp : PopUpManagerService
     ) {}
+
+    public get actualBrandSelected():number|undefined{
+        return this._actualBrandSelected;
+    }
+
+    public updateidSelected():void{
+      const brandSelectValue : number = parseInt(this.brandSelect.nativeElement.value);
+      this._actualBrandSelected = brandSelectValue;
+    }
 
   ngOnInit(): void {
 
@@ -133,10 +144,10 @@ selectedColorsHex: string[] = [];
     this.selectedCategoriaAction = action;
     switch (action) {
       case 'Aggiungi':
-        this.popUp.openForm(AddCategoriaComponent);
+        this.popUp.openForm(AddCategoriaComponent,"insert", undefined);
         break;
       case 'Modifica':
-        console.log('Modifica Categoria');
+        this.popUp.openForm(AddCategoriaComponent,"update", 1);
         break;
       case 'Elimina':
         console.log('Elimina Categoria');
@@ -148,10 +159,10 @@ selectedColorsHex: string[] = [];
     this.selectedBrandAction = action;
     switch (action) {
       case 'Aggiungi':
-        this.popUp.openForm(AddBrandComponent);
+        this.popUp.openForm(AddBrandComponent,"insert", undefined );
         break;
       case 'Modifica':
-        console.log('Modifica Brand');
+        this.popUp.openForm(AddBrandComponent,"update",this._actualBrandSelected);
         break;
       case 'Elimina':
         if (this.shoe.brand) {

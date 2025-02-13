@@ -11,8 +11,13 @@ export class PopUpManagerService {
   }
 
   // Metodo generalizzato per aprire qualsiasi dialogo
-  public openForm<T>(component: T): void {
-    this.dialog.open(component as any);  // 'as any' è necessario per evitare errori di tipo
+  public openForm<T>(component: T, _action : string , _id :number | undefined): void {
+    this.dialog.open(component as any,{
+      data : {
+        _action : _action,
+        _id : _id
+      }
+    });  // 'as any' è necessario per evitare errori di tipo
   }
 
   //public closeForm():void{
