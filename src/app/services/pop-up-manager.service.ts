@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +11,13 @@ export class PopUpManagerService {
   }
 
   // Metodo generalizzato per aprire qualsiasi dialogo
-  public openForm<T>(component: T, _action : string , _id :number | undefined): void {
-    this.dialog.open(component as any,{
+  public openForm<T>(component: T, _id :number | undefined) : MatDialogRef<any,any> {
+    const dialogOpened = this.dialog.open(component as any,{
       data : {
-        _action : _action,
         _id : _id
       }
     });  // 'as any' è necessario per evitare errori di tipo
+    return dialogOpened;
   }
 
   //public closeForm():void{
@@ -27,7 +27,7 @@ export class PopUpManagerService {
   public closeForm(componentToClose?: any): void {
     if (componentToClose) {
       // Chiudi il dialog specifico se viene passato un componente
-      this.dialog.getDialogById(componentToClose.id)?.close();
+      this.dialog.getDialogById(componentToClose.id)?.close("MESSAGGIO DI PROVA");
     } else {
       // Chiudi tutti i dialog se non viene passato nessun componente
       this.dialog.closeAll();

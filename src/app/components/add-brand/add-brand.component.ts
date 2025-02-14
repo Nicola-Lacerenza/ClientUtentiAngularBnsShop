@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, EventEmitter, Inject, inject, Output } from '@angular/core';
 import { AuthappService } from '../../services/authapp.service';
 import { BrandService } from '../../services/brand.service';
 import { NgForm } from '@angular/forms';
@@ -14,11 +14,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class AddBrandComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) private _action:string,@Inject(MAT_DIALOG_DATA) private _id:number| undefined, private auth:AuthappService,private brandService: BrandService,private popUp:PopUpManagerService){
-  }
 
-  public get action():string{
-    return this._action;
+  constructor(@Inject(MAT_DIALOG_DATA) private _id:number| undefined, private auth:AuthappService,private brandService: BrandService,private popUp:PopUpManagerService){
   }
 
   public insertBrand(form:NgForm){
@@ -27,7 +24,7 @@ export class AddBrandComponent {
         this.brandService.insertBrand(form.value).subscribe({         
           next:(data:ServerResponse)=>{
             form.reset();
-            this.popUp.closeForm(AddBrandComponent);
+            this.popUp.closeForm();
           },
           error:(error:HttpErrorResponse)=>{
             if(error.status===401 || error.status===403){
@@ -39,26 +36,6 @@ export class AddBrandComponent {
           }
         })
       }
-  }
-
-  public updateBrand(form:NgForm){
-    if(form.valid && this._id){
-      this.brandService.updateBrand(this._id,form.value).subscribe({         
-        next:(data:ServerResponse)=>{
-          form.reset();
-          this.popUp.closeForm(AddBrandComponent);
-        },
-        error:(error:HttpErrorResponse)=>{
-          if(error.status===401 || error.status===403){
-            this.auth.doLogout();
-          }else{
-            //Gestire l'errore
-            console.error(error);
-          }
-        }
-      })
-    } 
-
   }
 
 }

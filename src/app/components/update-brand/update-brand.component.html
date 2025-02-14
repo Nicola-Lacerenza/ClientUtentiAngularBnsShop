@@ -1,0 +1,17 @@
+<form #brandform="ngForm" (ngSubmit)="updateBrand(brandform)">
+    <h3>Modifica Brand</h3>
+
+    <!-- Campo Nome -->
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" name="nome" [ngModel]="actualName" required/>
+    </div>
+
+    <!-- Campo Descrizione -->
+    <div class="form-group">
+        <label for="descrizione">Descrizione</label>
+        <textarea id="descrizione" name="descrizione" [ngModel]="actualDescription" required></textarea>
+    </div>
+
+    <button type="submit">Modifica Brand</button>
+</form>

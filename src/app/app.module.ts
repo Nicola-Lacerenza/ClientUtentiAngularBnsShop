@@ -23,6 +23,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MaterialModule } from './material.module';
 import { AddBrandComponent } from './components/add-brand/add-brand.component';
 import { AddCategoriaComponent } from './components/add-categoria/add-categoria.component';
+import { UpdateBrandComponent } from './components/update-brand/update-brand.component';
+import { UpdateCategoriaComponent } from './components/update-categoria/update-categoria.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { AddCategoriaComponent } from './components/add-categoria/add-categoria.
     PdpComponent,
     AddProductComponent,
     AddBrandComponent,
-    AddCategoriaComponent
+    AddCategoriaComponent,
+    UpdateBrandComponent,
+    UpdateCategoriaComponent
   ],
   imports: [
   BrowserModule,

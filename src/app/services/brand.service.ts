@@ -13,7 +13,7 @@ export class BrandService {
   constructor(private httprequest:HttpRequestService) {  }
 
   public getBrand(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/BrandServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/BrandServlet?id="+id);
   }
 
   public getBrands(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class BrandService {
   }
 
   public updateBrand(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/BrandServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/BrandServlet?id=" + id, body);
   }
 
   public deleteBrand(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/BrandServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/BrandServlet?id=" + id);
   }
 }

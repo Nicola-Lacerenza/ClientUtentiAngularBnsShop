@@ -12,6 +12,7 @@ import { Categoria } from '../../models/categoria.interface';
 import { AddBrandComponent } from '../add-brand/add-brand.component';
 import { BrandService } from '../../services/brand.service';
 import { CategoriaService } from '../../services/categoria.service';
+import { UpdateBrandComponent } from '../update-brand/update-brand.component';
 
 @Component({
   selector: 'app-add-product',
@@ -144,10 +145,10 @@ selectedColorsHex: string[] = [];
     this.selectedCategoriaAction = action;
     switch (action) {
       case 'Aggiungi':
-        this.popUp.openForm(AddCategoriaComponent,"insert", undefined);
+        this.popUp.openForm(AddCategoriaComponent, undefined);
         break;
       case 'Modifica':
-        this.popUp.openForm(AddCategoriaComponent,"update", 1);
+        this.popUp.openForm(AddCategoriaComponent, 1);
         break;
       case 'Elimina':
         console.log('Elimina Categoria');
@@ -159,23 +160,13 @@ selectedColorsHex: string[] = [];
     this.selectedBrandAction = action;
     switch (action) {
       case 'Aggiungi':
-        this.popUp.openForm(AddBrandComponent,"insert", undefined );
+        this.popUp.openForm(AddBrandComponent, undefined );
         break;
       case 'Modifica':
-        this.popUp.openForm(AddBrandComponent,"update",this._actualBrandSelected);
+        this.popUp.openForm(UpdateBrandComponent,this._actualBrandSelected);
         break;
       case 'Elimina':
-        if (this.shoe.brand) {
-          // Converti il valore di shoe.brand in numero (se non lo è già)
-          const brandId = Number(this.shoe.brand);
-          if (!isNaN(brandId)) {
-            this.deleteBrand(brandId);
-          } else {
-            console.warn('ID del brand non valido');
-          }
-        } else {
-          console.warn("Nessun brand selezionato per l'eliminazione.");
-        }
+        this.deleteBrand(<number>this._actualBrandSelected);
         break;
     }
   }
