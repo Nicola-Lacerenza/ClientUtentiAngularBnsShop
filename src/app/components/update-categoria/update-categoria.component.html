@@ -1,1 +1,11 @@
-<p>update-categoria works!</p>
+<form #categoriaform="ngForm" (ngSubmit)="updateCategoria(categoriaform)">
+    <h3>Modifica Categoria</h3>
+
+    <!-- Campo Nome -->
+    <div class="form-group">
+        <label for="nome_categoria">Nome</label>
+        <input id="nome_categoria" type="text" name="nome_categoria" [ngModel]="actualName" required/>
+    </div>
+
+    <button type="submit">Modifica Categoria</button>
+</form>

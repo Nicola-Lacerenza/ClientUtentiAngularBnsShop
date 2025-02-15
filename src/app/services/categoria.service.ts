@@ -13,7 +13,7 @@ export class CategoriaService {
   constructor(private httprequest:HttpRequestService) {  }
 
   public getCetegoria(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/CategoriaServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/CategoriaServlet?id="+id);
   }
 
   public getCategorie(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class CategoriaService {
   }
 
   public updateCategoria(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/CategoriaServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/CategoriaServlet?id=" + id, body);
   }
 
   public deleteCategoria(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/CategoriaServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/CategoriaServlet?id=" + id);
   }
 }

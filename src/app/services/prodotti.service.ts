@@ -13,7 +13,7 @@ export class ProdottiService {
   constructor(private httprequest:HttpRequestService) { }
 
   public getProdotto(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/ProdottiServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/ProdottiServlet?id="+id);
   }
 
   public getProdotti(): Observable<ServerResponse>{
@@ -25,7 +25,7 @@ export class ProdottiService {
   }
 
   public updateProdotti(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/ProdottiServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/ProdottiServlet?id=" + id, body);
   }
 
   public deleteProdotti(id: number): Observable<ServerResponse> {

@@ -15,13 +15,10 @@ import { Brand } from '../../models/brand.interface';
 })
 export class UpdateBrandComponent implements OnInit {
 
-
   public actualName : string = '';
   public actualDescription : string = '';
 
   ngOnInit(): void {
-    //console.log(<number>this._id);
-
     if(!this.data._id) return;
     this.brandService.getBrand(this.data._id).subscribe({
       next:(data:ServerResponse)=>{
@@ -61,9 +58,5 @@ export class UpdateBrandComponent implements OnInit {
         }
       })
     } 
-
   }
-
-
-
 }

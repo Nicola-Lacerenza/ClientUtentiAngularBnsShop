@@ -79,17 +79,15 @@ export class GridArticoliComponent implements OnInit {
   }
 
   handleEdit(id: number): void {
-    console.log('Modifica prodotto con ID:', id);
-  }
 
+  }
+  
   handleDelete(id: number): void {
     console.log('Elimina prodotto con ID:', id);
-    
     // Chiamata al servizio per eliminare il prodotto
     this.prodottiService.deleteProdotti(id).subscribe({
       next: (data: ServerResponse) => {
         console.log(data);
-        
         // Rimuoviamo il prodotto dalla lista _prodotti
         this._prodotti = this._prodotti.filter(prodotto => prodotto.prodotto.id !== id);
         console.log('Prodotti aggiornati:', this._prodotti);
@@ -99,5 +97,4 @@ export class GridArticoliComponent implements OnInit {
       }
     });
   }
-  
 }

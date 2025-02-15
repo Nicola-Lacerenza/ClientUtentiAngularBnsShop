@@ -13,6 +13,9 @@ import { AddBrandComponent } from '../add-brand/add-brand.component';
 import { BrandService } from '../../services/brand.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { UpdateBrandComponent } from '../update-brand/update-brand.component';
+import { UpdateCategoriaComponent } from '../update-categoria/update-categoria.component';
+import { ActivatedRoute } from '@angular/router';
+import { Prodotti } from '../../models/prodotti.interface';
 
 @Component({
   selector: 'app-add-product',
@@ -34,6 +37,8 @@ export class AddProductComponent implements OnInit {
   selectedCategoriaAction: string | null = null;
   
   private _actualBrandSelected : number | undefined;
+  private _actualCategoriaSelected : number | undefined;
+
     // Lista dei colori primari in formato esadecimale
     primaryColors: string[] = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF','FFFFFF'];
   
@@ -52,7 +57,11 @@ export class AddProductComponent implements OnInit {
 selectedColorsHex: string[] = [];
 
   @ViewChild("brandSelect") brandSelect!:ElementRef<HTMLSelectElement>;
+  @ViewChild("categoriaSelect") categoriaSelect!:ElementRef<HTMLSelectElement>;
+
   private _models : Modello[]=[];
+  private actualId : number | undefined;
+  public actualProductSelected : Prodotti | undefined;  
 
   constructor(
     private fb: FormBuilder, 
@@ -60,11 +69,16 @@ selectedColorsHex: string[] = [];
     private auth : AuthappService,
     private brandService: BrandService,
     private categoriaService: CategoriaService,
-    private popUp : PopUpManagerService
+    private popUp : PopUpManagerService,
+    private route : ActivatedRoute
     ) {}
 
     public get actualBrandSelected():number|undefined{
         return this._actualBrandSelected;
+    }
+
+    public get actualCategoriaSelected():number|undefined{
+      return this._actualCategoriaSelected;
     }
 
     public updateidSelected():void{
@@ -72,7 +86,32 @@ selectedColorsHex: string[] = [];
       this._actualBrandSelected = brandSelectValue;
     }
 
+    public updateidSelected1():void{
+      const categoriaSelectValue : number = parseInt(this.categoriaSelect.nativeElement.value);
+      this._actualCategoriaSelected = categoriaSelectValue;
+    }
+
   ngOnInit(): void {
+
+    const tmp = this.route.snapshot.paramMap.get("id");
+  
+    if(tmp !== null){
+      this.actualId = parseInt(tmp);
+    }
+
+    this.prodottiService.getProdotto(<number>this.actualId).subscribe({
+      next: (data: ServerResponse) => {
+        this.actualProductSelected = <Prodotti>data.message;
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.auth.doLogout();
+        } else {
+          console.error(error);
+        }
+      }
+    }); 
+
 
     this.brandService.getBrands().subscribe({
       next: (data: ServerResponse) => {
@@ -148,7 +187,7 @@ selectedColorsHex: string[] = [];
         this.popUp.openForm(AddCategoriaComponent, undefined);
         break;
       case 'Modifica':
-        this.popUp.openForm(AddCategoriaComponent, 1);
+        this.popUp.openForm(UpdateCategoriaComponent, this._actualCategoriaSelected);
         break;
       case 'Elimina':
         console.log('Elimina Categoria');
