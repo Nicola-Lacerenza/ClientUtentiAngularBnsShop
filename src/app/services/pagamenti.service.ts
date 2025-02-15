@@ -13,7 +13,7 @@ export class PagamentiService {
   constructor(private httprequest:HttpRequestService) { }
 
   public getPagamento(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/PagamentoServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/PagamentoServlet?id="+id);
   }
 
   public getPagamenti(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class PagamentiService {
   }
 
   public updatePagamento(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/PagamentoServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/PagamentoServlet?id=" + id, body);
   }
 
   public deletePagamento(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/PagamentoServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/PagamentoServlet?id=" + id);
   }
 }

@@ -16,7 +16,7 @@ import { Categoria } from './../../models/categoria.interface';
 export class UpdateCategoriaComponent implements OnInit{
 
   public actualName : string = '';
-
+  public actualTarget : string = '';
 
   ngOnInit(): void {
         if(!this.data._id) return;
@@ -24,6 +24,7 @@ export class UpdateCategoriaComponent implements OnInit{
           next:(data:ServerResponse)=>{
             const categoria : Categoria = <Categoria>data.message;
             this.actualName = categoria.nome_categoria;
+            this.actualTarget = categoria.target;
           },
           error:(error:HttpErrorResponse)=>{
             if(error.status===401 || error.status===403){

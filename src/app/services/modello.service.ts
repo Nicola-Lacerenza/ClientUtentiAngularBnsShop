@@ -13,7 +13,7 @@ export class ModelloService {
   constructor(private httprequest:HttpRequestService) { }
 
   public getModello(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/ModelloServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/ModelloServlet?id="+id);
   }
 
   public getModelli(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class ModelloService {
   }
 
   public updateModello(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/ModelloServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/ModelloServlet?id=" + id, body);
   }
 
   public deleteModello(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/ModelloServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/ModelloServlet?id=" + id);
   }
 }

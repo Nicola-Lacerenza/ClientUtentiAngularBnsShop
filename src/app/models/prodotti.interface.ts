@@ -1,6 +1,3 @@
-import { Immagini_has_Prodotti } from "./immagini_has_prodotti.interface";
-import { Modello } from "./modello.interface";
-
 export interface Prodotti{
     id : number;
     prezzo : number;

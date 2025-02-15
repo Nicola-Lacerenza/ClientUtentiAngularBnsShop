@@ -15,7 +15,7 @@ import { CategoriaService } from '../../services/categoria.service';
 import { UpdateBrandComponent } from '../update-brand/update-brand.component';
 import { UpdateCategoriaComponent } from '../update-categoria/update-categoria.component';
 import { ActivatedRoute } from '@angular/router';
-import { Prodotti } from '../../models/prodotti.interface';
+import { ProdottiFull } from '../../models/prodottiFull.interface';
 
 @Component({
   selector: 'app-add-product',
@@ -59,9 +59,8 @@ selectedColorsHex: string[] = [];
   @ViewChild("brandSelect") brandSelect!:ElementRef<HTMLSelectElement>;
   @ViewChild("categoriaSelect") categoriaSelect!:ElementRef<HTMLSelectElement>;
 
-  private _models : Modello[]=[];
   private actualId : number | undefined;
-  public actualProductSelected : Prodotti | undefined;  
+  public actualProductSelected : ProdottiFull | undefined;  
 
   constructor(
     private fb: FormBuilder, 
@@ -101,7 +100,7 @@ selectedColorsHex: string[] = [];
 
     this.prodottiService.getProdotto(<number>this.actualId).subscribe({
       next: (data: ServerResponse) => {
-        this.actualProductSelected = <Prodotti>data.message;
+        this.actualProductSelected = <ProdottiFull>data.message;
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
@@ -190,7 +189,7 @@ selectedColorsHex: string[] = [];
         this.popUp.openForm(UpdateCategoriaComponent, this._actualCategoriaSelected);
         break;
       case 'Elimina':
-        console.log('Elimina Categoria');
+        this.deleteCategoria(<number>this._actualCategoriaSelected);
         break;
     }
   }
@@ -228,6 +227,27 @@ selectedColorsHex: string[] = [];
       }
     });
   }
+
+  
+  private deleteCategoria(categoriaId: number): void {
+    this.categoriaService.deleteCategoria(categoriaId).subscribe({
+      next: (response) => {
+        console.log('Categoria eliminata con successo');
+        // Rimuovi la categoria dalla lista locale dei brand
+        this._categorie = this._categorie.filter(categoria => categoria.id !== categoriaId);
+        // Resetta la selezione della categoria nel form
+        this.shoe.category = '';
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.auth.doLogout();
+        } else {
+          console.error('Errore durante l\'eliminazione del brand:', error);
+        }
+      }
+    });
+  }
+
 
   onThumbnailHover(index: number): void {
     this.mainImagePreview = this.imagePreviews[index]; // Cambia l'immagine principale al passaggio del mouse

@@ -13,7 +13,7 @@ export class OrdineService {
   constructor(private httprequest:HttpRequestService) { }
 
   public getOrdine(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/OrdineServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/OrdineServlet?id="+id);
   }
 
   public getOrdini(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class OrdineService {
   }
 
   public updateOrdine(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/OrdineServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/OrdineServlet?id=" + id, body);
   }
 
   public deleteOrdine(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/OrdineServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/OrdineServlet?id=" + id);
   }
 }

@@ -13,7 +13,7 @@ export class FornitoriService {
   constructor(private httprequest:HttpRequestService) { }
   
   public getFornitore(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/FornitoriServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/FornitoriServlet?id="+id);
   }
 
   public getFornitori(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class FornitoriService {
   }
 
   public updateFornitori(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/FornitoriServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/FornitoriServlet?id=" + id, body);
   }
 
   public deleteFornitori(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/FornitoriServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/FornitoriServlet?id=" + id);
   }
 }

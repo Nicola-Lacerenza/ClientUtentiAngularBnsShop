@@ -20,17 +20,19 @@
     </div>
   </div>
 
+  <!-- Campo Nome Modello -->
   <div class="form-group">
     <label for="nome">Nome</label>
-    <input id="nome" type="text" name="nome" [ngModel]="(this.actualProductSelected)?(this.actualProductSelected):''" required minlength="3" />
+    <input id="nome" type="text" name="nome" [ngModel]="(this.actualProductSelected)?(this.actualProductSelected.nome_modello):''" required minlength="3" />
   </div>
 
+  <!-- Campo Categoria -->
   <div class="form-group">
     <label for="id_categoria">Categoria</label>
     <div class="dropdown-group">
       <select id="id_categoria" name="id_categoria" [(ngModel)]="shoe.category" (ngModelChange)="updateidSelected1()" #categoriaSelect>
         <option value="">Seleziona una categoria</option>
-        <option *ngFor="let categoria of categorie" [value]="categoria.id">{{ categoria.nome_categoria }}</option>
+        <option *ngFor="let categoria of categorie" [value]="categoria.id">{{ categoria.nome_categoria }} - {{ categoria.target }}</option>
       </select>
       <div class="dropdown">
         <button class="dropdown-toggle" type="button">{{ selectedCategoriaAction || 'Seleziona azione' }}</button>

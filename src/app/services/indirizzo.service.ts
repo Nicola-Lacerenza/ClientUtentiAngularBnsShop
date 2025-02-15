@@ -13,7 +13,7 @@ export class IndirizzoService {
   constructor(private httprequest:HttpRequestService) { }
   
   public getindirizzo(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/indirizzoServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/indirizzoServlet?id="+id);
   }
 
   public getindirizzi(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class IndirizzoService {
   }
 
   public updateindirizzo(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/indirizzoServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/indirizzoServlet?id=" + id, body);
   }
 
   public deleteindirizzo(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/indirizzoServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/indirizzoServlet?id=" + id);
   }
 }

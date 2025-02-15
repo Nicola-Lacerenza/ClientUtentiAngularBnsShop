@@ -14,7 +14,7 @@ export class ColoreHasModelloService {
 
   
   public getColoreHasModello(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/ColoreModelloServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/ColoreModelloServlet?id="+id);
   }
 
   public getColoreHasModelli(): Observable<ServerResponse>{
@@ -26,10 +26,10 @@ export class ColoreHasModelloService {
   }
 
   public updateColoreHasModello(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/ColoreModelloServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/ColoreModelloServlet?id=" + id, body);
   }
 
   public deleteColoreHasModello(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/ColoreModelloServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/ColoreModelloServlet?id=" + id);
   }
 }

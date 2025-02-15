@@ -13,7 +13,7 @@ export class ImmaginiService {
   constructor(private httprequest:HttpRequestService) { }
   
   public getimmagine(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/immaginiServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/immaginiServlet?id="+id);
   }
 
   public getimmagini(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class ImmaginiService {
   }
 
   public updateimmagini(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/immaginiServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/immaginiServlet?id=" + id, body);
   }
 
   public deleteimmagini(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/immaginiServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/immaginiServlet?id=" + id);
   }
 }

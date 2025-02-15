@@ -13,7 +13,7 @@ export class CustomersService {
   constructor(private httprequest:HttpRequestService) { }
   
   public getCustomer(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/CustomerServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/CustomerServlet?id="+id);
   }
 
   public getCustomers(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class CustomersService {
   }
 
   public updateCustomer(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/CustomerServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/CustomerServlet?id=" + id, body);
   }
 
   public deleteCustomer(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/CustomerServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/CustomerServlet?id=" + id);
   }
 }

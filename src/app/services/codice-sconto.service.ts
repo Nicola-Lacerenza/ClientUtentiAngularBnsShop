@@ -14,7 +14,7 @@ export class CodiceScontoService {
 
   
   public getCodiceSconto(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/CodiceScontoServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/CodiceScontoServlet?id="+id);
   }
 
   public getCodiceSconti(): Observable<ServerResponse>{
@@ -26,10 +26,10 @@ export class CodiceScontoService {
   }
 
   public updateCodiceSconto(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/CodiceScontoServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/CodiceScontoServlet?id=" + id, body);
   }
 
   public deleteCodiceSconto(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/CodiceScontoServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/CodiceScontoServlet?id=" + id);
   }
 }

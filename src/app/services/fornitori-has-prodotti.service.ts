@@ -13,7 +13,7 @@ export class FornitoriHasProdottiService {
   constructor(private httprequest:HttpRequestService) { }
   
   public getFornitoriProdotto(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/FornitoriProdottiServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/FornitoriProdottiServlet?id="+id);
   }
 
   public getFornitoriProdotti(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class FornitoriHasProdottiService {
   }
 
   public updateFornitoriProdotto(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/FornitoriProdottiServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/FornitoriProdottiServlet?id=" + id, body);
   }
 
   public deleteFornitoriProdotto(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/FornitoriProdottiServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/FornitoriProdottiServlet?id=" + id);
   }
 }

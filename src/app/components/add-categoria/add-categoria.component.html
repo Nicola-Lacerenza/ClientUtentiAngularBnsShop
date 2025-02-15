@@ -7,5 +7,16 @@
         <input id="nome_categoria" type="text" name="nome_categoria" ngModel required/>
     </div>
 
+    <!-- Campo Target -->
+    <div class="form-group">
+        <label for="target">Target</label>
+            <select id="target" name="target" ngModel required>
+                <option value="">Seleziona un target</option>
+                <option value="Uomo">UOMO</option>
+                <option value="Donna">DONNA</option>
+                <option value="Bambino">BAMBINO</option>
+        </select>
+    </div>
+    
     <button type="submit">Inserisci Categoria</button>
 </form>

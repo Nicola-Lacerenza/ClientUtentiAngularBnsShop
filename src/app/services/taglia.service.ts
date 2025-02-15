@@ -13,7 +13,7 @@ export class TagliaService {
   constructor(private httprequest:HttpRequestService) { }
 
   public getTaglia(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/TagliaServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/TagliaServlet?id="+id);
   }
 
   public getTaglie(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class TagliaService {
   }
 
   public updateTaglia(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/TagliaServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/TagliaServlet?id=" + id, body);
   }
 
   public deleteTaglia(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/TagliaServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/TagliaServlet?id=" + id);
   }
 }

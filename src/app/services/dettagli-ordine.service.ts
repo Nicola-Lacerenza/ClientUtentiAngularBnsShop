@@ -13,7 +13,7 @@ export class DettagliOrdineService {
   constructor(private httprequest:HttpRequestService) { }
   
   public getDettagliOrdine(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/DettagliOrdineServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/DettagliOrdineServlet?id="+id);
   }
 
   public getDettagliOrdini(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class DettagliOrdineService {
   }
 
   public updateDettagliOrdine(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/DettagliOrdineServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/DettagliOrdineServlet?id=" + id, body);
   }
 
   public deleteDettagliOrdine(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/DettagliOrdineServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/DettagliOrdineServlet?id=" + id);
   }
 }

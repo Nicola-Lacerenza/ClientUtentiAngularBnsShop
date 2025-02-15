@@ -13,7 +13,7 @@ export class ColoreService {
   constructor(private httprequest:HttpRequestService) { }
   
   public getColore(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/ColoreServlet/"+id);
+    return this.httprequest.getRequest(environment.serverUrl + "/ColoreServlet?id="+id);
   }
 
   public getColori(): Observable<ServerResponse>{
@@ -25,10 +25,10 @@ export class ColoreService {
   }
 
   public updateColore(id: number, body: ServerRequest): Observable<ServerResponse> {
-    return this.httprequest.putRequest(environment.serverUrl + "/ColoreServlet/" + id, body);
+    return this.httprequest.putRequest(environment.serverUrl + "/ColoreServlet?id=" + id, body);
   }
 
   public deleteColore(id: number): Observable<ServerResponse> {
-    return this.httprequest.deleteRequest(environment.serverUrl + "/ColoreServlet/" + id);
+    return this.httprequest.deleteRequest(environment.serverUrl + "/ColoreServlet?id=" + id);
   }
 }
