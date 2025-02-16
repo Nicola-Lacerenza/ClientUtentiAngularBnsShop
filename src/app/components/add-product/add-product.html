@@ -81,12 +81,12 @@
   <!-- Campo Descrizione -->
   <div class="form-group">
     <label for="descrizione">Descrizione</label>
-    <textarea id="descrizione" name="descrizione" [(ngModel)]="shoe.description"></textarea>
+    <textarea id="descrizione" name="descrizione" [ngModel]="(this.actualProductSelected)?(this.actualProductSelected.descrizione_modello):''"></textarea>
   </div>
  
   <div>
     <label for="price">Prezzo (€)</label>
-    <input id="prezzo" name="prezzo" step="0.01" ngModel/>
+    <input id="prezzo" name="prezzo" step="0.01" [ngModel]="(this.actualProductSelected)?(this.actualProductSelected.prezzo):''"/>
     <div *ngIf="submitted && productForm.get('price')?.errors">
       <small class="error">Inserisci un prezzo valido.</small>
     </div>

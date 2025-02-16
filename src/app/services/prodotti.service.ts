@@ -17,7 +17,7 @@ export class ProdottiService {
   }
 
   public getProdotti(): Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/ProdottiServlet");
+    return this.httprequest.getRequest(environment.serverUrl + "/ProdottiServlet?id=-1");
   }
 
   public insertProdotti(body:ServerRequest | FormData):Observable<ServerResponse>{

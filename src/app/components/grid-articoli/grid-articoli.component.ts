@@ -7,6 +7,7 @@ import { Prodotti } from '../../models/prodotti.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthappService } from '../../services/authapp.service';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-grid-articoli',
@@ -21,7 +22,8 @@ export class GridArticoliComponent implements OnInit {
   constructor(
     private articoliService: ArticoliService,
     private prodottiService: ProdottiService,
-    private auth: AuthappService
+    private auth: AuthappService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -79,8 +81,8 @@ export class GridArticoliComponent implements OnInit {
   }
 
   handleEdit(id: number): void {
-
-  }
+    this.router.navigateByUrl(`/addProduct/${id}`);
+   }
   
   handleDelete(id: number): void {
     console.log('Elimina prodotto con ID:', id);

@@ -7,9 +7,10 @@ export interface ProdottiFull{
     descrizione_brand: string; 
     stato_pubblicazione : number;
     prezzo : number;
-    taglia_Eu: string; 
-    taglia_Uk: string; 
-    taglia_Us: string; 
-    url: string; 
-    nome_colore : string;
+    taglia_Eu: string[]; 
+    taglia_Uk: string[]; 
+    taglia_Us: string[]; 
+    quantita: string[]; 
+    url: string[]; 
+    nome_colore : string[];
 }
