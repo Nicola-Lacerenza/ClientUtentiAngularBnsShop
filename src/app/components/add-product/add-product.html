@@ -1,4 +1,4 @@
-<form #shoeForm="ngForm" (ngSubmit)="inserimentoProdotti(shoeForm)" enctype="multipart/form-data">
+<form #shoeForm="ngForm" (ngSubmit)="actionProdotti(shoeForm)" enctype="multipart/form-data">
   <div class="form-group">
     <label for="images">Immagini del prodotto</label>
     <input type="file" id="images" name="images"(change)="onImageChange($event)" multiple accept="image/*" ngModel />
@@ -23,14 +23,14 @@
   <!-- Campo Nome Modello -->
   <div class="form-group">
     <label for="nome">Nome</label>
-    <input id="nome" type="text" name="nome" [ngModel]="(this.actualProductSelected)?(this.actualProductSelected.nome_modello):''" required minlength="3" />
+    <input id="nome" type="text" name="nome" [ngModel]="this.actualProductSelected.nome_modello" required minlength="3" />
   </div>
 
   <!-- Campo Categoria -->
   <div class="form-group">
     <label for="id_categoria">Categoria</label>
     <div class="dropdown-group">
-      <select id="id_categoria" name="id_categoria" [(ngModel)]="shoe.category" (ngModelChange)="updateidSelected1()" #categoriaSelect>
+      <select id="id_categoria" name="id_categoria" [(ngModel)]="this.actualProductSelected.id_categoria" (ngModelChange)="updateidSelected1()" #categoriaSelect>
         <option value="">Seleziona una categoria</option>
         <option *ngFor="let categoria of categorie" [value]="categoria.id">{{ categoria.nome_categoria }} - {{ categoria.target }}</option>
       </select>
@@ -49,7 +49,7 @@
   <div class="form-group">
     <label for="id_brand">Brand</label>
     <div class="dropdown-group">
-      <select id="id_brand" name="id_brand" [(ngModel)]="shoe.brand" (ngModelChange)="updateidSelected()" #brandSelect>
+      <select id="id_brand" name="id_brand" [(ngModel)]="this.actualProductSelected.id_brand" (ngModelChange)="updateidSelected()" #brandSelect>
         <option value="" >Seleziona un brand</option>
         <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.nome }} - {{ brand.descrizione }}</option>
       </select>
@@ -81,12 +81,12 @@
   <!-- Campo Descrizione -->
   <div class="form-group">
     <label for="descrizione">Descrizione</label>
-    <textarea id="descrizione" name="descrizione" [ngModel]="(this.actualProductSelected)?(this.actualProductSelected.descrizione_modello):''"></textarea>
+    <textarea id="descrizione" name="descrizione" [ngModel]="this.actualProductSelected.descrizione_modello"></textarea>
   </div>
  
   <div>
     <label for="price">Prezzo (€)</label>
-    <input id="prezzo" name="prezzo" step="0.01" [ngModel]="(this.actualProductSelected)?(this.actualProductSelected.prezzo):''"/>
+    <input id="prezzo" name="prezzo" step="0.01" [ngModel]="this.actualProductSelected.prezzo"/>
     <div *ngIf="submitted && productForm.get('price')?.errors">
       <small class="error">Inserisci un prezzo valido.</small>
     </div>
@@ -94,7 +94,7 @@
 
   <div>
     <label for="publishStatus">
-      <input id="stato_pubblicazione" name="stato_pubblicazione" type="checkbox" ngModel />
+      <input id="stato_pubblicazione" name="stato_pubblicazione" type="checkbox" [ngModel]="this.actualProductSelected.stato_pubblicazione" />
       Pubblica sul sito e-commerce
     </label>
   </div>
@@ -123,7 +123,8 @@
       {{ successMessage }}
     </div>    
     
-  <button type="submit">Inserisci Prodotto</button>
+  <button type="submit" *ngIf="!this.actualProductSelected.id || this.actualProductSelected.id<=0">Inserisci Prodotto</button>
+  <button type="submit" *ngIf="this.actualProductSelected.id && this.actualProductSelected.id>0">ModificaProdotto</button>
   <p>  </p>
   <p>  </p>
   <p> g </p>

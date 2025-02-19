@@ -64,7 +64,10 @@ export class AddProductComponent implements OnInit {
     id: 0,
     nome_modello: "",
     descrizione_modello: "",
+    id_categoria: 0,
     nome_categoria: "",
+    target: "",
+    id_brand: 0,
     nome_brand: "",
     descrizione_brand: "", 
     stato_pubblicazione: -1,
@@ -119,8 +122,8 @@ export class AddProductComponent implements OnInit {
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
           console.log(data);
-          const tmp = <ProdottiFull[]>data.message;
-          this.actualProductSelected = tmp[0];
+          const tmp = <ProdottiFull>data.message;
+          this.actualProductSelected = tmp;
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 401 || error.status === 403) {
@@ -174,14 +177,6 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  // Modello di dati per il form
-  shoe = {
-    category: '',
-    brand: '',
-    name: '',
-    description: '',
-    colore: ''  // Il colore sarà inviato come stringa (es. "ROSSO")
-  };
 
   public get brands(): Brand[] {
     return this._brands;
@@ -238,8 +233,6 @@ export class AddProductComponent implements OnInit {
         console.log('Brand eliminato con successo');
         // Rimuovi il brand dalla lista locale
         this._brands = this._brands.filter(brand => brand.id !== brandId);
-        // Resetta la selezione del brand
-        this.shoe.brand = '';
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
@@ -257,8 +250,6 @@ export class AddProductComponent implements OnInit {
         console.log('Categoria eliminata con successo');
         // Rimuovi la categoria dalla lista locale
         this._categorie = this._categorie.filter(categoria => categoria.id !== categoriaId);
-        // Resetta la selezione della categoria
-        this.shoe.category = '';
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
@@ -320,75 +311,76 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  // Funzione per l'inserimento del prodotto nel DB
-  public insertProduct(form: NgForm) {
-    if (form.valid) {
-      form.reset();
-      this.popUp.closeForm();
-    }
-  }
+  public actionProdotti(form: NgForm) {
 
-  public inserimentoProdotti(form: NgForm) {
-    console.log(form.value);
-  
-    // Controlla se il form è valido prima di procedere
-    if (form.valid) {
-      // Mappa i colori selezionati in nomi
-      form.value.colore = this.selectedColorsHex.map(color => this.colorNames[color]).join(', ');
+    if(this.actualProductSelected.id <= 0) {
+        console.log(form.value);
       
-      // Crea un nuovo FormData
-      const formData = new FormData();
-  
-      // Aggiungi le immagini
-      for (let j = 0; j < this.imageFiles.length; j++) {
-        formData.append("image" + j, this.imageFiles[j], this.imageFiles[j].name);
-      }
-  
-      // Aggiungi i dati generali del form
-      formData.append("id_categoria", form.value.id_categoria);
-      formData.append("id_brand", form.value.id_brand);
-      formData.append("nome", form.value.nome);
-      formData.append("descrizione", form.value.descrizione);
-      formData.append("prezzo", form.value.prezzo);
-      formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
-      formData.append("colori", form.value.colore);
+        // Controlla se il form è valido prima di procedere
+        if (form.valid) {
+          // Mappa i colori selezionati in nomi
+          form.value.colore = this.selectedColorsHex.map(color => this.colorNames[color]).join(', ');
+          
+          // Crea un nuovo FormData
+          const formData = new FormData();
       
-      const taglie1: { quantita: number, taglia: number }[] = [];
-  
-      // Aggiungi tutte le taglie e quantità per il prodotto
-      this.taglie.forEach(size => {
-        if (size.quantita > 0) {
-          taglie1.push({ quantita: size.quantita, taglia: size.taglia });
-        }
-      });
-      formData.append("taglie", JSON.stringify(taglie1));
-      
-      // Esegui l'inserimento del prodotto
-      this.prodottiService.insertProdotti(formData).subscribe({
-        next: (data: ServerResponse) => {
-          // Mostra il messaggio di successo
-          this.successMessage = "Prodotto inserito con successo!";
-          // Dopo 2 secondi torna indietro
-          setTimeout(() => {
-            this.successMessage = null;
-            window.history.back();
-          }, 2000);
-        },
-        error: (error: HttpErrorResponse) => {
-          if (error.status === 401 || error.status === 403) {
-            this.successMessage = "Errore durante l'inserimento del prodotto.";
-            console.error(error);
-            setTimeout(() => {
-              this.successMessage = null;
-            }, 3000);
-          } else {
-            this.successMessage = "Compila correttamente tutti i campi obbligatori.";
-            setTimeout(() => {
-              this.successMessage = null;
-            }, 3000);
+          // Aggiungi le immagini
+          for (let j = 0; j < this.imageFiles.length; j++) {
+            formData.append("image" + j, this.imageFiles[j], this.imageFiles[j].name);
           }
-        }
-      });
+      
+          // Aggiungi i dati generali del form
+          formData.append("id_categoria", form.value.id_categoria);
+          formData.append("id_brand", form.value.id_brand);
+          formData.append("nome", form.value.nome);
+          formData.append("descrizione", form.value.descrizione);
+          formData.append("prezzo", form.value.prezzo);
+          formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
+          formData.append("colori", form.value.colore);
+          
+          const taglie1: { quantita: number, taglia: number }[] = [];
+      
+          // Aggiungi tutte le taglie e quantità per il prodotto
+          this.taglie.forEach(size => {
+            if (size.quantita > 0) {
+              taglie1.push({ quantita: size.quantita, taglia: size.taglia });
+            }
+          });
+          formData.append("taglie", JSON.stringify(taglie1));
+          
+          // Esegui l'inserimento del prodotto
+          this.prodottiService.insertProdotti(formData).subscribe({
+            next: (data: ServerResponse) => {
+              // Mostra il messaggio di successo
+              this.successMessage = "Prodotto inserito con successo!";
+              // Dopo 2 secondi torna indietro
+              setTimeout(() => {
+                this.successMessage = null;
+                window.history.back();
+              }, 2000);
+            },
+            error: (error: HttpErrorResponse) => {
+              if (error.status === 401 || error.status === 403) {
+                this.successMessage = "Errore durante l'inserimento del prodotto.";
+                console.error(error);
+                setTimeout(() => {
+                  this.successMessage = null;
+                }, 3000);
+              } else {
+                this.successMessage = "Compila correttamente tutti i campi obbligatori.";
+                setTimeout(() => {
+                  this.successMessage = null;
+                }, 3000);
+              }
+            }
+          });
+       }
+    } else{
+      if (form.valid) {
+
+        
+      }
+
     }
   }
 
@@ -404,3 +396,4 @@ export class AddProductComponent implements OnInit {
     }
   }
 }
+
