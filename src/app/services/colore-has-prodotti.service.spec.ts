@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ColoreHasModelloService } from './colore-has-modello.service';
+import {ColoreHasProdottiService } from './colore-has-prodotti.service';
 
 describe('ColoreHasModelloService', () => {
-  let service: ColoreHasModelloService;
+  let service: ColoreHasProdottiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ColoreHasModelloService);
+    service = TestBed.inject(ColoreHasProdottiService);
   });
 
   it('should be created', () => {
