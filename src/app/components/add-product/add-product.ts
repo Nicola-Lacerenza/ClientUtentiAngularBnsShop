@@ -29,7 +29,7 @@ export class AddProductComponent implements OnInit {
   imageFiles: File[] = [];
   imagePreviews: string[] = [];
   mainImagePreview: string = '';
-  taglie: { taglia: number, quantita: number }[] = [];
+  taglie: { taglia: string, quantita: number }[] = [];
   private _brands: Brand[] = [];
   private _categorie: Categoria[] = [];
   successMessage: string | null = null;  // Variabile per il messaggio di successo
@@ -136,7 +136,6 @@ export class AddProductComponent implements OnInit {
       console.log("ID selezionato:", this.actualId);
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
-          console.log("Prodotto selezionato:",data);
           const tmp = <ProdottiFull>data.message;
           this.actualProductSelected = tmp;
           this.urlListProductToUpdate = tmp.url;
@@ -144,7 +143,14 @@ export class AddProductComponent implements OnInit {
           for(const color of tmp.nome_colore){
             this.selectColor(this.extractColorHex(color));
           }
-          console.log("Prodotto selezionato:",tmp);
+          for(const taglia of tmp.taglieProdotto){
+            let i=0;
+            while(i<this.taglie.length && this.taglie[i].taglia !== taglia.taglia.taglia_Eu){
+              i++;
+            }
+            this.taglie[i].quantita+=taglia.taglia_prodotti.quantita;
+          }
+          console.log("Prodotto selezionato:",tmp.taglieProdotto);
         },
         error: (error: HttpErrorResponse) => {
           this.urlListProductToUpdate = undefined;
@@ -160,7 +166,6 @@ export class AddProductComponent implements OnInit {
       this.urlListProductToUpdate = undefined;
       this.colorNameSelected = undefined;
     }
-
 
     // Chiamate per ottenere brands e categorie
     this.brandService.getBrands().subscribe({
@@ -191,7 +196,7 @@ export class AddProductComponent implements OnInit {
 
     // Inizializza le taglie disponibili
     for (let size = 35.5; size <= 46; size += 0.5) {
-      this.taglie.push({ taglia: size, quantita: 0 });
+      this.taglie.push({ taglia: "" + size, quantita: 0 });
     }
 
     // Inizializza il modulo
@@ -306,9 +311,9 @@ export class AddProductComponent implements OnInit {
   }
 
   // Incrementa la quantità per la taglia selezionata 
-  increaseQuantity(t: number): void {
+  increaseQuantity(t: string): void {
     let index: number = 0;
-    while (index < this.taglie.length && this.taglie[index].taglia !== t) {
+    while (index < this.taglie.length && this.taglie[index].taglia !== ""+t) {
       index++;
     }
     if (index >= this.taglie.length) {
@@ -318,9 +323,9 @@ export class AddProductComponent implements OnInit {
   }
 
   // Decrementa la quantità per la taglia selezionata 
-  decreaseQuantity(t: number): void {
+  decreaseQuantity(t: string): void {
     let index: number = 0;
-    while (index < this.taglie.length && this.taglie[index].taglia !== t) {
+    while (index < this.taglie.length && this.taglie[index].taglia !== ""+t) {
       index++;
     }
     if (index >= this.taglie.length) {
@@ -365,7 +370,7 @@ export class AddProductComponent implements OnInit {
           formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
           formData.append("colori", form.value.colore);
           
-          const taglie1: { quantita: number, taglia: number }[] = [];
+          const taglie1: { quantita: number, taglia: string }[] = [];
       
           // Aggiungi tutte le taglie e quantità per il prodotto
           this.taglie.forEach(size => {
@@ -404,10 +409,30 @@ export class AddProductComponent implements OnInit {
        }
     } else{
       if (form.valid) {
-
-        
+        this.prodottiService.updateProdotti(this.actualProductSelected.id,form.value).subscribe({
+          next: (data: ServerResponse) => {
+            this.successMessage = "Prodotto modificato con successo!";
+            setTimeout(() => {
+              this.successMessage = null;
+              window.history.back();
+            }, 2000);
+          },
+         error: (error: HttpErrorResponse) => {
+          if (error.status === 401 || error.status === 403) {
+            this.successMessage = "Errore durante la modifica del prodotto.";
+            console.error(error);
+            setTimeout(() => {
+              this.successMessage = null;
+            }, 3000);
+          } else {
+            this.successMessage = "Compila correttamente tutti i campi obbligatori.";
+            setTimeout(() => {
+              this.successMessage = null;
+            }, 3000);
+          }
+         }
+        });
       }
-
     }
   }
   

@@ -17,10 +17,6 @@ export interface ProdottiFull{
         taglia : Taglia
         taglia_prodotti : Taglie_Has_Prodotti
     }[];
-    //taglia_Eu: string[]; 
-    //taglia_Uk: string[]; 
-    //taglia_Us: string[]; 
-    //quantita: string[]; 
     url: string[]; 
     nome_colore : string[];
 }
