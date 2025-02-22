@@ -16,6 +16,7 @@ import { UpdateBrandComponent } from '../update-brand/update-brand.component';
 import { UpdateCategoriaComponent } from '../update-categoria/update-categoria.component';
 import { ActivatedRoute } from '@angular/router';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-product',
@@ -53,12 +54,25 @@ export class AddProductComponent implements OnInit {
     'FFFFFF': 'BIANCO'
   };
 
+  colorCode:{[key: string]: string} = {
+    'ROSSO': '#FF0000', 
+    'VERDE': '#00FF00',
+    'BLU': '#0000FF',
+    'GIALLO': '#FFFF00',
+    'MAGENTA': '#FF00FF',
+    'CYAN': '#00FFFF',
+    'BIANCO': 'FFFFFF'
+  };
+
+  colorNameSelected:string[] | undefined;
+
   // Memorizza i colori selezionati (in formato esadecimale)
   selectedColorsHex: string[] = [];
 
   @ViewChild("brandSelect") brandSelect!: ElementRef<HTMLSelectElement>;
   @ViewChild("categoriaSelect") categoriaSelect!: ElementRef<HTMLSelectElement>;
 
+  public urlListProductToUpdate: string[] | undefined ;
   private actualId: number | undefined;
   public actualProductSelected: ProdottiFull = { 
     id: 0,
@@ -70,12 +84,13 @@ export class AddProductComponent implements OnInit {
     id_brand: 0,
     nome_brand: "",
     descrizione_brand: "", 
-    stato_pubblicazione: -1,
-    prezzo: -1,
-    taglia_Eu: [],
-    taglia_Uk: [],
-    taglia_Us: [],
-    quantita: [],
+    stato_pubblicazione: 0,
+    prezzo: 0,
+    //taglia_Eu: [],
+    //taglia_Uk: [],
+    //taglia_Us: [],
+    //quantita: [],
+    taglieProdotto: [],
     url: [],
     nome_colore: []
   };  
@@ -121,11 +136,19 @@ export class AddProductComponent implements OnInit {
       console.log("ID selezionato:", this.actualId);
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
-          console.log(data);
+          console.log("Prodotto selezionato:",data);
           const tmp = <ProdottiFull>data.message;
           this.actualProductSelected = tmp;
+          this.urlListProductToUpdate = tmp.url;
+          this.colorNameSelected=tmp.nome_colore;
+          for(const color of tmp.nome_colore){
+            this.selectColor(this.extractColorHex(color));
+          }
+          console.log("Prodotto selezionato:",tmp);
         },
         error: (error: HttpErrorResponse) => {
+          this.urlListProductToUpdate = undefined;
+          this.colorNameSelected = undefined;
           if (error.status === 401 || error.status === 403) {
             this.auth.doLogout();
           } else {
@@ -133,7 +156,11 @@ export class AddProductComponent implements OnInit {
           }
         }
       });
+    }else{
+      this.urlListProductToUpdate = undefined;
+      this.colorNameSelected = undefined;
     }
+
 
     // Chiamate per ottenere brands e categorie
     this.brandService.getBrands().subscribe({
@@ -383,6 +410,10 @@ export class AddProductComponent implements OnInit {
 
     }
   }
+  
+  public createUrlByString(filename: string): string {
+    return `${environment.serverUrl}/${filename}`;
+  }
 
   // Gestione della selezione colore
   public selectColor(colorHex: string): void {
@@ -394,6 +425,10 @@ export class AddProductComponent implements OnInit {
       // Rimuovi il colore se è già presente
       this.selectedColorsHex.splice(index, 1);
     }
+  }
+
+  public extractColorHex(colorName: string): string {
+    return this.colorCode[colorName];
   }
 }
 

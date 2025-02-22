@@ -1,3 +1,6 @@
+import { Taglia } from "./taglia.interface";
+import { Taglie_Has_Prodotti } from "./taglie_has_prodotti.interface";
+
 export interface ProdottiFull{
     id : number;
     nome_modello: string; 
@@ -10,10 +13,14 @@ export interface ProdottiFull{
     descrizione_brand: string; 
     stato_pubblicazione : number;
     prezzo : number;
-    taglia_Eu: string[]; 
-    taglia_Uk: string[]; 
-    taglia_Us: string[]; 
-    quantita: string[]; 
+    taglieProdotto : {
+        taglia : Taglia
+        taglia_prodotti : Taglie_Has_Prodotti
+    }[];
+    //taglia_Eu: string[]; 
+    //taglia_Uk: string[]; 
+    //taglia_Us: string[]; 
+    //quantita: string[]; 
     url: string[]; 
     nome_colore : string[];
 }
