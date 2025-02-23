@@ -86,10 +86,6 @@ export class AddProductComponent implements OnInit {
     descrizione_brand: "", 
     stato_pubblicazione: 0,
     prezzo: 0,
-    //taglia_Eu: [],
-    //taglia_Uk: [],
-    //taglia_Us: [],
-    //quantita: [],
     taglieProdotto: [],
     url: [],
     nome_colore: []

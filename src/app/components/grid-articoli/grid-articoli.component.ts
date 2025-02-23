@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ArticoliService } from '../../services/articoli.service';
-import { IArticoli } from '../../models/Articoli';
 import { ProdottiService } from '../../services/prodotti.service';
 import { ServerResponse } from '../../models/ServerResponse.interface';
-import { Prodotti } from '../../models/prodotti.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthappService } from '../../services/authapp.service';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { ProdottiFull } from '../../models/prodottiFull.interface';
 
 @Component({
   selector: 'app-grid-articoli',
@@ -15,42 +13,32 @@ import { Router } from '@angular/router';
   styleUrls: ['./grid-articoli.component.css']
 })
 export class GridArticoliComponent implements OnInit {
-  public articoli$: IArticoli[] = [];
-  public _prodotti: { immagini: string[], prodotto: Prodotti }[] = [];
+  public _prodotti: { immagini: string[], prodotto: ProdottiFull }[] = [];
   public currentImageIndex: { [id: number]: number } = {}; // Stato dell'immagine corrente per ogni prodotto
 
   constructor(
-    private articoliService: ArticoliService,
     private prodottiService: ProdottiService,
     private auth: AuthappService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.fetchArticoli();
     this.fetchProdotti();
-  }
-
-  private fetchArticoli(): void {
-    this.articoli$ = this.articoliService.getArticoli();
   }
 
   private fetchProdotti(): void {
     this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
-        const tmp: Prodotti[] = <Prodotti[]>data.message;
+        const tmp: ProdottiFull[] = <ProdottiFull[]>data.message;
         tmp.forEach(attuale => {
           if (!this._prodotti.find(p => p.prodotto.id === attuale.id)) {
             this._prodotti.push({ immagini: [], prodotto: attuale });
           }
         });
-
         tmp.forEach(attuale => {
           const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
-          if (prodotto) prodotto.immagini.push(attuale.url);
+          if (prodotto) prodotto.immagini.push(attuale.url[0]);
         });
-        console.log('Prodotti:', data);
-        console.log('Prodotti:', this._prodotti);
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {

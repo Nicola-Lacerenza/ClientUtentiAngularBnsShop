@@ -9,7 +9,7 @@
       </h3>
       <div *ngIf="isGroupExpanded('genere')">
         <label *ngFor="let genere of generi">
-          <input type="checkbox" (change)="applicaFiltri(genere)"> {{ genere }}
+          <input type="checkbox"> {{ genere }}
         </label>
       </div>
     </div>
@@ -21,10 +21,10 @@
       </h3>
       <div *ngIf="isGroupExpanded('prezzo')">
         <label>
-          <input type="checkbox" (change)="applicaFiltri('Inferiore a 50 euro')"> Inferiore a 50 euro
+          <input type="checkbox"> Inferiore a 50 euro
         </label>
         <label>
-          <input type="checkbox" (change)="applicaFiltri('Superiore a 50 euro')"> Superiore a 50 euro
+          <input type="checkbox" > Superiore a 50 euro
         </label>
       </div>
     </div>
@@ -36,7 +36,7 @@
       </h3>
       <div *ngIf="isGroupExpanded('taglia')">
         <label *ngFor="let taglia of taglie">
-          <input type="checkbox" (change)="applicaFiltri(taglia)"> {{ taglia }}
+          <input type="checkbox"> {{ taglia }}
         </label>
       </div>
     </div>
@@ -48,7 +48,7 @@
       </h3>
       <div *ngIf="isGroupExpanded('colore')">
         <label *ngFor="let colore of colori">
-          <input type="checkbox" (change)="applicaFiltri(colore)"> {{ colore }}
+          <input type="checkbox" > {{ colore }}
         </label>
       </div>
     </div>
@@ -60,7 +60,7 @@
       </h3>
       <div *ngIf="isGroupExpanded('brand')">
         <label *ngFor="let brand of brands">
-          <input type="checkbox" (change)="applicaFiltri(brand)"> {{ brand }}
+          <input type="checkbox" > {{ brand }}
         </label>
       </div>
     </div>
@@ -72,7 +72,7 @@
       </h3>
       <div *ngIf="isGroupExpanded('categoria')">
         <label *ngFor="let categoria of tutteLeCategorie">
-          <input type="checkbox" (change)="applicaFiltri(categoria)"> {{ categoria }}
+          <input type="checkbox"> {{ categoria }}
         </label>
       </div>
     </div>
@@ -80,32 +80,19 @@
 
 
   <main class="product-grid">
-    <div *ngFor="let articolo of articoliFiltrati" class="product">
-      <a [routerLink]="['/pdp', articolo.codart]" class="product-link"> <!-- Link per l'intero prodotto -->
+    <div class="product">
+      <a class="product-link"> <!-- Link per l'intero prodotto -->
         <img 
-          [src]="articolo.imageUrl" 
-          [alt]="articolo.descrizione || 'Immagine di prodotto'" 
-          title="{{ articolo.descrizione }}" 
           class="main-image" 
         />
-        <div class="thumbnail-container" 
-             (mouseenter)="toggleThumbnails(articolo.codart, true)"
-             (mouseleave)="toggleThumbnails(articolo.codart, false)"
-             *ngIf="showThumbnails[articolo.codart]">
-          <img *ngFor="let img of articolo.imageUrls" 
-               [src]="img" 
-               [alt]="'Miniatura di ' + articolo.descrizione" 
-               title="{{ 'Miniatura di ' + articolo.descrizione }}" 
-               (mouseenter)="cambiaImmagine(img, articolo)" 
+        <div class="thumbnail-container">
+          <img  
+               (mouseenter)="showThumbnails" 
                class="thumbnail" 
           />
         </div>
-        <h3 (mouseenter)="toggleThumbnails(articolo.codart, true)" 
-            (mouseleave)="toggleThumbnails(articolo.codart, false)">
-          <span *ngIf="!showThumbnails[articolo.codart]">{{ articolo.descrizione }}</span>
-        </h3>
-        <p>€{{ articolo.prezzo | number:'1.2-2' }}</p>
-        <p>Codice: {{ articolo.codart }}</p>
+        <p>€{{'1.2-2' }}</p>
+        <p>Codice: {{ 'q'}}</p>
       </a>
     </div>
   </main>
