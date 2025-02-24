@@ -13,6 +13,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { SizeSelectorComponent } from './components/size-selector/size-selector.component';
 import { AddProductComponent } from './components/add-product/add-product';
 import { roleGuard } from './services/role-guard.guard';
+import { MemberComponent } from './components/member/member.component';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path:'grid',component:GridArticoliComponent, canActivate:[authGuard,roleGuard]},
   {path:'pdp',component:PdpComponent},
   {path:'addProduct', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
+  {path:'member', component: MemberComponent, canActivate:[authGuard,roleGuard]},
   {path:'addProduct/:id', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
   {path:'cart',component:CartComponent},
   {path:'size-selector',component:SizeSelectorComponent},

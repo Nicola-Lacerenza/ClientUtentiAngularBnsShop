@@ -29,6 +29,7 @@ export class GridArticoliComponent implements OnInit {
   private fetchProdotti(): void {
     this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
+        console.log(data);
         const tmp: ProdottiFull[] = <ProdottiFull[]>data.message;
         tmp.forEach(attuale => {
           if (!this._prodotti.find(p => p.prodotto.id === attuale.id)) {

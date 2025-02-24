@@ -88,65 +88,19 @@
 <section class="product-slider">
     <h2>Offerte Uomo</h2>
     <div class="slider">
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto1.png" alt="Prodotto 1">
-                    <button class="shoe-button">Nike Air Max</button>
+        <div class="product" *ngFor="let item of _prodotti">
+            <ng-container *ngIf="item.prodotto.target.toLowerCase() === 'uomo'">
+                <a routerLink="/articoli">
+                    <div class="image-container">
+                        <img [src]="item.immagini[0]" alt="{{ item.prodotto.nome_modello}}">
+                        <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
+                    </div>
+                </a>
+                <div class="product-details">
+                    <p class="product-description">{{ item.prodotto.descrizione_modello }}</p>
+                    <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
                 </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Sneakers leggere per ogni occasione.</p>
-                <p class="product-price">€99.99</p>
-            </div>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto2.png" alt="Prodotto 2">
-                    <button class="shoe-button">Adidas UltraBoost</button>
-                </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Comfort eccezionale per le tue corse.</p>
-                <p class="product-price">€129.99</p>
-            </div>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto3.png" alt="Prodotto 3">
-                    <button class="shoe-button">Puma RS-X</button>
-                </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Design audace per i più giovani.</p>
-                <p class="product-price">€89.99</p>
-            </div>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto4.png" alt="Prodotto 4">
-                    <button class="shoe-button">Converse Chuck Taylor</button>
-                </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Un classico senza tempo.</p>
-                <p class="product-price">€69.99</p>
-            </div>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto5.png" alt="Prodotto 5">
-                    <button class="shoe-button">Reebok Classic</button>
-                </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Stile retrò per ogni giorno.</p>
-                <p class="product-price">€79.99</p>
-            </div>
+            </ng-container>
         </div>
     </div>
 </section>
@@ -155,41 +109,19 @@
 <section class="product-slider">
     <h2>Offerte Donna</h2>
     <div class="slider">
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto6.png" alt="Prodotto 6">
-                    <button class="shoe-button">Nike React Infinity Run</button>
+        <div class="product" *ngFor="let item of _prodotti">
+            <ng-container *ngIf="item.prodotto.target.toLowerCase() === 'donna'">
+                <a routerLink="/articoli">
+                    <div class="image-container">
+                        <img [src]="item.immagini[0]" alt="{{ item.prodotto.nome_modello}}">
+                        <button class="shoe-button">{{item.prodotto.nome_modello}}</button>
+                    </div>
+                </a>
+                <div class="product-details">
+                    <p class="product-description">{{ item.prodotto.descrizione_modello }}</p>
+                    <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
                 </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Scarpe da corsa stabili e reattive.</p>
-                <p class="product-price">€139.99</p>
-            </div>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto7.png" alt="Prodotto 7">
-                    <button class="shoe-button">Adidas NMD</button>
-                </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Sneaker versatile e alla moda.</p>
-                <p class="product-price">€119.99</p>
-            </div>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto8.png" alt="Prodotto 8">
-                    <button class="shoe-button">Puma Cali</button>
-                </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Perfette per ogni look casual.</p>
-                <p class="product-price">€89.99</p>
-            </div>
+            </ng-container>
         </div>
     </div>
 </section>
@@ -198,41 +130,19 @@
 <section class="product-slider">
     <h2>Offerte Bambini</h2>
     <div class="slider">
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto9.png" alt="Prodotto 9">
-                    <button class="shoe-button">Nike Kids</button>
+        <div class="product" *ngFor="let item of _prodotti">
+            <ng-container *ngIf="item.prodotto.target.toLowerCase() === 'bambino'">
+                <a routerLink="/articoli">
+                    <div class="image-container">
+                        <img [src]="item.immagini[0]" alt="{{ item.prodotto.nome_modello}}">
+                        <button class="shoe-button">{{item.prodotto.nome_modello}}</button>
+                    </div>
+                </a>
+                <div class="product-details">
+                    <p class="product-description">{{ item.prodotto.descrizione_modello }}</p>
+                    <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
                 </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Ideali per i più piccoli.</p>
-                <p class="product-price">€49.99</p>
-            </div>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto10.png" alt="Prodotto 10">
-                    <button class="shoe-button">Adidas Kids</button>
-                </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Design allegro e colori vivaci.</p>
-                <p class="product-price">€39.99</p>
-            </div>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <div class="image-container">
-                    <img src="assets/images/prodotti/prodotto11.png" alt="Prodotto 11">
-                    <button class="shoe-button">Puma Kids</button>
-                </div>
-            </a>
-            <div class="product-details">
-                <p class="product-description">Design allegro e colori vivaci.</p>
-                <p class="product-price">€49.99</p>
-            </div>
+            </ng-container>
         </div>
     </div>
 </section>

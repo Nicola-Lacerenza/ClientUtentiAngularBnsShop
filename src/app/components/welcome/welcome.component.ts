@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ProdottiService } from '../../services/prodotti.service';
 import { AuthappService } from '../../services/authapp.service';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-welcome',
@@ -20,7 +21,9 @@ export class WelcomeComponent implements OnInit{
   sottotitolo : string="Visualizza le offerte del giorno";
 
   public _prodotti: { immagini: string[], prodotto: ProdottiFull }[] = [];
-
+  public prodottiUomo: { immagini: string[], prodotto: ProdottiFull }[] = [];
+  public prodottiDonna: { immagini: string[], prodotto: ProdottiFull }[] = [];
+  public prodottiBambino: { immagini: string[], prodotto: ProdottiFull }[] = [];
 
   constructor(
     private route:ActivatedRoute,
@@ -35,10 +38,16 @@ export class WelcomeComponent implements OnInit{
 
   }
 
+  public generateUrl(filename: string): string {
+    return `${environment.serverUrl}/${filename}`;
+ }
+
   private fetchProdotti(): void {
     this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
+        console.log(data);
         const tmp: ProdottiFull[] = <ProdottiFull[]>data.message;
+
         tmp.forEach(attuale => {
           if (!this._prodotti.find(p => p.prodotto.id === attuale.id)) {
             this._prodotti.push({ immagini: [], prodotto: attuale });
@@ -49,6 +58,19 @@ export class WelcomeComponent implements OnInit{
           const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
           if (prodotto) prodotto.immagini.push(attuale.url[0]);
         });
+
+        // Filtra solo i prodotti con target "uomo"
+        this.prodottiUomo = this._prodotti.filter(item =>
+          item.prodotto.target.toLowerCase() === 'uomo'
+        );
+        // Filtra solo i prodotti con target "donna"
+        this.prodottiDonna = this._prodotti.filter(item =>
+          item.prodotto.target.toLowerCase() === 'donna'
+        );
+        // Filtra solo i prodotti con target "Bambino"  
+        this.prodottiBambino = this._prodotti.filter(item =>
+          item.prodotto.target.toLowerCase() === 'bambino'
+        );
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {

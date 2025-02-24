@@ -1,0 +1,30 @@
+<div class="account-container">
+
+    <!-- Barra laterale -->
+    <aside class="sidebar">
+      <div class="user-info">
+        <!-- Invece di un'immagine, uso le iniziali come cerchio -->
+        <div class="avatar">{{ userInitials }}</div>
+        <div class="user-name">{{ userName }}</div>
+      </div>
+  
+      <nav class="menu">
+        <ul>
+          <li *ngFor="let item of menuItems">
+            <a [href]="item.link">{{ item.label }}</a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+  
+    <!-- Contenuto principale -->
+    <main class="main-content">
+      <h1>BENVENUTO NEL TUO ACCOUNT</h1>
+      <div class="qr-container">
+        <!-- Sostituisci con un’immagine a tua scelta o un QR code generato -->
+        <img src="assets/images/qr-example.png" alt="QR code" />
+      </div>
+    </main>
+  
+  </div>
+  
