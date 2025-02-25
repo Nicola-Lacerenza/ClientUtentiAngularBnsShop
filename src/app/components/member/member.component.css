@@ -1,97 +1,104 @@
 /* Layout principale */
 .account-container {
-    display: flex;
-    min-height: 100vh; 
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Sidebar */
-  .sidebar {
-    width: 240px; /* Larghezza fissa per il menu laterale */
-    background-color: #f9f9f9;
-    border-right: 1px solid #ddd;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  /* Informazioni utente nella sidebar */
-  .user-info {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  /* Avatar circolare con iniziali */
-  .avatar {
-    width: 60px;
-    height: 60px;
-    background-color: #ccc;
-    border-radius: 50%;
-    margin: 0 auto 10px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: #fff;
-    font-size: 18px;
-  }
-  
-  /* Nome utente */
-  .user-name {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  /* Menu laterale */
-  .menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .menu li {
-    margin: 10px 0;
-  }
-  
-  .menu a {
-    text-decoration: none;
-    color: #333;
-    font-size: 14px;
-    transition: color 0.3s;
-  }
-  
-  .menu a:hover {
-    color: #0070f3;
-  }
-  
-  /* Contenuto principale */
-  .main-content {
-    flex: 1; /* Occupa lo spazio rimanente */
-    padding: 40px;
-    box-sizing: border-box;
-    background-color: #fff;
-  }
-  
-  /* Titolo benvenuto */
-  .main-content h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  /* Sezione QR (o qualsiasi altra immagine) */
-  .qr-container {
-    width: 300px;
-    height: 300px;
-    background-color: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .qr-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-  }
-  
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px; /* Larghezza fissa per la sidebar */
+  background: linear-gradient(135deg, #ff6f00, #ffa000);
+  color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* Informazioni utente nella sidebar */
+.user-info {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Avatar circolare con iniziali */
+.avatar {
+  width: 70px;
+  height: 70px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #ff6f00;
+  font-size: 18px;
+}
+
+/* Nome utente */
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+/* Menu laterale */
+.menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin: 15px 0;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.menu a:hover {
+  color: #ffe082;
+}
+
+/* Contenuto principale */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.main-content h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #333;
+}
+
+/* Sezione QR (o qualsiasi altra immagine) */
+.qr-container {
+  width: 300px;
+  height: 300px;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.qr-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}

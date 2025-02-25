@@ -43,12 +43,17 @@ export class AuthappService {
     this.router.navigateByUrl("/welcome");
   }
 
-  public getUser(){
+  /*public getUser(){
     if(this.isLogged()===true){
       return this.httprequest.getRequest(environment.serverUrl + "/LoginServlet");
     }
     return false;
+  }*/
+
+  public getUser(): Observable<ServerResponse>{
+    return this.httprequest.getRequest(environment.serverUrl + "/LoginServlet");
   }
+
 
   public checkRuolo() : Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/ControllaRuoloServlet",{message:localStorage.getItem("token")});
