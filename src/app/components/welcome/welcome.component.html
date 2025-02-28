@@ -88,11 +88,11 @@
 <section class="product-slider">
     <h2>Offerte Uomo</h2>
     <div class="slider">
-        <div class="product" *ngFor="let item of _prodotti">
-            <ng-container *ngIf="item.prodotto.target.toLowerCase() === 'uomo'">
+        <div class="product" *ngFor="let item of prodottiUomo">
+            <ng-container >
                 <a routerLink="/articoli">
                     <div class="image-container">
-                        <img [src]="item.immagini[0]" alt="{{ item.prodotto.nome_modello}}">
+                        <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
                         <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
                     </div>
                 </a>
@@ -109,11 +109,11 @@
 <section class="product-slider">
     <h2>Offerte Donna</h2>
     <div class="slider">
-        <div class="product" *ngFor="let item of _prodotti">
-            <ng-container *ngIf="item.prodotto.target.toLowerCase() === 'donna'">
+        <div class="product" *ngFor="let item of prodottiDonna">
+            <ng-container>
                 <a routerLink="/articoli">
                     <div class="image-container">
-                        <img [src]="item.immagini[0]" alt="{{ item.prodotto.nome_modello}}">
+                        <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
                         <button class="shoe-button">{{item.prodotto.nome_modello}}</button>
                     </div>
                 </a>
@@ -130,11 +130,11 @@
 <section class="product-slider">
     <h2>Offerte Bambini</h2>
     <div class="slider">
-        <div class="product" *ngFor="let item of _prodotti">
-            <ng-container *ngIf="item.prodotto.target.toLowerCase() === 'bambino'">
+        <div class="product" *ngFor="let item of prodottiBambino">
+            <ng-container >
                 <a routerLink="/articoli">
                     <div class="image-container">
-                        <img [src]="item.immagini[0]" alt="{{ item.prodotto.nome_modello}}">
+                        <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
                         <button class="shoe-button">{{item.prodotto.nome_modello}}</button>
                     </div>
                 </a>

@@ -43,6 +43,9 @@ export class WelcomeComponent implements OnInit{
  }
 
   private fetchProdotti(): void {
+    this.prodottiUomo = [];
+  this.prodottiDonna = [];
+  this.prodottiBambino = [];
     this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
         console.log(data);
@@ -58,18 +61,17 @@ export class WelcomeComponent implements OnInit{
           const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
           if (prodotto) prodotto.immagini.push(attuale.url[0]);
         });
-
         // Filtra solo i prodotti con target "uomo"
-        this.prodottiUomo = this._prodotti.filter(item =>
-          item.prodotto.target.toLowerCase() === 'uomo'
+        this.prodottiUomo = this._prodotti.filter(item => 
+           item.prodotto.target.toLowerCase() === 'uomo' && item.prodotto.stato_pubblicazione === 1
         );
         // Filtra solo i prodotti con target "donna"
         this.prodottiDonna = this._prodotti.filter(item =>
-          item.prodotto.target.toLowerCase() === 'donna'
+          item.prodotto.target.toLowerCase() === 'donna' && item.prodotto.stato_pubblicazione === 1
         );
         // Filtra solo i prodotti con target "Bambino"  
         this.prodottiBambino = this._prodotti.filter(item =>
-          item.prodotto.target.toLowerCase() === 'bambino'
+          item.prodotto.target.toLowerCase() === 'bambino'&& item.prodotto.stato_pubblicazione === 1
         );
       },
       error: (error: HttpErrorResponse) => {
