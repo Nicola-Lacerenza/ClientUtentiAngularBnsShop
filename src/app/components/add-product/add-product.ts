@@ -133,6 +133,7 @@ export class AddProductComponent implements OnInit {
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
           const tmp = <ProdottiFull>data.message;
+          console.log("Prodotto selezionato:",tmp);
           this.actualProductSelected = tmp;
           this.urlListProductToUpdate = tmp.url;
           this.colorNameSelected=tmp.nome_colore;
@@ -146,7 +147,6 @@ export class AddProductComponent implements OnInit {
             }
             this.taglie[i].quantita+=taglia.taglia_prodotti.quantita;
           }
-          console.log("Prodotto selezionato:",tmp.taglieProdotto);
         },
         error: (error: HttpErrorResponse) => {
           this.urlListProductToUpdate = undefined;
@@ -340,72 +340,70 @@ export class AddProductComponent implements OnInit {
   }
 
   public actionProdotti(form: NgForm) {
-
-    if(this.actualProductSelected.id <= 0) {
-        console.log(form.value);
-      
-        // Controlla se il form è valido prima di procedere
-        if (form.valid) {
-          // Mappa i colori selezionati in nomi
-          form.value.colore = this.selectedColorsHex.map(color => this.colorNames[color]).join(', ');
-          
-          // Crea un nuovo FormData
-          const formData = new FormData();
-      
-          // Aggiungi le immagini
-          for (let j = 0; j < this.imageFiles.length; j++) {
-            formData.append("image" + j, this.imageFiles[j], this.imageFiles[j].name);
-          }
-      
-          // Aggiungi i dati generali del form
-          formData.append("id_categoria", form.value.id_categoria);
-          formData.append("id_brand", form.value.id_brand);
-          formData.append("nome", form.value.nome);
-          formData.append("descrizione", form.value.descrizione);
-          formData.append("prezzo", form.value.prezzo);
-          formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
-          formData.append("colori", form.value.colore);
-          
-          const taglie1: { quantita: number, taglia: string }[] = [];
-      
-          // Aggiungi tutte le taglie e quantità per il prodotto
-          this.taglie.forEach(size => {
-            if (size.quantita > 0) {
-              taglie1.push({ quantita: size.quantita, taglia: size.taglia });
-            }
-          });
-          formData.append("taglie", JSON.stringify(taglie1));
-          
-          // Esegui l'inserimento del prodotto
-          this.prodottiService.insertProdotti(formData).subscribe({
-            next: (data: ServerResponse) => {
-              // Mostra il messaggio di successo
-              this.successMessage = "Prodotto inserito con successo!";
-              // Dopo 2 secondi torna indietro
+    if (form.valid) {
+      // Mappa i colori selezionati in nomi
+      form.value.colore = this.selectedColorsHex
+        .map(color => this.colorNames[color])
+        .join(', ');
+  
+      // Crea un nuovo FormData
+      const formData = new FormData();
+  
+      // Aggiungi le immagini, se presenti
+      if (this.imageFiles && this.imageFiles.length > 0) {
+        for (let j = 0; j < this.imageFiles.length; j++) {
+          formData.append("image" + j, this.imageFiles[j], this.imageFiles[j].name);
+        }
+      }
+  
+      // Aggiungi i dati generali del form
+      formData.append("id_categoria", form.value.id_categoria);
+      formData.append("id_brand", form.value.id_brand);
+      formData.append("nome", form.value.nome);
+      formData.append("descrizione", form.value.descrizione);
+      formData.append("prezzo", form.value.prezzo);
+      formData.append("stato_pubblicazione", form.value.stato_pubblicazione);
+      formData.append("colori", form.value.colore);
+  
+      // Crea l'array delle taglie con relative quantità
+      const taglie1: { quantita: number, taglia: string }[] = [];
+      this.taglie.forEach(size => {
+        if (size.quantita > 0) {
+          taglie1.push({ quantita: size.quantita, taglia: size.taglia });
+        }
+      });
+      formData.append("taglie", JSON.stringify(taglie1));
+  
+      // Se l'id del prodotto è <= 0 si tratta di un'inserimento, altrimenti di un aggiornamento
+      if (this.actualProductSelected.id <= 0) {
+        this.prodottiService.insertProdotti(formData).subscribe({
+          next: (data: ServerResponse) => {
+            this.successMessage = "Prodotto inserito con successo!";
+            setTimeout(() => {
+              this.successMessage = null;
+              window.history.back();
+            }, 2000);
+          },
+          error: (error: HttpErrorResponse) => {
+            if (error.status === 401 || error.status === 403) {
+              this.successMessage = "Errore durante l'inserimento del prodotto.";
+              console.error(error);
               setTimeout(() => {
                 this.successMessage = null;
-                window.history.back();
-              }, 2000);
-            },
-            error: (error: HttpErrorResponse) => {
-              if (error.status === 401 || error.status === 403) {
-                this.successMessage = "Errore durante l'inserimento del prodotto.";
-                console.error(error);
-                setTimeout(() => {
-                  this.successMessage = null;
-                }, 3000);
-              } else {
-                this.successMessage = "Compila correttamente tutti i campi obbligatori.";
-                setTimeout(() => {
-                  this.successMessage = null;
-                }, 3000);
-              }
+              }, 3000);
+            } else {
+              this.successMessage = "Compila correttamente tutti i campi obbligatori.";
+              setTimeout(() => {
+                this.successMessage = null;
+              }, 3000);
             }
-          });
-       }
-    } else{
-      if (form.valid) {
-        this.prodottiService.updateProdotti(this.actualProductSelected.id,form.value).subscribe({
+          }
+        });
+      } else {
+        
+        formData.append("id", this.actualProductSelected.id.toString());
+
+        this.prodottiService.updateProdotti(this.actualProductSelected.id, formData).subscribe({
           next: (data: ServerResponse) => {
             this.successMessage = "Prodotto modificato con successo!";
             setTimeout(() => {
@@ -413,24 +411,26 @@ export class AddProductComponent implements OnInit {
               window.history.back();
             }, 2000);
           },
-         error: (error: HttpErrorResponse) => {
-          if (error.status === 401 || error.status === 403) {
-            this.successMessage = "Errore durante la modifica del prodotto.";
-            console.error(error);
-            setTimeout(() => {
-              this.successMessage = null;
-            }, 3000);
-          } else {
-            this.successMessage = "Compila correttamente tutti i campi obbligatori.";
-            setTimeout(() => {
-              this.successMessage = null;
-            }, 3000);
+          error: (error: HttpErrorResponse) => {
+            if (error.status === 401 || error.status === 403) {
+              this.successMessage = "Errore durante la modifica del prodotto.";
+              console.error(error);
+              setTimeout(() => {
+                this.successMessage = null;
+              }, 3000);
+            } else {
+              this.successMessage = "Compila correttamente tutti i campi obbligatori.";
+              setTimeout(() => {
+                this.successMessage = null;
+              }, 3000);
+            }
           }
-         }
         });
       }
     }
   }
+  
+  
   
   public createUrlByString(filename: string): string {
     return `${environment.serverUrl}/${filename}`;

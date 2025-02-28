@@ -21,7 +21,7 @@ export class HttpRequestService {
     return this.http.post<ServerResponse>(url,body);
   }
 
-  public putRequest(url: string, body: ServerRequest): Observable<ServerResponse> {
+  public putRequest(url: string, body: ServerRequest | {message:string | null} | FormData): Observable<ServerResponse> {
     return this.http.put<ServerResponse>(url, body);
   }
   

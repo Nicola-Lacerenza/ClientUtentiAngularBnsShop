@@ -24,7 +24,7 @@ export class ProdottiService {
     return this.httprequest.postRequest(environment.serverUrl + "/ProdottiServlet",body)
   }
 
-  public updateProdotti(id: number, body: ServerRequest): Observable<ServerResponse> {
+  public updateProdotti(id: number, body: ServerRequest | FormData): Observable<ServerResponse> {
     return this.httprequest.putRequest(environment.serverUrl + "/ProdottiServlet?id=" + id, body);
   }
 
