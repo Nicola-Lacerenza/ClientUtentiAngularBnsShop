@@ -1,4 +1,4 @@
-/* Corpo della pagina */
+/* Stili globali */
 body {
   font-family: 'Helvetica Neue', sans-serif;
   background-color: #f0f2f5;
@@ -10,13 +10,13 @@ body {
 /* Contenitore principale */
 .product-page-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
   padding: 20px;
 }
 
-/* Contenuto del prodotto */
+/* Contenuto principale della pagina prodotto */
 .product-content {
   display: flex;
   width: 100%;
@@ -36,10 +36,27 @@ body {
   align-items: center;
 }
 
+.main-image {
+  width: 100%;
+  max-height: 500px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.main-image img {
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.main-image img:hover {
+  transform: scale(1.05);
+}
+
 .thumbnail-images {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .thumbnail-images img {
@@ -55,64 +72,57 @@ body {
   transform: scale(1.05);
 }
 
-.main-image img {
-  width: 100%;
-  max-height: 500px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-/* Informazioni prodotto */
+/* Sezione informazioni prodotto */
 .product-info {
   width: 50%;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  overflow-y: auto;
   padding-right: 10px;
 }
 
 .product-title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: bold;
   color: #222;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .product-price {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: bold;
   color: #d9534f;
+  margin-bottom: 20px;
 }
 
 .product-description {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #555;
 }
 
 /* Selezione taglia */
 .size-selection h3 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: #333;
 }
 
 .size-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .size-buttons button {
-  padding: 10px;
+  padding: 12px 18px;
   font-size: 14px;
   border: 1px solid #ccc;
   background-color: #f8f9fa;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .size-buttons button:hover,
@@ -122,53 +132,75 @@ body {
   border-color: #007bff;
 }
 
-/* CTA Buttons */
+/* Pulsanti Call-to-Action */
 .cta-buttons {
   display: flex;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 20px;
+  margin-top: 30px;
 }
 
 .cta-buttons button {
   flex: 1;
   padding: 15px;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: bold;
   color: #fff;
   background-color: #007bff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .cta-buttons button:hover {
   background-color: #0056b3;
+  transform: translateY(-3px);
 }
 
-/* Informazioni aggiuntive */
+/* Sezione Informazioni Aggiuntive (posizionata sotto il contenuto principale) */
 .additional-info {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #fff;
   margin-top: 20px;
-  font-size: 16px;
-  color: #444;
+  padding: 20px 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
-.info-header {
+.additional-info .info-header {
+  font-size: 18px;
   font-weight: bold;
   color: #007bff;
   cursor: pointer;
-  padding: 8px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
   transition: color 0.3s;
 }
 
-.info-header:hover {
+.additional-info .info-header:hover {
   color: #0056b3;
 }
 
-.info-item p {
-  margin: 5px 0;
-  padding: 5px;
+.additional-info div {
+  padding: 10px 0 15px 10px;
+  font-size: 16px;
+  color: #444;
   border-left: 3px solid #d9534f;
   background-color: #f9f9f9;
-  padding-left: 10px;
-  border-radius: 5px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Responsive per dispositivi più piccoli */
+@media (max-width: 768px) {
+  .product-content {
+    flex-direction: column;
+  }
+  .product-images, .product-info {
+    width: 100%;
+  }
+  .main-image {
+    max-height: 400px;
+  }
 }

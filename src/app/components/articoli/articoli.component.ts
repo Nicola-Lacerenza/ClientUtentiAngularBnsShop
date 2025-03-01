@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-articoli',
@@ -25,7 +26,8 @@ export class ArticoliComponent implements OnInit {
 
   constructor(   
     private prodottiService: ProdottiService,
-    private auth: AuthappService
+    private auth: AuthappService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -82,4 +84,9 @@ export class ArticoliComponent implements OnInit {
   isGroupExpanded(group: string): boolean {
     return this.expandedGroups[group];
   }
+
+  
+  viewProduct(id: number): void {
+    this.router.navigateByUrl(`/pdp/${id}`);
+   }
 }

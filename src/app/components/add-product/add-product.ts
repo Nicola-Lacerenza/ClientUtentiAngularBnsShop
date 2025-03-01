@@ -1,10 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { AuthappService } from '../../services/authapp.service';
 import { PopUpManagerService } from '../../services/pop-up-manager.service';
-import { Modello } from '../../models/modello.interface';
 import { ProdottiService } from '../../services/prodotti.service';
 import { AddCategoriaComponent } from '../add-categoria/add-categoria.component';
 import { Brand } from '../../models/brand.interface';
@@ -120,16 +119,12 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Mostra l'URL per debug
-    this.route.url.subscribe(url => console.log(url.toString()));
-
     // Leggi il parametro "id" dalla rotta
     const tmp = this.route.snapshot.paramMap.get("id");
 
     // Se "id" esiste, chiama il servizio per ottenere il prodotto
     if (tmp !== null) {
       this.actualId = parseInt(tmp);
-      console.log("ID selezionato:", this.actualId);
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
           const tmp = <ProdottiFull>data.message;

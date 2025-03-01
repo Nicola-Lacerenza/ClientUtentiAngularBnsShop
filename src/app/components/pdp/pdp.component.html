@@ -2,22 +2,20 @@
   <div class="product-content">
     <!-- Colonna delle immagini -->
     <div class="product-images">
-      <div class="thumbnail-images">
-        <img src="assets/images/prodotti/prodotto1.png" alt="Thumbnail 1" onmouseover="changeMainImage('assets/images/prodotti/prodotto1.png')" />
-        <img src="assets/images/prodotti/prodotto3.png" alt="Thumbnail 2" onmouseover="changeMainImage('assets/images/prodotti/prodotto3.png')" />
-        <img src="assets/images/prodotti/prodotto4.png" alt="Thumbnail 3" onmouseover="changeMainImage('assets/images/prodotti/prodotto1.png')" />
+      <div class="main-image" *ngIf="this.urlListProductToUpdate"> 
+        <img [src]="createUrlByString(singleUrl)" alt="Main Preview" *ngFor="let singleUrl of this.urlListProductToUpdate"/>
       </div>
-      <div class="main-image">
-        <img id="mainProductImage" src="assets/images/prodotti/prodotto3.png" alt="Nike Air Force 1" />
+      <div class="thumbnail-images">
+        <img id="mainProductImage" [src]="" alt="Nike Air Force 1" />
       </div>
     </div>
 
     <!-- Colonna delle informazioni prodotto -->
     <div class="product-info">
-      <h1 class="product-title">Nike Air Force 1 '07 EasyOn</h1>
-      <h2 class="product-price">119,99 €</h2>
+      <h1 class="product-title">{{ this.actualProductSelected.nome_modello }}</h1>
+      <h2 class="product-price">{{ this.actualProductSelected.prezzo + " €"}}</h2>
       <p class="product-description">
-        Scarpe iconiche per ogni occasione, comode e stilose.
+        {{ this.actualProductSelected.descrizione_modello }}
       </p>
 
       <!-- Selezione della taglia -->
@@ -37,29 +35,29 @@
         <button (click)="addToCart()">Aggiungi al carrello</button>
         <button (click)="addToFavorites()">Aggiungi ai preferiti</button>
       </div>
+    </div>
+  </div>
 
-      <!-- Sezione Informazioni -->
-      <div class="additional-info">
-        <h3 class="info-header" (click)="toggleInfo('sizeFit')">Taglia/misura e fit</h3>
-        <div *ngIf="isInfoVisible['sizeFit']">
-          <p>Informazioni dettagliate sulla taglia e fit della scarpa.</p>
-        </div>
+  <!-- Sezione Informazioni aggiuntive posizionata sotto il contenuto principale -->
+  <div class="additional-info">
+    <h3 class="info-header" (click)="toggleInfo('sizeFit')">Taglia/misura e fit</h3>
+    <div *ngIf="isInfoVisible['sizeFit']">
+      <p>Informazioni dettagliate sulla taglia e fit della scarpa.</p>
+    </div>
 
-        <h3 class="info-header" (click)="toggleInfo('shipping')">Spedizione e resi gratuiti</h3>
-        <div *ngIf="isInfoVisible['shipping']">
-          <p>Dettagli sulla spedizione e resi gratuiti.</p>
-        </div>
+    <h3 class="info-header" (click)="toggleInfo('shipping')">Spedizione e resi gratuiti</h3>
+    <div *ngIf="isInfoVisible['shipping']">
+      <p>Dettagli sulla spedizione e resi gratuiti.</p>
+    </div>
 
-        <h3 class="info-header" (click)="toggleInfo('reviews')">Recensioni (170)</h3>
-        <div *ngIf="isInfoVisible['reviews']">
-          <p>Recensioni dei clienti e feedback sulla scarpa.</p>
-        </div>
+    <h3 class="info-header" (click)="toggleInfo('reviews')">Recensioni (170)</h3>
+    <div *ngIf="isInfoVisible['reviews']">
+      <p>Recensioni dei clienti e feedback sulla scarpa.</p>
+    </div>
 
-        <h3 class="info-header" (click)="toggleInfo('moreInfo')">Ulteriori informazioni</h3>
-        <div *ngIf="isInfoVisible['moreInfo']">
-          <p>Ulteriori informazioni sul prodotto e il brand.</p>
-        </div>
-      </div>
+    <h3 class="info-header" (click)="toggleInfo('moreInfo')">Ulteriori informazioni</h3>
+    <div *ngIf="isInfoVisible['moreInfo']">
+      <p>Ulteriori informazioni sul prodotto e il brand.</p>
     </div>
   </div>
 </div>

@@ -1,13 +1,14 @@
-<div class="container">
+<div class="container"> 
   <aside class="filters">
     <h2>Filtri</h2>
 
     <!-- Gruppo di filtri per Genere -->
-    <div>
-      <h3 (click)="toggleGroup('genere')">Genere
+    <div class="filter-group">
+      <h3 (click)="toggleGroup('genere')">
+        Genere
         <span [class]="isGroupExpanded('genere') ? 'arrow-down' : 'arrow-right'"></span>
       </h3>
-      <div *ngIf="isGroupExpanded('genere')">
+      <div class="filter-options" *ngIf="isGroupExpanded('genere')">
         <label *ngFor="let genere of generi">
           <input type="checkbox"> {{ genere }}
         </label>
@@ -15,26 +16,28 @@
     </div>
 
     <!-- Gruppo di filtri per Prezzo -->
-    <div>
-      <h3 (click)="toggleGroup('prezzo')">Acquista per Prezzo
+    <div class="filter-group">
+      <h3 (click)="toggleGroup('prezzo')">
+        Acquista per Prezzo
         <span [class]="isGroupExpanded('prezzo') ? 'arrow-down' : 'arrow-right'"></span>
       </h3>
-      <div *ngIf="isGroupExpanded('prezzo')">
+      <div class="filter-options" *ngIf="isGroupExpanded('prezzo')">
         <label>
           <input type="checkbox"> Inferiore a 50 euro
         </label>
         <label>
-          <input type="checkbox" > Superiore a 50 euro
+          <input type="checkbox"> Superiore a 50 euro
         </label>
       </div>
     </div>
 
     <!-- Gruppo di filtri per Taglia -->
-    <div>
-      <h3 (click)="toggleGroup('taglia')">Taglia
+    <div class="filter-group">
+      <h3 (click)="toggleGroup('taglia')">
+        Taglia
         <span [class]="isGroupExpanded('taglia') ? 'arrow-down' : 'arrow-right'"></span>
       </h3>
-      <div *ngIf="isGroupExpanded('taglia')">
+      <div class="filter-options" *ngIf="isGroupExpanded('taglia')">
         <label *ngFor="let taglia of taglie">
           <input type="checkbox"> {{ taglia }}
         </label>
@@ -42,35 +45,38 @@
     </div>
 
     <!-- Gruppo di filtri per Colore -->
-    <div>
-      <h3 (click)="toggleGroup('colore')">Colore
+    <div class="filter-group">
+      <h3 (click)="toggleGroup('colore')">
+        Colore
         <span [class]="isGroupExpanded('colore') ? 'arrow-down' : 'arrow-right'"></span>
       </h3>
-      <div *ngIf="isGroupExpanded('colore')">
+      <div class="filter-options" *ngIf="isGroupExpanded('colore')">
         <label *ngFor="let colore of colori">
-          <input type="checkbox" > {{ colore }}
+          <input type="checkbox"> {{ colore }}
         </label>
       </div>
     </div>
 
     <!-- Gruppo di filtri per Brand -->
-    <div>
-      <h3 (click)="toggleGroup('brand')">Brand
+    <div class="filter-group">
+      <h3 (click)="toggleGroup('brand')">
+        Brand
         <span [class]="isGroupExpanded('brand') ? 'arrow-down' : 'arrow-right'"></span>
       </h3>
-      <div *ngIf="isGroupExpanded('brand')">
+      <div class="filter-options" *ngIf="isGroupExpanded('brand')">
         <label *ngFor="let brand of brands">
-          <input type="checkbox" > {{ brand }}
+          <input type="checkbox"> {{ brand }}
         </label>
       </div>
     </div>
 
     <!-- Gruppo di filtri per Categoria -->
-    <div>
-      <h3 (click)="toggleGroup('categoria')">Categoria
+    <div class="filter-group">
+      <h3 (click)="toggleGroup('categoria')">
+        Categoria
         <span [class]="isGroupExpanded('categoria') ? 'arrow-down' : 'arrow-right'"></span>
       </h3>
-      <div *ngIf="isGroupExpanded('categoria')">
+      <div class="filter-options" *ngIf="isGroupExpanded('categoria')">
         <label *ngFor="let categoria of tutteLeCategorie">
           <input type="checkbox"> {{ categoria }}
         </label>
@@ -78,21 +84,25 @@
     </div>
   </aside>
 
-
   <main class="product-grid">
-    <div class="product">
-      <a class="product-link"> <!-- Link per l'intero prodotto -->
-        <img 
-          class="main-image" 
-        />
-        <div class="thumbnail-container">
-          <img  
-               (mouseenter)="showThumbnails" 
-               class="thumbnail" 
+    <div class="product" *ngFor="let prodotto of _prodotti">
+      <a class="product-link" (click)="viewProduct(prodotto.prodotto.id)"> 
+        <div class="image-wrapper">
+          <img 
+            [src]="generateUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])"
+            class="main-image" 
+            alt="{{ prodotto.prodotto.nome_modello }}"
           />
         </div>
-        <p>€{{'1.2-2' }}</p>
-        <p>Codice: {{ 'q'}}</p>
+        <div class="thumbnail-container">
+          <img  
+            (mouseenter)="showThumbnails" 
+            class="thumbnail" 
+            alt="Anteprima prodotto"
+          />
+        </div>
+        <p class="price">€ {{ prodotto.prodotto.prezzo }}</p>
+        <p class="model">{{ prodotto.prodotto.nome_modello }}</p>
       </a>
     </div>
   </main>

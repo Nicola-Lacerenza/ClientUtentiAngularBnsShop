@@ -22,7 +22,7 @@ const routes: Routes = [
   {path:'new-user',component:NewUserComponent},
   {path:'articoli',component:ArticoliComponent},
   {path:'grid',component:GridArticoliComponent, canActivate:[authGuard,roleGuard]},
-  {path:'pdp',component:PdpComponent},
+  {path:'pdp/:id',component:PdpComponent},
   {path:'addProduct', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
   {path:'member', component: MemberComponent, canActivate:[authGuard,roleGuard]},
   {path:'addProduct/:id', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
