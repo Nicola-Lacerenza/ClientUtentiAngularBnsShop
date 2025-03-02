@@ -6,8 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { Router } from '@angular/router';
-import { FormBuilder, NgForm } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-articoli',
@@ -53,6 +53,10 @@ export class ArticoliComponent implements OnInit {
           const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
           if (prodotto) prodotto.immagini.push(attuale.url[0]);
         });
+        this._prodotti = this._prodotti.filter(item => 
+          item.prodotto.stato_pubblicazione === 1
+       );
+        this.prodottiFiltrati =this._prodotti;
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
@@ -65,76 +69,77 @@ export class ArticoliComponent implements OnInit {
   }
 
   public ApplicaFiltri(form : NgForm): void {
-  /* if (target.checked) {
-      const prodottiFiltrati1 = this._prodotti.filter(item => item.prodotto.target === genereSelezionato.toUpperCase());
-      for (let i = 0; i < prodottiFiltrati1.length; i++) {
-        let j=0;
-        while(j<this.prodottiFiltrati.length && this.prodottiFiltrati[j].prodotto.id !== prodottiFiltrati1[i].prodotto.id){
-          j++;
-        }
-        if(j >= this.prodottiFiltrati.length){
-          this.prodottiFiltrati.push(prodottiFiltrati1[i]);
-        }
+      // Recupera i valori del form
+      const filters = form.value;
+      
+      // Inizialmente prendi tutti i prodotti
+      let filteredProducts = this._prodotti.slice();
+    
+      // --- Filtro per Genere ---
+      const selectedGeneri = this.generi
+      .filter(genere => filters[genere])
+      .map(genere => genere.toUpperCase());
+      console.log(selectedGeneri.length);
+      if (selectedGeneri.length > 0) {
+        filteredProducts = filteredProducts.filter(item =>
+          selectedGeneri.includes(item.prodotto.target.toUpperCase())
+        );
       }
-    } else {
-      const prodottiFiltrati1 = this._prodotti.filter(item => item.prodotto.target === genereSelezionato.toUpperCase());
-      for (let i = 0; i < prodottiFiltrati1.length; i++) {
-        let j=0;
-        while(j<this.prodottiFiltrati.length && this.prodottiFiltrati[j].prodotto.id !== prodottiFiltrati1[i].prodotto.id){
-          j++;
-        }
-        if(j < this.prodottiFiltrati.length){
-          this.prodottiFiltrati.splice(j, 1); 
-        }
+    
+      // --- Filtro per Prezzo ---
+      if (filters.prezzoInferiore) {
+        filteredProducts = filteredProducts.filter(item =>
+          item.prodotto.prezzo <= filters.prezzoInferiore
+        );
       }
+      if (filters.prezzoSuperiore) {
+        filteredProducts = filteredProducts.filter(item =>
+          item.prodotto.prezzo >= filters.prezzoSuperiore
+        );
+      }
+    
+      // --- Filtro per Taglia ---
+      const selectedTaglie = this.taglie.filter(taglia => filters[taglia]);
+      if (selectedTaglie.length > 0) {
+        filteredProducts = filteredProducts.filter(item =>
+          item.prodotto.taglieProdotto.some(tp =>
+            selectedTaglie.includes(tp.taglia.taglia_Eu)
+          )
+        );
+      }
+
+      // --- Filtro per Colore ---
+      const selectedColori = this.colori
+        .filter(colore => filters[colore])
+        .map(colore => colore.toUpperCase());
+      if (selectedColori.length > 0) {
+        filteredProducts = filteredProducts.filter(item =>
+          item.prodotto.nome_colore.some(color => selectedColori.includes(color.toUpperCase()))
+        );
+      }
+
+    // --- Filtro per Categoria ---
+    const selectedCategorie = this.tutteLeCategorie
+      .filter(categoria => filters[categoria])
+      .map(categoria => categoria.toUpperCase());
+    if (selectedCategorie.length > 0) {
+      filteredProducts = filteredProducts.filter(item =>
+        selectedCategorie.includes(item.prodotto.nome_categoria.toUpperCase())
+      );
     }
+
+    // --- Filtro per Brand ---
+    const selectedBrands = this.brands
+      .filter(brand => filters[brand])
+      .map(brand => brand.toUpperCase());
+    if (selectedBrands.length > 0) {
+      filteredProducts = filteredProducts.filter(item =>
+        selectedBrands.includes(item.prodotto.nome_brand.toUpperCase())
+      );
+    }
+
+      this.prodottiFiltrati = filteredProducts;
   }
-
-  public selectPrezzo(prezzoSelezionato : number, mode:boolean , event: Event): void {
-    const prezzo = <HTMLInputElement>event.target;
-    if (prezzo.checked) {
-      let prodottiFiltrati1;
-      if(mode){
-        prodottiFiltrati1 = this._prodotti.filter(item => item.prodotto.prezzo <= prezzoSelezionato);
-      } else {
-        prodottiFiltrati1 = this._prodotti.filter(item => item.prodotto.prezzo >= prezzoSelezionato);
-      }
-      for (let i = 0; i < prodottiFiltrati1.length; i++) {
-        let j=0;
-        while(j<this.prodottiFiltrati.length && this.prodottiFiltrati[j].prodotto.id !== prodottiFiltrati1[i].prodotto.id){
-          j++;
-        }
-        if(j >= this.prodottiFiltrati.length){
-          this.prodottiFiltrati.push(prodottiFiltrati1[i]);
-        }
-      }
-    } else {
-      let prodottiFiltrati1;
-      if(mode){
-        prodottiFiltrati1 = this._prodotti.filter(item => item.prodotto.prezzo <= prezzoSelezionato);
-      } else {
-        prodottiFiltrati1 = this._prodotti.filter(item => item.prodotto.prezzo >= prezzoSelezionato);
-      }
-      for (let i = 0; i < prodottiFiltrati1.length; i++) {
-        let j=0;
-        while(j<this.prodottiFiltrati.length && this.prodottiFiltrati[j].prodotto.id !== prodottiFiltrati1[i].prodotto.id){
-          j++;
-        }
-        if(j < this.prodottiFiltrati.length){
-          this.prodottiFiltrati.splice(j, 1); 
-        }
-      }
-    }*/
-   console.log(form);
-   
-  }
-
-
-
-  public selectTaglia(tagliaSelezionata : string , event: Event): void {
-    const taglia = <HTMLInputElement>event.target;
-  }
-  
   
   public generateUrl(filename: string): string {
     return `${environment.serverUrl}/${filename}`;

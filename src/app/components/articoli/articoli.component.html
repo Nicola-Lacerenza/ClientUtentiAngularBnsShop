@@ -32,31 +32,36 @@
         </div>
       </div>
 
-      <!-- Gruppo di filtri per Taglia -->
-      <div class="filter-group">
-        <h3 (click)="toggleGroup('taglia')">
-          Taglia
-          <span [class]="isGroupExpanded('taglia') ? 'arrow-down' : 'arrow-right'"></span>
-        </h3>
-        <div class="filter-options" *ngIf="isGroupExpanded('taglia')">
-          <label *ngFor="let taglia of taglie">
-            <input type="checkbox" [name]="taglia" ngModel> {{ taglia }}
-          </label>
-        </div>
-      </div>
-
-      <!-- Gruppo di filtri per Colore -->
+ 
+      <!-- Filtri per Colore -->
       <div class="filter-group">
         <h3 (click)="toggleGroup('colore')">
           Colore
           <span [class]="isGroupExpanded('colore') ? 'arrow-down' : 'arrow-right'"></span>
         </h3>
-        <div class="filter-options" *ngIf="isGroupExpanded('colore')">
-          <label *ngFor="let colore of colori">
-            <input type="checkbox"[name]="colore" ngModel> {{ colore }}
+        <div class="filter-options color-filter" *ngIf="isGroupExpanded('colore')">
+          <label *ngFor="let colore of colori" class="color-option">
+            <input type="checkbox" [name]="colore" ngModel>
+            <span class="color-circle" [style.background]="colore"></span>
+            {{ colore }}
           </label>
         </div>
       </div>
+
+      <!-- Filtri per Taglia -->
+      <div class="filter-group">
+        <h3 (click)="toggleGroup('taglia')">
+          Taglia/Misura
+          <span [class]="isGroupExpanded('taglia') ? 'arrow-down' : 'arrow-right'"></span>
+        </h3>
+        <div class="filter-options size-filter" *ngIf="isGroupExpanded('taglia')">
+          <label *ngFor="let taglia of taglie" class="size-option">
+            <input type="checkbox" [name]="taglia" ngModel>
+            <span class="size-box">{{ taglia }}</span>
+          </label>
+        </div>
+      </div>
+
 
       <!-- Gruppo di filtri per Brand -->
       <div class="filter-group">

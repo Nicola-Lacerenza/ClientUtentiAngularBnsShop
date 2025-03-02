@@ -40,6 +40,7 @@ export class GridArticoliComponent implements OnInit {
           const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
           if (prodotto) prodotto.immagini.push(attuale.url[0]);
         });
+        console.log(this._prodotti);
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
