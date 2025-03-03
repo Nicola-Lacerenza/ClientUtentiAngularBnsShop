@@ -31,18 +31,21 @@ html, body {
   }
 }
 
-/* Layout della pagina */
+/* Layout della pagina: occupa tutta la larghezza (100vw) */
 .container {
   display: flex;
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Sidebar dei filtri */
+/* Sidebar dei filtri: aggiunto margine a sinistra per spazio bianco */
 .filters {
   width: 260px;
   padding: 20px;
+  margin-left: 20px; /* Spazio bianco a sinistra */
   background: var(--light-bg);
   box-shadow: 2px 0 8px var(--box-shadow);
   overflow-y: auto;
@@ -59,15 +62,14 @@ html, body {
   padding-bottom: 10px;
 }
 
-/* Pulsante "Applica filtri" migliorato */
+/* Pulsante "Applica filtri" */
 .filters button {
   width: 100%;
   padding: 12px;
   margin-top: 15px;
   background-color: var(--accent-color);
-  color: #000000;
-  border: 2px solid;
-  border-color: #000000;
+  color: #000;
+  border: 2px solid #000;
   border-radius: 5px;
   font-size: 1em;
   font-weight: 500;
@@ -77,8 +79,8 @@ html, body {
 }
 
 .filters button:hover {
-  background-color: #e69500; /* tonalità leggermente più scura */
-  border-color: #000000;
+  background-color: #e69500;
+  border-color: #000;
   transform: scale(1.02);
 }
 
@@ -124,23 +126,25 @@ html, body {
   margin-right: 8px;
 }
 
-/* Griglia dei prodotti dinamica */
+/* Griglia dei prodotti: il contenitore occupa tutta la parte destra */
 .product-grid {
   flex: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 20px;
+  padding: 20px 0; /* solo padding verticale: nessuno a destra */
+  margin-right: 0; /* elimina lo spazio bianco a destra */
   background: var(--background-color);
   overflow-y: auto;
   transition: all 0.3s ease;
 }
 
-/* Scheda prodotto dinamica */
+/* Scheda prodotto: riquadri più larghi e alti */
 .product {
   position: relative;
   flex: 1 1 calc(33.333% - 20px);
-  max-width: 300px;
+  max-width: 500px;    /* Aumentato per maggiore larghezza */
+  min-height: 400px;   /* Aumentato per maggiore altezza */
   background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 4px 12px var(--box-shadow);
@@ -179,9 +183,10 @@ html, body {
   overflow: hidden;
 }
 
+/* Immagine principale con altezza fissa */
 .main-image {
   width: 100%;
-  aspect-ratio: 1.2;
+  height: 250px;
   object-fit: cover;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -276,11 +281,10 @@ html, body {
   height: 20px;
   border-radius: 50%;
   margin-bottom: 5px;
-  border: 1px solid var(--border-color); /* Bordo per rendere visibile il pallino */
+  border: 1px solid var(--border-color);
 }
 
-/* Filtri per taglia: 3 taglie per riga, stile originale */
-/* Nascondo la checkbox per eliminare il rettangolo a fianco */
+/* Filtri per taglia: 3 taglie per riga */
 .size-option input {
   display: none;
 }
@@ -308,7 +312,7 @@ html, body {
   background-color: #fff;
   text-align: center;
   transition: border 0.2s ease, font-weight 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Riquadro intorno al numero */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .size-option input:checked + .size-box {
