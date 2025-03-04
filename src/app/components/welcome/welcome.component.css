@@ -69,13 +69,13 @@ body {
 .image-container {
     position: relative;
     width: 100%;
-    height: 75%; /* Altezza dell'immagine */
+    height: 80%; /* Altezza dell'immagine */
     overflow: hidden; /* Assicura che le immagini non strabordino */
 }
 
 .product img {
-    width: 100%;
-    height: 100%; /* Assicura che le immagini occupino tutto lo spazio */
+    width: 95%;
+    height: 95%; /* Assicura che le immagini occupino tutto lo spazio */
     object-fit: cover; /* Mantiene il formato corretto dell'immagine */
 }
 

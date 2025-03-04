@@ -127,9 +127,9 @@ body {
 
 .size-buttons button:hover,
 .size-buttons button.selected {
-  background-color: #007bff;
+  background-color: #848586;
   color: #fff;
-  border-color: #007bff;
+  border-color: #848586;
 }
 
 /* Pulsanti Call-to-Action */
@@ -145,7 +145,7 @@ body {
   font-size: 18px;
   font-weight: bold;
   color: #fff;
-  background-color: #007bff;
+  background-color: #848586;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -153,7 +153,7 @@ body {
 }
 
 .cta-buttons button:hover {
-  background-color: #0056b3;
+  background-color: #848586;
   transform: translateY(-3px);
 }
 

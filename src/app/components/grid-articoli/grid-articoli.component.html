@@ -58,7 +58,8 @@
             </div>
             <div class="card-body">
               <h5 class="card-title">{{ prodotto.prodotto.nome_modello }}</h5>
-              <p class="card-text">{{ prodotto.prodotto.descrizione_modello }}</p>
+              <p class="card-text">{{ prodotto.prodotto.descrizione_brand }}</p>
+              <p class="card-text">Scarpa da {{ prodotto.prodotto.target }}</p>
               <p class="card-text">€ {{ prodotto.prodotto.prezzo }}</p>
               <button class="btn btn-primary" (click)="handleEdit(prodotto.prodotto.id)">Modifica</button>
               <button class="btn btn-danger" (click)="handleDelete(prodotto.prodotto.id)">Elimina</button>
