@@ -29,7 +29,7 @@ export class GridArticoliComponent implements OnInit {
   private fetchProdotti(): void {
     this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
-        console.log(data);
+        console.log("data" ,data);
         const tmp: ProdottiFull[] = <ProdottiFull[]>data.message;
         tmp.forEach(attuale => {
           if (!this._prodotti.find(p => p.prodotto.id === attuale.id)) {
@@ -40,7 +40,7 @@ export class GridArticoliComponent implements OnInit {
           const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
           if (prodotto) prodotto.immagini.push(attuale.url[0]);
         });
-        console.log(this._prodotti);
+        console.log("prodotti" ,this._prodotti);
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {

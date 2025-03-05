@@ -394,8 +394,12 @@ colorCode:{[key: string]: string} = {
         
         formData.append("id", this.actualProductSelected.id.toString());
 
+        formData.forEach((value, key) => {
+          console.log(key, value);
+        });
+        
         this.prodottiService.updateProdotti(this.actualProductSelected.id, formData).subscribe({
-          next: (data: ServerResponse) => {
+          next: (data: ServerResponse) => {           
             this.successMessage = "Prodotto modificato con successo!";
             setTimeout(() => {
               this.successMessage = null;

@@ -57,6 +57,7 @@ export class ArticoliComponent implements OnInit {
           item.prodotto.stato_pubblicazione === 1
        );
         this.prodottiFiltrati =this._prodotti;
+        console.log("prodotti", this.prodottiFiltrati);
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
