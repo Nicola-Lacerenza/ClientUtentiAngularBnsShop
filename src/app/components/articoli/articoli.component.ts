@@ -17,16 +17,15 @@ import { NgForm } from '@angular/forms';
 export class ArticoliComponent implements OnInit {
   public _prodotti: { immagini: string[], prodotto: ProdottiFull }[] = [];
   public prodottiFiltrati: { immagini: string[], prodotto: ProdottiFull }[] = [];
+  public currentImageIndex: { [id: number]: number } = {}; 
 
+  showThumbnails: { [key: string]: boolean } = {};
+  generi: string[] = [];
+  taglie: string[] = [];
+  colori: string[] = [];
+  brands: string[] = [];
+  tutteLeCategorie: string[] = [];
 
-  public currentImageIndex: { [id: number]: number } = {}; // Stato dell'immagine corrente per ogni prodotto
-
-  tutteLeCategorie: string[] = ["Elettronica", "Abbigliamento", "Casa", "Giardino"];
-  showThumbnails: { [key: string]: boolean } = {}; // Oggetto per gestire lo stato delle miniature
-  generi: string[] = ["Uomo", "Donna", "Unisex"];
-  taglie: string[] = Array.from({ length: 12 }, (_, i) => (35 + i).toString());
-  colori: string[] = ["Rosso", "Blu", "Verde", "Nero", "Bianco"];
-  brands: string[] = ["Nike", "Adidas", "Puma", "Reebok", "New Balance"];
   expandedGroups: { [key: string]: boolean } = {};
 
   constructor(   
@@ -57,6 +56,34 @@ export class ArticoliComponent implements OnInit {
           item.prodotto.stato_pubblicazione === 1
        );
         this.prodottiFiltrati =this._prodotti;
+
+    // GESTIONE FILTRI
+        this._prodotti.forEach(item => {
+          const categoria = item.prodotto.nome_categoria;
+          if (!this.tutteLeCategorie.includes(categoria)) {
+            this.tutteLeCategorie.push(categoria);
+          }
+          const brand = item.prodotto.nome_brand;
+          if (!this.brands.includes(brand)) {
+            this.brands.push(brand);
+          }
+          const target = item.prodotto.target;
+          if (target && !this.generi.includes(target)) {
+            this.generi.push(target);
+          }
+          item.prodotto.nome_colore.forEach(colore => {
+            if (!this.colori.includes(colore)) {
+              this.colori.push(colore);
+            }
+          });
+          item.prodotto.taglieProdotto.forEach(tp => {
+            const taglia = tp.taglia.taglia_Eu; // Assumiamo che sia così
+            if (!this.taglie.includes(taglia)) {
+              this.taglie.push(taglia);
+            }
+          });
+        });
+        
         console.log("prodotti", this.prodottiFiltrati);
       },
       error: (error: HttpErrorResponse) => {

@@ -127,6 +127,7 @@ colorCode:{[key: string]: string} = {
           console.log("Prodotto selezionato:",tmp);
           this.actualProductSelected = tmp;
           this.urlListProductToUpdate = tmp.url;
+          this.imagePreviews = tmp.url.map(url => this.createUrlByString(url));
           this.colorNameSelected=tmp.nome_colore;
           for(const color of tmp.nome_colore){
             this.selectColor(this.extractColorHex(color));

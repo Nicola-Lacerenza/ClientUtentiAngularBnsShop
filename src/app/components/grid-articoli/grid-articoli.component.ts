@@ -23,10 +23,11 @@ export class GridArticoliComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchProdotti();
+    this.getProdotti();
   }
 
-  private fetchProdotti(): void {
+
+  private getProdotti(): void {
     this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
         console.log("data" ,data);

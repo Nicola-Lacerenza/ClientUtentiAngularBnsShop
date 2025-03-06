@@ -9,20 +9,24 @@
 
   <!-- Sezione per visualizzare l'immagine principale e le miniature -->
   <div class="image-preview-container">
-    <div class="main-image">
-      <div *ngIf="this.urlListProductToUpdate"> 
-        <img [src]="createUrlByString(singleUrl)" alt="Main Preview" *ngFor="let singleUrl of this.urlListProductToUpdate"/>
-      </div>
-      <div *ngIf="!this.urlListProductToUpdate"> 
-        <img [src]="mainImagePreview" alt="Main Preview" />
-      </div>
-        <button type="button" (click)="removeMainImage()" class="remove-button">X</button>
-    </div>
-    <div class="thumbnail-container">
-      <div class="thumbnail" *ngFor="let preview of imagePreviews; let i = index">
-        <img [src]="preview" alt="Thumbnail" />
-      </div>
-    </div>
+ <!-- Visualizzazione dell'immagine principale -->
+ <div class="main-image">
+  <div *ngIf="urlListProductToUpdate && urlListProductToUpdate.length > 0"> 
+    <img [src]="createUrlByString(urlListProductToUpdate[0])" alt="Main Preview">
+  </div>
+  <div *ngIf="!urlListProductToUpdate || (urlListProductToUpdate && urlListProductToUpdate.length === 0)"> 
+    <img [src]="mainImagePreview" alt="Main Preview" />
+  </div>
+  <button type="button" (click)="removeMainImage()" class="remove-button">X</button>
+</div>
+
+<!-- Visualizzazione delle miniature -->
+<div class="thumbnail-container">
+  <div class="thumbnail" *ngFor="let preview of imagePreviews; let i = index">
+    <img [src]="preview" alt="Thumbnail" (click)="mainImagePreview = preview"/>
+  </div>
+</div>
+
   </div>
 
   <!-- Campo Nome Modello -->
