@@ -2,11 +2,13 @@
   <div class="product-content">
     <!-- Colonna delle immagini -->
     <div class="product-images">
-      <div class="main-image" *ngIf="this.urlListProductToUpdate"> 
-        <img [src]="createUrlByString(singleUrl)" alt="Main Preview" *ngFor="let singleUrl of this.urlListProductToUpdate"/>
+      <div class="main-image" *ngIf="this.urlListProductToUpdate">
+        <div *ngFor="let singleUrl of this.urlListProductToUpdate;index as i">
+          <img [src]="createUrlByString(singleUrl)" alt="Main Preview" *ngIf="i===changeMainImage(singleUrl)"/>
+        </div>
       </div>
-      <div class="thumbnail-images">
-        <img id="mainProductImage" [src]="" alt="Nike Air Force 1" />
+      <div class="thumbnail-images" *ngFor="let singleUrl of this.urlListProductToUpdate;index as i">
+        <img id="mainProductImage" [src]="createUrlByString(singleUrl)" alt="Nike Air Force 1" *ngIf="i!== actualMainImage"/>
       </div>
     </div>
 
@@ -22,9 +24,10 @@
       <div class="size-selection">
         <h3>Seleziona la taglia</h3>
         <div class="size-buttons">
-          <button *ngFor="let size of ['EU 35.5', 'EU 36', 'EU 36.5', 'EU 37', 'EU 38', 'EU 38.5', 'EU 39', 'EU 40', 'EU 40.5', 'EU 41', 'EU 42', 'EU 42.5', 'EU 43', 'EU 44', 'EU 44.5']"
+          <button *ngFor="let size of ['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5']"
                   [ngClass]="{'selected': selectedSize === size}"
-                  (click)="selectSize(size)">
+                  (click)="selectSize(size)" 
+                  [disabled]="!isTagliaAvailable(size)">
             {{ size }}
           </button>
         </div>

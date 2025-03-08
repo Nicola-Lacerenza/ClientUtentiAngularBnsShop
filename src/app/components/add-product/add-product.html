@@ -8,26 +8,24 @@
   </div>
 
   <!-- Sezione per visualizzare l'immagine principale e le miniature -->
-  <div class="image-preview-container">
- <!-- Visualizzazione dell'immagine principale -->
- <div class="main-image">
-  <div *ngIf="urlListProductToUpdate && urlListProductToUpdate.length > 0"> 
-    <img [src]="createUrlByString(urlListProductToUpdate[0])" alt="Main Preview">
+<!-- Sezione per visualizzare l'immagine principale e le miniature -->
+<div class="image-preview-container">
+  <!-- Visualizzazione dell'immagine principale con la "X" per la rimozione -->
+  <div class="main-image" *ngIf="imagePreviews.length > 0">
+    <img [src]="mainImagePreview" alt="Main Preview">
+    <button type="button" (click)="removeImage()" class="remove-button">X</button>
   </div>
-  <div *ngIf="!urlListProductToUpdate || (urlListProductToUpdate && urlListProductToUpdate.length === 0)"> 
-    <img [src]="mainImagePreview" alt="Main Preview" />
+  <div *ngIf="imagePreviews.length === 0">
+    <p>Nessuna immagine selezionata</p>
   </div>
-  <button type="button" (click)="removeMainImage()" class="remove-button">X</button>
-</div>
 
-<!-- Visualizzazione delle miniature -->
-<div class="thumbnail-container">
-  <div class="thumbnail" *ngFor="let preview of imagePreviews; let i = index">
-    <img [src]="preview" alt="Thumbnail" (click)="mainImagePreview = preview"/>
+  <!-- Visualizzazione delle miniature: cliccando su una miniatura viene impostata come immagine principale -->
+  <div class="thumbnail-container">
+    <div class="thumbnail" *ngFor="let preview of imagePreviews; let i = index">
+      <img [src]="preview" alt="Thumbnail" (click)="mainImagePreview = preview">
+    </div>
   </div>
 </div>
-
-  </div>
 
   <!-- Campo Nome Modello -->
   <div class="form-group">

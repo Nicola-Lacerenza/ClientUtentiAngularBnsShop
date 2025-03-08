@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ProdottiService } from '../../services/prodotti.service';
 import { AuthappService } from '../../services/authapp.service';
 import { environment } from '../../../environments/environment';
+import { Taglia } from './../../models/taglia.interface';
+import { Taglie_Has_Prodotti } from './../../models/taglie_has_prodotti.interface';
 
 @Component({
   selector: 'app-pdp',
@@ -14,7 +16,8 @@ import { environment } from '../../../environments/environment';
 })
 export class PdpComponent {
 
-  private colorNameSelected:string[] | undefined;
+  private _actualMainImage: number;
+  private colorNameSelected:string[] | undefined
   private taglie: { taglia: string, quantita: number }[] = [];
   private actualId: number | undefined;
   public urlListProductToUpdate: string[] | undefined ;
@@ -37,13 +40,7 @@ export class PdpComponent {
 
   // Variabili di stato per la gestione della logica
   selectedSize: string | null = null; // Taglia selezionata inizialmente
-  mainImage: string = 'assets/main_image.jpg'; // Immagine principale del prodotto (da sostituire con l'immagine principale effettiva)
-  thumbnailImages: string[] = [ // Miniature delle immagini del prodotto
-    'assets/image1.jpg',
-    'assets/image2.jpg',
-    'assets/image3.jpg',
-    'assets/image4.jpg'
-  ];
+
   isInfoVisible: { [key: string]: boolean } = { // Visibilità delle informazioni aggiuntive
     sizeFit: false,
     shipping: false,
@@ -55,10 +52,19 @@ export class PdpComponent {
     private prodottiService: ProdottiService, 
     private auth: AuthappService,
     private route: ActivatedRoute
-  ) {}
+  ) {this._actualMainImage=0;
+     const totalTaglie : string[] =['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5'];
+     for (let i = 0;i<totalTaglie.length;i++){  
+      this.taglie.push({taglia:totalTaglie[i], quantita: 0 });
+    }
+  }
 
   ngOnInit(): void {
     this.getProduct();
+  }
+
+  public get actualMainImage(): number {
+    return this._actualMainImage;
   }
 
   private getProduct(): void{
@@ -68,7 +74,6 @@ export class PdpComponent {
     // Se "id" esiste, chiama il servizio per ottenere il prodotto
     if (tmp !== null) {
       this.actualId = parseInt(tmp);
-      console.log("ID selezionato:", this.actualId);
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
           const tmp = <ProdottiFull>data.message;
@@ -83,6 +88,7 @@ export class PdpComponent {
             }
             this.taglie[i].quantita+=taglia.taglia_prodotti.quantita;
           }
+          console.log("Taglie disponibili:",this.actualProductSelected.taglieProdotto);
         },
         error: (error: HttpErrorResponse) => {
           this.urlListProductToUpdate = undefined;
@@ -106,9 +112,30 @@ export class PdpComponent {
   
   // Metodo per cambiare l'immagine principale al passaggio sulle miniature
   changeMainImage(newImage: string) {
-    this.mainImage = newImage;
+    let i = 0;
+    const array: string[] = <string[]>this.urlListProductToUpdate;
+    while (i< array.length && array[i] !== newImage){
+      i++;
+    }
+    if(i<array.length){
+      this._actualMainImage = i;
+      return i ;
+    }
+    return 0;
   }
 
+  public isTagliaAvailable(taglia: string): boolean{
+    let i = 0;
+    const array: any = this.taglie;
+    while (i< array.length && array[i].taglia.taglia_Eu !== taglia ){
+      i++;
+    }
+    if(i<array.length){
+      return array[i].taglia_prodotti.quantita > 0;
+    }
+    return false;
+  }
+  
   // Metodo per selezionare una taglia
   selectSize(size: string) {
     this.selectedSize = size;
@@ -118,20 +145,14 @@ export class PdpComponent {
   // Metodo per aggiungere al carrello
   addToCart() {
     if (this.selectedSize) {
-      console.log(`Aggiunto al carrello: Taglia ${this.selectedSize}`);
-      alert(`Prodotto con taglia ${this.selectedSize} aggiunto al carrello.`);
     } else {
-      alert("Per favore, seleziona una taglia prima di aggiungere al carrello.");
     }
   }
 
   // Metodo per aggiungere ai preferiti
   addToFavorites() {
     if (this.selectedSize) {
-      console.log(`Aggiunto ai preferiti: Taglia ${this.selectedSize}`);
-      alert(`Prodotto con taglia ${this.selectedSize} aggiunto ai preferiti.`);
     } else {
-      alert("Per favore, seleziona una taglia prima di aggiungere ai preferiti.");
     }
   }
 

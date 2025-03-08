@@ -180,6 +180,10 @@ button:hover {
   margin-bottom: 20px;
 }
 
+.main-image {
+  position: relative; /* Aggiungi questa proprietà */
+  display: inline-block; /* Se non è già presente */
+}
 .main-image img {
   max-width: 100%;
   height: auto;
