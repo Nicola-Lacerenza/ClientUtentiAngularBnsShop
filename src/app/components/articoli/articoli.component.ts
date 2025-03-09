@@ -35,10 +35,10 @@ export class ArticoliComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchProdotti();
+    this.getProdotti();
   }
 
-  private fetchProdotti(): void {
+  private getProdotti(): void {
     this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
         const tmp: ProdottiFull[] = <ProdottiFull[]>data.message;
@@ -97,55 +97,48 @@ export class ArticoliComponent implements OnInit {
   }
 
   public ApplicaFiltri(form : NgForm): void {
-      // Recupera i valori del form
-      const filters = form.value;
-      
-      // Inizialmente prendi tutti i prodotti
-      let filteredProducts = this._prodotti.slice();
-    
-      // --- Filtro per Genere ---
-      const selectedGeneri = this.generi
-      .filter(genere => filters[genere])
-      .map(genere => genere.toUpperCase());
-      console.log(selectedGeneri.length);
-      if (selectedGeneri.length > 0) {
-        filteredProducts = filteredProducts.filter(item =>
-          selectedGeneri.includes(item.prodotto.target.toUpperCase())
-        );
-      }
-    
-      // --- Filtro per Prezzo ---
-      if (filters.prezzoInferiore) {
-        filteredProducts = filteredProducts.filter(item =>
-          item.prodotto.prezzo <= filters.prezzoInferiore
-        );
-      }
-      if (filters.prezzoSuperiore) {
-        filteredProducts = filteredProducts.filter(item =>
-          item.prodotto.prezzo >= filters.prezzoSuperiore
-        );
-      }
-    
-      // --- Filtro per Taglia ---
-      const selectedTaglie = this.taglie.filter(taglia => filters[taglia]);
-      if (selectedTaglie.length > 0) {
-        filteredProducts = filteredProducts.filter(item =>
-          item.prodotto.taglieProdotto.some(tp =>
-            selectedTaglie.includes(tp.taglia.taglia_Eu)
-          )
-        );
-      }
-
-      // --- Filtro per Colore ---
-      const selectedColori = this.colori
-        .filter(colore => filters[colore])
-        .map(colore => colore.toUpperCase());
-      if (selectedColori.length > 0) {
-        filteredProducts = filteredProducts.filter(item =>
-          item.prodotto.nome_colore.some(color => selectedColori.includes(color.toUpperCase()))
-        );
-      }
-
+    const filters = form.value;
+  
+    let filteredProducts = this._prodotti.slice();
+    // --- Filtro per Genere ---
+    const selectedGeneri = this.generi
+    .filter(genere => filters[genere])
+    .map(genere => genere.toUpperCase());
+    console.log(selectedGeneri.length);
+    if (selectedGeneri.length > 0) {
+      filteredProducts = filteredProducts.filter(item =>
+        selectedGeneri.includes(item.prodotto.target.toUpperCase())
+      );
+    }
+    // --- Filtro per Prezzo ---
+    if (filters.prezzoInferiore) {
+      filteredProducts = filteredProducts.filter(item =>
+        item.prodotto.prezzo <= filters.prezzoInferiore
+      );
+    }
+    if (filters.prezzoSuperiore) {
+      filteredProducts = filteredProducts.filter(item =>
+        item.prodotto.prezzo >= filters.prezzoSuperiore
+      );
+    }
+    // --- Filtro per Taglia ---
+    const selectedTaglie = this.taglie.filter(taglia => filters[taglia]);
+    if (selectedTaglie.length > 0) {
+      filteredProducts = filteredProducts.filter(item =>
+        item.prodotto.taglieProdotto.some(tp =>
+          selectedTaglie.includes(tp.taglia.taglia_Eu)
+        )
+      );
+    }
+    // --- Filtro per Colore ---
+    const selectedColori = this.colori
+      .filter(colore => filters[colore])
+      .map(colore => colore.toUpperCase());
+    if (selectedColori.length > 0) {
+      filteredProducts = filteredProducts.filter(item =>
+        item.prodotto.nome_colore.some(color => selectedColori.includes(color.toUpperCase()))
+      );
+    }
     // --- Filtro per Categoria ---
     const selectedCategorie = this.tutteLeCategorie
       .filter(categoria => filters[categoria])
@@ -155,7 +148,6 @@ export class ArticoliComponent implements OnInit {
         selectedCategorie.includes(item.prodotto.nome_categoria.toUpperCase())
       );
     }
-
     // --- Filtro per Brand ---
     const selectedBrands = this.brands
       .filter(brand => filters[brand])
@@ -165,7 +157,6 @@ export class ArticoliComponent implements OnInit {
         selectedBrands.includes(item.prodotto.nome_brand.toUpperCase())
       );
     }
-
       this.prodottiFiltrati = filteredProducts;
   }
   

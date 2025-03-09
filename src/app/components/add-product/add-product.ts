@@ -285,47 +285,30 @@ colorCode:{[key: string]: string} = {
     this.mainImagePreview = this.imagePreviews[index]; // Cambia l'immagine principale al passaggio del mouse
   }
 
-  /*removeMainImage(): void {
-    if (this.imageFiles.length > 1) {
-      this.imageFiles.splice(0, 1); // Rimuove l'immagine principale
-      this.imagePreviews.splice(0, 1); // Rimuove il relativo preview
-      this.mainImagePreview = this.imagePreviews[0]; // Imposta una nuova immagine principale
+  removeImage(): void {
+    const index = this.imagePreviews.indexOf(this.mainImagePreview);
+    if (index === -1) return;
+  
+    let isNew = true;
+    if (this.urlListProductToUpdate && this.urlListProductToUpdate.length > 0) {
+      const existingUrls = this.urlListProductToUpdate.map(url => this.createUrlByString(url));
+      if (existingUrls.includes(this.mainImagePreview)) {
+        isNew = false;
+      }
+    }  
+    // Rimuove l'immagine dall'array delle anteprime
+    this.imagePreviews.splice(index, 1);
+    // Rimuove dal corrispondente array
+    if (isNew) {
+      this.imageFiles.splice(index, 1);
     } else {
-      this.imageFiles = [];
-      this.imagePreviews = [];
-      this.mainImagePreview = '';
-    }
-    this.productForm.patchValue({ images: this.imageFiles }); // Aggiorna il modulo
-  }*/
-    removeImage(): void {
-      const index = this.imagePreviews.indexOf(this.mainImagePreview);
-      if (index === -1) return;
-  
-      // Verifica se l'immagine corrente è già esistente oppure nuova
-      let isNew = true;
-      if (this.urlListProductToUpdate && this.urlListProductToUpdate.length > 0) {
-        const existingUrls = this.urlListProductToUpdate.map(url => this.createUrlByString(url));
-        if (existingUrls.includes(this.mainImagePreview)) {
-          isNew = false;
-        }
-      }
-  
-      // Rimuove l'immagine dall'array delle anteprime
-      this.imagePreviews.splice(index, 1);
-  
-      // Rimuove dal corrispondente array
-      if (isNew) {
-        this.imageFiles.splice(index, 1);
-      } else {
-        this.urlListProductToUpdate!.splice(index, 1);
-      }
-  
-      // Aggiorna il form (solo per le nuove immagini)
-      this.productForm.patchValue({ images: this.imageFiles });
-  
-      // Imposta la nuova immagine principale (se presente) oppure azzera
-      this.mainImagePreview = this.imagePreviews.length > 0 ? this.imagePreviews[0] : '';
-    }
+      this.urlListProductToUpdate!.splice(index, 1);
+    }  
+    // Aggiorna il form (solo per le nuove immagini)
+    this.productForm.patchValue({ images: this.imageFiles });  
+    // Imposta la nuova immagine principale (se presente) oppure azzera
+    this.mainImagePreview = this.imagePreviews.length > 0 ? this.imagePreviews[0] : '';
+  }
     
   // Incrementa la quantità per la taglia selezionata 
   increaseQuantity(t: string): void {

@@ -1,14 +1,25 @@
 <div class="product-page-container">
   <div class="product-content">
-    <!-- Colonna delle immagini -->
+    <!-- Contenitore principale delle immagini -->
     <div class="product-images">
-      <div class="main-image" *ngIf="this.urlListProductToUpdate">
-        <div *ngFor="let singleUrl of this.urlListProductToUpdate;index as i">
-          <img [src]="createUrlByString(singleUrl)" alt="Main Preview" *ngIf="i===changeMainImage(singleUrl)"/>
+        <!-- Sezione immagini prodotto -->
+      <div class="product-images" *ngIf="urlListProductToUpdate">
+        <!-- Immagine principale -->
+        <div class="main-image">
+          <div *ngFor="let singleUrl of urlListProductToUpdate; index as i">
+            <img [src]="createUrlByString(singleUrl)" alt="Main Preview" *ngIf="i === actualMainImage" />
+          </div>
         </div>
-      </div>
-      <div class="thumbnail-images" *ngFor="let singleUrl of this.urlListProductToUpdate;index as i">
-        <img id="mainProductImage" [src]="createUrlByString(singleUrl)" alt="Nike Air Force 1" *ngIf="i!== actualMainImage"/>
+
+        <!-- Contenitore unico per le miniature -->
+        <div class="thumbnail-images">
+          <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
+            <img *ngIf="i !== actualMainImage"
+                [src]="createUrlByString(singleUrl)"
+                alt="Nike Air Force 1"
+                (click)="setMainImage(i)" />
+          </ng-container>
+        </div>
       </div>
     </div>
 
@@ -24,7 +35,7 @@
       <div class="size-selection">
         <h3>Seleziona la taglia</h3>
         <div class="size-buttons">
-          <button *ngFor="let size of ['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5']"
+          <button *ngFor="let size of ['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5', '45', '46', '47']"
                   [ngClass]="{'selected': selectedSize === size}"
                   (click)="selectSize(size)" 
                   [disabled]="!isTagliaAvailable(size)">

@@ -67,6 +67,11 @@ export class PdpComponent {
     return this._actualMainImage;
   }
 
+  public setMainImage(index: number): void {
+    this._actualMainImage = index;
+  }
+  
+
   private getProduct(): void{
 // Leggi il parametro "id" dalla rotta
     const tmp = this.route.snapshot.paramMap.get("id");
@@ -124,18 +129,11 @@ export class PdpComponent {
     return 0;
   }
 
-  public isTagliaAvailable(taglia: string): boolean{
-    let i = 0;
-    const array: any = this.taglie;
-    while (i< array.length && array[i].taglia.taglia_Eu !== taglia ){
-      i++;
-    }
-    if(i<array.length){
-      return array[i].taglia_prodotti.quantita > 0;
-    }
-    return false;
+  public isTagliaAvailable(taglia: string): boolean {
+    const available = this.taglie.find(item => item.taglia === taglia);
+    return available ? available.quantita > 0 : false;
   }
-  
+
   // Metodo per selezionare una taglia
   selectSize(size: string) {
     this.selectedSize = size;

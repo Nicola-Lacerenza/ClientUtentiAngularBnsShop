@@ -1,9 +1,9 @@
-<div class="container"> 
+<div class="container">
   <aside class="filters">
     <h2>Filtri</h2>
-      <form #filterForm="ngForm" (ngSubmit)="ApplicaFiltri(filterForm)"> 
-
-      <!-- Gruppo di filtri per Genere -->
+    <form #filterForm="ngForm" (ngSubmit)="ApplicaFiltri(filterForm)">
+      
+      <!-- Filtri per Genere -->
       <div class="filter-group">
         <h3 (click)="toggleGroup('genere')">
           Genere
@@ -11,12 +11,12 @@
         </h3>
         <div class="filter-options" *ngIf="isGroupExpanded('genere')">
           <label *ngFor="let genere of generi">
-            <input type="checkbox"  [name]="genere"  ngModel> {{ genere }}
+            <input type="checkbox" [name]="genere" ngModel> {{ genere }}
           </label>
         </div>
       </div>
 
-      <!-- Gruppo di filtri per Prezzo -->
+      <!-- Filtri per Prezzo -->
       <div class="filter-group">
         <h3 (click)="toggleGroup('prezzo')">
           Acquista per Prezzo
@@ -32,7 +32,6 @@
         </div>
       </div>
 
- 
       <!-- Filtri per Colore -->
       <div class="filter-group">
         <h3 (click)="toggleGroup('colore')">
@@ -62,8 +61,7 @@
         </div>
       </div>
 
-
-      <!-- Gruppo di filtri per Brand -->
+      <!-- Filtri per Brand -->
       <div class="filter-group">
         <h3 (click)="toggleGroup('brand')">
           Brand
@@ -71,12 +69,12 @@
         </h3>
         <div class="filter-options" *ngIf="isGroupExpanded('brand')">
           <label *ngFor="let brand of brands">
-            <input type="checkbox"[name]="brand" ngModel> {{ brand }}
+            <input type="checkbox" [name]="brand" ngModel> {{ brand }}
           </label>
         </div>
       </div>
 
-      <!-- Gruppo di filtri per Categoria -->
+      <!-- Filtri per Categoria -->
       <div class="filter-group">
         <h3 (click)="toggleGroup('categoria')">
           Categoria
@@ -84,30 +82,29 @@
         </h3>
         <div class="filter-options" *ngIf="isGroupExpanded('categoria')">
           <label *ngFor="let categoria of tutteLeCategorie">
-            <input type="checkbox"[name]= "categoria" ngModel> {{ categoria }}
+            <input type="checkbox" [name]="categoria" ngModel> {{ categoria }}
           </label>
         </div>
       </div>
+      
       <button type="submit">Applica filtri</button>
     </form>
   </aside>
 
   <main class="product-grid">
     <div class="product" *ngFor="let prodotto of prodottiFiltrati">
-      <a class="product-link" (click)="viewProduct(prodotto.prodotto.id)"> 
+      <a class="product-link" (click)="viewProduct(prodotto.prodotto.id)">
         <div class="image-wrapper">
           <img 
             [src]="generateUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])"
             class="main-image" 
-            alt="{{ prodotto.prodotto.nome_modello }}"
-          />
+            alt="{{ prodotto.prodotto.nome_modello }}">
         </div>
         <div class="thumbnail-container">
           <img  
             (mouseenter)="showThumbnails" 
             class="thumbnail" 
-            alt="Anteprima prodotto"
-          />
+            alt="Anteprima prodotto">
         </div>
         <p class="price">€ {{ prodotto.prodotto.prezzo }}</p>
         <p class="model">{{ prodotto.prodotto.nome_modello }}</p>

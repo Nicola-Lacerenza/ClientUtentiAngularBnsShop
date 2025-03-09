@@ -12,7 +12,7 @@
 <div class="image-preview-container">
   <!-- Visualizzazione dell'immagine principale con la "X" per la rimozione -->
   <div class="main-image" *ngIf="imagePreviews.length > 0">
-    <img [src]="mainImagePreview" alt="Main Preview">
+    <img [src]="mainImagePreview" alt="">
     <button type="button" (click)="removeImage()" class="remove-button">X</button>
   </div>
   <div *ngIf="imagePreviews.length === 0">
