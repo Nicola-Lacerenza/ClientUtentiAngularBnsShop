@@ -1,11 +1,11 @@
 :root {
-  --primary-color: #333;
+  --primary-color: #2d2d2d;
   --secondary-color: #555;
-  --accent-color: #FFA500; /* Arancione vivace */
-  --background-color: #fafafa;
-  --light-bg: #f2f2f2;
-  --card-bg: #fff;
-  --border-color: #ccc;
+  --accent-color: #FFA500;
+  --background-color: #f7f7f7;
+  --light-bg: #ffffff;
+  --card-bg: #ffffff;
+  --border-color: #e0e0e0;
   --box-shadow: rgba(0, 0, 0, 0.1);
   --transition-speed: 0.3s;
 }
@@ -22,41 +22,68 @@ html, body {
   color: var(--primary-color);
 }
 
-/* Contenitore principale */
-.container {
-  display: flex;
-  /* height: 100vh;  // se lo vuoi mantenere, ok */
-  /* width: 100vw;   // sostituisci con: */
+/* Wrapper dell'intera pagina */
+.page-wrapper {
   width: 100%;
-  min-height: 100vh; /* in modo che riempia verticalmente la finestra */
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  min-height: 100vh;
 }
 
+/* Barra in alto */
+.top-bar {
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent-color), #ffbf00);
+  padding: 15px 20px;
+  box-shadow: 0 2px 6px var(--box-shadow);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.top-bar button {
+  padding: 10px 20px;
+  background-color: var(--light-bg);
+  border: none;
+  border-radius: 4px;
+  color: var(--primary-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform 0.2s;
+}
+
+.top-bar button:hover {
+  background-color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+/* Contenuto principale */
+.page-content {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+}
+
+/* Sidebar dei filtri */
 .filters {
   width: 260px;
   padding: 20px;
-  margin-left: 0;
   background: var(--light-bg);
   box-shadow: 2px 0 8px var(--box-shadow);
   overflow-y: auto;
-  overflow-x: hidden;
-  transition: all 0.3s ease;
+  border-right: 1px solid var(--border-color);
 }
 
-
 .filters h2 {
-  font-size: 1.5em;
-  margin-bottom: 1em;
+  font-size: 1.8em;
+  margin-bottom: 20px;
   text-transform: uppercase;
   border-bottom: 2px solid var(--accent-color);
   padding-bottom: 10px;
 }
 
-/* Gruppi di filtri */
 .filter-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .filter-group h3 {
@@ -66,7 +93,7 @@ html, body {
   align-items: center;
   cursor: pointer;
   color: var(--secondary-color);
-  transition: color var(--transition-speed) ease;
+  transition: color var(--transition-speed);
 }
 
 .filter-group h3:hover {
@@ -74,36 +101,55 @@ html, body {
 }
 
 .filter-options {
-  margin-top: 5px;
+  margin-top: 8px;
   padding-left: 10px;
-  animation: fadeInSlide 0.5s ease;
+  animation: fadeInSlide 0.3s ease;
 }
 
 .filters label {
   display: flex;
   align-items: center;
-  font-size: 0.9em;
-  margin: 5px 0;
+  font-size: 0.95em;
+  margin: 6px 0;
+  cursor: pointer;
 }
 
 .filters input[type="checkbox"] {
   margin-right: 8px;
+  cursor: pointer;
 }
 
-/* Pulsante "Applica filtri" */
+/* Prezzo: campi disposti verticalmente */
+.price-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.price-input-group label {
+  font-size: 0.9em;
+}
+
+.price-input-group input[type="number"] {
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+/* Pulsante applica filtri */
 .filters button {
   display: block;
   width: 100%;
   padding: 12px;
   margin-top: 20px;
   background-color: var(--accent-color);
-  color: #000;
-  border: 2px solid #000;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
   border-radius: 5px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color var(--transition-speed), transform 0.2s;
 }
 
 .filters button:hover {
@@ -111,107 +157,133 @@ html, body {
   transform: scale(1.02);
 }
 
-.filters button:active {
-  transform: scale(0.98);
-}
-
 /* Animazione per apparizione */
 @keyframes fadeInSlide {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-/* Griglia dei prodotti */
-.product-grid {
+
+/* Contenitore dei prodotti */
+.products-container {
   flex: 1;
-  justify-content: space-between;
+  padding: 20px;
+  background: var(--background-color);
+  overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 20px; 
-  margin: 0; 
-  background: var(--background-color);
-  overflow-y: auto;
-  transition: all 0.3s ease;
 }
 
-/* Scheda prodotto */
-.product {
-  position: relative;
-    flex: 1 1 calc((100% - 80px) / 3);
-    background: var(--card-bg);
+/* Gruppo modello */
+.model-group {
+  flex: 0 0 calc((100% - 40px) / 3);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   box-shadow: 0 4px 12px var(--box-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
-  animation: fadeInSlide 0.5s ease;
+  transition: transform var(--transition-speed);
 }
 
-.product:hover {
+.model-group:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px var(--box-shadow);
 }
 
-/* Immagine principale */
-.image-wrapper {
+/* Immagine principale del modello */
+.main-image {
   width: 100%;
   overflow: hidden;
-} 
+  border-radius: 8px;
+}
 
-.main-image {
-  /* Lasciala adattare in larghezza, così riempie tutto lo spazio */
+.main-image img {
   width: 100%;
   height: auto;
   object-fit: cover;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform var(--transition-speed);
 }
 
-.product:hover .main-image {
-  transform: scale(1.10);
+.model-group:hover .main-image img {
+  transform: scale(1.05);
 }
 
+/* Informazioni del modello sotto l'immagine */
+.model-info {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.model-info .model-title {
+  font-size: 1.2em;
+  color: var(--accent-color);
+  margin: 5px 0;
+}
+
+.model-info .model-target,
+.model-info .model-brand {
+  font-size: 0.95em;
+  color: var(--secondary-color);
+  margin: 2px 0;
+}
+
+/* Thumbnails */
 .thumbnail-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  background: var(--light-bg);
-  padding: 8px;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .thumbnail {
-  width: 45px;
-  height: 45px;
-  margin: 0 5px;
-  cursor: pointer;
+  width: 50px;
+  height: 50px;
   border-radius: 4px;
-  transition: transform 0.2s ease;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s;
+  border: 1px solid var(--border-color);
 }
 
 .thumbnail:hover {
   transform: scale(1.1);
 }
 
-.price {
-  font-size: 1em;
-  font-weight: 500;
-  color: var(--accent-color);
-  margin: 10px 0 5px;
+/* Taglie: visualizza 3 per riga, ogni taglia in riquadro */
+.filter-options.size-filter {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
 
-.model {
-  font-size: 0.9em;
-  color: var(--secondary-color);
+.size-option {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   text-align: center;
-  padding: 0 10px 15px;
+  padding: 8px;
+  background: var(--light-bg);
 }
 
-/* Adattamento per dispositivi mobili */
+/* Responsive */
+@media (max-width: 1024px) {
+  .model-group {
+    flex: 0 0 calc((100% - 40px) / 2);
+  }
+}
+
 @media (max-width: 768px) {
+  .page-content {
+    flex-direction: column;
+  }
   .filters {
-    width: 220px;
-    padding: 15px;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .model-group {
+    flex: 0 0 100%;
   }
 }

@@ -53,7 +53,7 @@ export class PdpComponent {
     private auth: AuthappService,
     private route: ActivatedRoute
   ) {this._actualMainImage=0;
-     const totalTaglie : string[] =['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5'];
+     const totalTaglie : string[] =['35.5', '36', '36.5', '37','37.5', '38', '38.5', '39','39.5', '40', '40.5', '41','41.5', '42', '42.5', '43','43.5', '44', '44.5'];
      for (let i = 0;i<totalTaglie.length;i++){  
       this.taglie.push({taglia:totalTaglie[i], quantita: 0 });
     }
