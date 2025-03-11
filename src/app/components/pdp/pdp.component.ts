@@ -1,28 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProdottiService } from '../../services/prodotti.service';
 import { AuthappService } from '../../services/authapp.service';
 import { environment } from '../../../environments/environment';
-import { Taglia } from './../../models/taglia.interface';
-import { Taglie_Has_Prodotti } from './../../models/taglie_has_prodotti.interface';
 
 @Component({
   selector: 'app-pdp',
   templateUrl: './pdp.component.html',
   styleUrls: ['./pdp.component.css']
 })
-export class PdpComponent {
-
+export class PdpComponent implements OnInit {
   private _actualMainImage: number;
-  private colorNameSelected:string[] | undefined
+  private colorNameSelected: string[] | undefined;
   private taglie: { taglia: string, quantita: number }[] = [];
   private actualId: number | undefined;
-  public urlListProductToUpdate: string[] | undefined ;
+  public urlListProductToUpdate: string[] | undefined;
   public actualProductSelected: ProdottiFull = { 
     id: 0,
+    id_modello: 0,
     nome_modello: "",
     descrizione_modello: "",
     id_categoria: 0,
@@ -36,12 +34,16 @@ export class PdpComponent {
     taglieProdotto: [],
     url: [],
     nome_colore: []
-  }; 
+  };
 
-  // Variabili di stato per la gestione della logica
-  selectedSize: string | null = null; // Taglia selezionata inizialmente
+  // Proprietà per i prodotti correlati
+  public relatedProducts: ProdottiFull[] = [];
 
-  isInfoVisible: { [key: string]: boolean } = { // Visibilità delle informazioni aggiuntive
+  // Stato della taglia selezionata
+  selectedSize: string | null = null;
+
+  // Stato per la visibilità delle info aggiuntive
+  isInfoVisible: { [key: string]: boolean } = {
     sizeFit: false,
     shipping: false,
     reviews: false,
@@ -49,18 +51,27 @@ export class PdpComponent {
   };
 
   constructor(
-    private prodottiService: ProdottiService, 
+    private prodottiService: ProdottiService,
     private auth: AuthappService,
-    private route: ActivatedRoute
-  ) {this._actualMainImage=0;
-     const totalTaglie : string[] =['35.5', '36', '36.5', '37','37.5', '38', '38.5', '39','39.5', '40', '40.5', '41','41.5', '42', '42.5', '43','43.5', '44', '44.5'];
-     for (let i = 0;i<totalTaglie.length;i++){  
-      this.taglie.push({taglia:totalTaglie[i], quantita: 0 });
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this._actualMainImage = 0;
+    const totalTaglie: string[] = ['35.5', '36', '36.5', '37', '37.5', '38', '38.5', '39', '39.5', '40', '40.5', '41', '41.5', '42', '42.5', '43', '43.5', '44', '44.5'];
+    for (let i = 0; i < totalTaglie.length; i++){
+      this.taglie.push({ taglia: totalTaglie[i], quantita: 0 });
     }
   }
 
   ngOnInit(): void {
-    this.getProduct();
+    // Usa il subscribe per aggiornare il prodotto ogni volta che cambia il parametro della rotta
+    this.route.paramMap.subscribe(params => {
+      const tmp = params.get("id");
+      if (tmp !== null) {
+        this.actualId = parseInt(tmp, 10);
+        this.getProduct();
+      }
+    });
   }
 
   public get actualMainImage(): number {
@@ -68,32 +79,53 @@ export class PdpComponent {
   }
 
   public setMainImage(index: number): void {
-    this._actualMainImage = index;
+    if (this._actualMainImage !== index) {
+      this._actualMainImage = index;
+    }
   }
   
-
-  private getProduct(): void{
-// Leggi il parametro "id" dalla rotta
+  
+  private getProduct(): void {
     const tmp = this.route.snapshot.paramMap.get("id");
-
-    // Se "id" esiste, chiama il servizio per ottenere il prodotto
     if (tmp !== null) {
-      this.actualId = parseInt(tmp);
+      this.actualId = parseInt(tmp, 10);
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
-          const tmp = <ProdottiFull>data.message;
-          console.log("Prodotto selezionato:",tmp);
-          this.actualProductSelected = tmp;
-          this.urlListProductToUpdate = tmp.url;
-          this.colorNameSelected=tmp.nome_colore;
-          for(const taglia of tmp.taglieProdotto){
-            let i=0;
-            while(i<this.taglie.length && this.taglie[i].taglia !== taglia.taglia.taglia_Eu){
+          const tmpProd = <ProdottiFull>data.message;
+          console.log("Prodotto selezionato:", tmpProd);
+          this.actualProductSelected = tmpProd;
+          this.urlListProductToUpdate = tmpProd.url;
+          this.colorNameSelected = tmpProd.nome_colore;
+          
+          // Reset delle quantità per le taglie prima di aggiornare
+          this.taglie.forEach(item => item.quantita = 0);
+          
+          // Aggiorna le quantità per le taglie disponibili del prodotto corrente
+          for (const taglia of tmpProd.taglieProdotto) {
+            let i = 0;
+            while (i < this.taglie.length && this.taglie[i].taglia !== taglia.taglia.taglia_Eu) {
               i++;
             }
-            this.taglie[i].quantita+=taglia.taglia_prodotti.quantita;
+            if (i < this.taglie.length) {
+              this.taglie[i].quantita += taglia.taglia_prodotti.quantita;
+            }
           }
-          console.log("Taglie disponibili:",this.actualProductSelected.taglieProdotto);
+          console.log("Taglie disponibili:", this.actualProductSelected.taglieProdotto);
+
+          // Carica i prodotti correlati (stesso id_modello, diverso id e stato_pubblicazione = 1)
+          this.prodottiService.getProdotti().subscribe({
+            next: (data: ServerResponse) => {
+              const allProducts: ProdottiFull[] = <ProdottiFull[]>data.message;
+              this.relatedProducts = allProducts.filter(prod => 
+                prod.id_modello === this.actualProductSelected.id_modello &&
+                prod.id !== this.actualProductSelected.id &&
+                prod.stato_pubblicazione === 1
+              );
+            },
+            error: (error: HttpErrorResponse) => {
+              console.error("Errore nel caricamento dei prodotti correlati", error);
+            }
+          });
         },
         error: (error: HttpErrorResponse) => {
           this.urlListProductToUpdate = undefined;
@@ -105,7 +137,7 @@ export class PdpComponent {
           }
         }
       });
-    }else{
+    } else {
       this.urlListProductToUpdate = undefined;
       this.colorNameSelected = undefined;
     }
@@ -113,18 +145,17 @@ export class PdpComponent {
 
   public createUrlByString(filename: string): string {
     return `${environment.serverUrl}/${filename}`;
-  }  
+  }
   
-  // Metodo per cambiare l'immagine principale al passaggio sulle miniature
-  changeMainImage(newImage: string) {
+  changeMainImage(newImage: string): number {
     let i = 0;
-    const array: string[] = <string[]>this.urlListProductToUpdate;
-    while (i< array.length && array[i] !== newImage){
+    const array: string[] = this.urlListProductToUpdate || [];
+    while (i < array.length && array[i] !== newImage) {
       i++;
     }
-    if(i<array.length){
+    if (i < array.length) {
       this._actualMainImage = i;
-      return i ;
+      return i;
     }
     return 0;
   }
@@ -134,28 +165,33 @@ export class PdpComponent {
     return available ? available.quantita > 0 : false;
   }
 
-  // Metodo per selezionare una taglia
   selectSize(size: string) {
     this.selectedSize = size;
     console.log(`Taglia selezionata: ${size}`);
   }
 
-  // Metodo per aggiungere al carrello
   addToCart() {
     if (this.selectedSize) {
+      // Logica per aggiungere al carrello
     } else {
+      // Gestione dell'errore: nessuna taglia selezionata
     }
   }
 
-  // Metodo per aggiungere ai preferiti
   addToFavorites() {
     if (this.selectedSize) {
+      // Logica per aggiungere ai preferiti
     } else {
+      // Gestione dell'errore: nessuna taglia selezionata
     }
   }
 
-  // Metodo per alternare la visibilità delle informazioni aggiuntive
   toggleInfo(info: string) {
     this.isInfoVisible[info] = !this.isInfoVisible[info];
+  }
+
+  // Naviga alla pagina del prodotto correlato
+  selectRelatedProduct(product: ProdottiFull): void {
+    this.router.navigate(['/pdp', product.id]);
   }
 }

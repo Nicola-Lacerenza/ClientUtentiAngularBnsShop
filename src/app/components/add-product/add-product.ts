@@ -41,7 +41,7 @@ export class AddProductComponent implements OnInit {
 
 // Lista dei colori primari e secondari in formato esadecimale
 primaryColors: string[] = [
-  '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', 
+  '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#99FFFF', 
   'FFFFFF', '#FFA500', '#800080', '#FFC0CB', '#A52A2A', '#808080',
   '#000000' 
 ];
@@ -49,13 +49,13 @@ primaryColors: string[] = [
 // Mappatura tra il valore esadecimale e il nome del colore
 colorNames: { [key: string]: string } = {
   '#FF0000': 'ROSSO','#00FF00': 'VERDE','#0000FF': 'BLU','#FFFF00': 'GIALLO','#FF00FF': 'MAGENTA',
-  '#00FFFF': 'CYAN','FFFFFF': 'BIANCO','#FFA500': 'ARANCIONE','#800080': 'VIOLA','#FFC0CB': 'ROSA',
+  '#99FFFF': 'CELESTE','FFFFFF': 'BIANCO','#FFA500': 'ARANCIONE','#800080': 'VIOLA','#FFC0CB': 'ROSA',
   '#A52A2A': 'MARRONE','#808080': 'GRIGIO', '#000000': 'NERO' 
 };
 
 colorCode:{[key: string]: string} = {
   'ROSSO': '#FF0000', 'VERDE': '#00FF00','BLU': '#0000FF','GIALLO': '#FFFF00','MAGENTA': '#FF00FF',
-  'CYAN': '#00FFFF','BIANCO': 'FFFFFF','ARANCIONE': '#FFA500','VIOLA': '#800080','ROSA': '#FFC0CB',
+  'CELESTE': '#99FFFF','BIANCO': 'FFFFFF','ARANCIONE': '#FFA500','VIOLA': '#800080','ROSA': '#FFC0CB',
   'MARRONE': '#A52A2A','GRIGIO': '#808080', 'NERO': '#000000' 
 };
 
@@ -71,6 +71,7 @@ colorCode:{[key: string]: string} = {
   private actualId: number | undefined;
   public actualProductSelected: ProdottiFull = { 
     id: 0,
+    id_modello:0,
     nome_modello: "",
     descrizione_modello: "",
     id_categoria: 0,

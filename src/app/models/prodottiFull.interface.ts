@@ -3,6 +3,7 @@ import { Taglie_Has_Prodotti } from "./taglie_has_prodotti.interface";
 
 export interface ProdottiFull{
     id : number;
+    id_modello : number;
     nome_modello: string; 
     descrizione_modello: string; 
     id_categoria : number;

@@ -12,21 +12,36 @@
         </div>
 
         <!-- Contenitore unico per le miniature -->
-        <div class="thumbnail-images">
+        <div class="thumbnail-images" *ngIf="urlListProductToUpdate">
           <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
-            <img *ngIf="i !== actualMainImage"
-                [src]="createUrlByString(singleUrl)"
-                alt="Nike Air Force 1"
-                (click)="setMainImage(i)" />
+            <img [src]="createUrlByString(singleUrl)"
+                 [class.active]="i === actualMainImage"
+                 alt="Thumbnail"
+                 (mouseenter)="setMainImage(i)" />
           </ng-container>
         </div>
+        
       </div>
     </div>
 
     <!-- Colonna delle informazioni prodotto -->
     <div class="product-info">
       <h1 class="product-title">{{ this.actualProductSelected.nome_modello }}</h1>
+      <p class="product-description">{{ this.actualProductSelected.descrizione_brand }} - {{ this.actualProductSelected.target}}</p>
       <h2 class="product-price">{{ this.actualProductSelected.prezzo + " €"}}</h2>
+
+      <!-- Nuova sezione per i prodotti correlati -->
+      <div class="related-products">
+        <h3>Prodotti correlati</h3>
+        <div class="thumbnail-images">
+          <ng-container *ngFor="let prod of relatedProducts">
+            <img [src]="createUrlByString(prod.url[0])" 
+                alt="{{ prod.nome_modello }}" 
+                (click)="selectRelatedProduct(prod)" />
+          </ng-container>
+        </div>
+      </div>
+      
       <p class="product-description">
         {{ this.actualProductSelected.descrizione_modello }}
       </p>
