@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <!-- Filtri per Prezzo (campi disposti verticalmente) -->
+        <!-- Filtri per Prezzo -->
         <div class="filter-group">
           <h3 (click)="toggleGroup('prezzo')">
             Acquista per Prezzo
@@ -58,7 +58,7 @@
           </div>
         </div>
 
-        <!-- Filtri per Taglia (mostrati 3 per riga in riquadro) -->
+        <!-- Filtri per Taglia -->
         <div class="filter-group">
           <h3 (click)="toggleGroup('taglia')">
             Taglia/Misura
@@ -92,7 +92,7 @@
             <span [class]="isGroupExpanded('categoria') ? 'arrow-down' : 'arrow-right'"></span>
           </h3>
           <div class="filter-options" *ngIf="isGroupExpanded('categoria')">
-            <label *ngFor="let categoria of tutteLeCategorie">
+            <label *ngFor="let categoria of categorie">
               <input type="checkbox" [name]="categoria" ngModel> {{ categoria }}
             </label>
           </div>
@@ -103,7 +103,8 @@
           <h3>Modello</h3>
           <div class="filter-options">
             <label *ngFor="let modello of modelli">
-              <input type="checkbox" [name]="modello" ngModel> {{ modello }}
+              <!-- Il valore del checkbox è l'id_modello ma viene visualizzato il nome_modello -->
+              <input type="checkbox" [name]="modello.id" ngModel> {{ modello.nome }}
             </label>
           </div>
         </div>
@@ -113,7 +114,6 @@
     </aside>
 
     <!-- Contenitore dei prodotti raggruppati per modello -->
-    <!-- Cliccando sul contenitore verrà aperta la pagina /pdp/ con l'id del prodotto attualmente selezionato -->
     <div class="products-container">
       <div class="model-group" *ngFor="let group of prodottiFiltrati" (click)="viewProduct(group.currentProductId)">
         <div class="main-image">

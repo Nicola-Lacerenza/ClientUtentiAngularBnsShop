@@ -21,11 +21,12 @@ interface ProductGroup {
   styleUrls: ['./articoli.component.css']
 })
 export class ArticoliComponent implements OnInit {
-  // Array originale dei prodotti
+
   public _prodotti: { immagini: string[], prodotto: ProdottiFull }[] = [];
-  // Prodotti filtrati e raggruppati per modello
   public prodottiFiltrati: ProductGroup[] = [];
   public currentImageIndex: { [id: number]: number } = {}; 
+  // Array di modelli con id (usato per il filtraggio) e nome (visualizzato in pagina)
+  modelli: { id: string, nome: string }[] = [];
 
   // Filtri ausiliari
   showThumbnails: { [key: string]: boolean } = {};
@@ -33,8 +34,8 @@ export class ArticoliComponent implements OnInit {
   taglie: string[] = [];
   colori: string[] = [];
   brands: string[] = [];
-  tutteLeCategorie: string[] = [];
-  modelli: string[] = []; // Lista dei modelli unici
+  categorie: string[] = [];
+
 
   expandedGroups: { [key: string]: boolean } = {};
   showFilters: boolean = true;
@@ -72,28 +73,37 @@ export class ArticoliComponent implements OnInit {
           item.prodotto.stato_pubblicazione === 1
         );
 
-        // Raggruppa per modello: ogni gruppo contiene tutti i prodotti con lo stesso nome_modello
-        const grouped: { [model: string]: { immagini: string[], prodotto: ProdottiFull }[] } = {};
+        // Raggruppa per id_modello e memorizza anche il nome_modello
+        const grouped: { [id: string]: { prodotti: { immagini: string[], prodotto: ProdottiFull }[], nomeModello: string } } = {};
         this._prodotti.forEach(item => {
-          const modello = item.prodotto.nome_modello;
-          if (!grouped[modello]) {
-            grouped[modello] = [];
+          // Convertiamo l'id_modello in stringa per coerenza
+          const idModello = item.prodotto.id_modello.toString();
+          if (!grouped[idModello]) {
+            grouped[idModello] = { prodotti: [], nomeModello: item.prodotto.nome_modello };
           }
-          grouped[modello].push(item);
+          grouped[idModello].prodotti.push(item);
         });
-        this.prodottiFiltrati = Object.keys(grouped).map(modello => ({
-          modello: modello,
-          prodotti: grouped[modello],
-          currentImage: this.generateUrl(grouped[modello][0].immagini[0]),
-          currentProductId: grouped[modello][0].prodotto.id
+
+        // Creiamo i gruppi per la visualizzazione: qui si mostra il nome modello
+        this.prodottiFiltrati = Object.keys(grouped).map(idModello => ({
+          modello: grouped[idModello].nomeModello,
+          prodotti: grouped[idModello].prodotti,
+          currentImage: this.generateUrl(grouped[idModello].prodotti[0].immagini[0]),
+          currentProductId: grouped[idModello].prodotti[0].prodotto.id
         }));
-        this.modelli = Object.keys(grouped);
+
+        // Prepara l'array per i checkbox dei modelli:
+        // ogni oggetto contiene l'id (per il filtraggio) e il nome (per la visualizzazione)
+        this.modelli = Object.keys(grouped).map(idModello => ({
+          id: idModello,
+          nome: grouped[idModello].nomeModello
+        }));
 
         // Gestione dei filtri per le altre proprietà
         this._prodotti.forEach(item => {
           const categoria = item.prodotto.nome_categoria;
-          if (!this.tutteLeCategorie.includes(categoria)) {
-            this.tutteLeCategorie.push(categoria);
+          if (!this.categorie.includes(categoria)) {
+            this.categorie.push(categoria);
           }
           const brand = item.prodotto.nome_brand;
           if (!this.brands.includes(brand)) {
@@ -133,7 +143,9 @@ export class ArticoliComponent implements OnInit {
   
     let filteredProducts = this._prodotti.slice();
     // --- Filtro per Genere ---
-    const selectedGeneri = this.generi.filter(genere => filters[genere]).map(genere => genere.toUpperCase());
+    const selectedGeneri = this.generi
+      .filter(genere => filters[genere])
+      .map(genere => genere.toUpperCase());
     if (selectedGeneri.length > 0) {
       filteredProducts = filteredProducts.filter(item =>
         selectedGeneri.includes(item.prodotto.target.toUpperCase())
@@ -160,48 +172,56 @@ export class ArticoliComponent implements OnInit {
       );
     }
     // --- Filtro per Colore ---
-    const selectedColori = this.colori.filter(colore => filters[colore]).map(colore => colore.toUpperCase());
+    const selectedColori = this.colori
+      .filter(colore => filters[colore])
+      .map(colore => colore.toUpperCase());
     if (selectedColori.length > 0) {
       filteredProducts = filteredProducts.filter(item =>
         item.prodotto.nome_colore.some(color => selectedColori.includes(color.toUpperCase()))
       );
     }
     // --- Filtro per Categoria ---
-    const selectedCategorie = this.tutteLeCategorie.filter(categoria => filters[categoria]).map(categoria => categoria.toUpperCase());
+    const selectedCategorie = this.categorie
+      .filter(categoria => filters[categoria])
+      .map(categoria => categoria.toUpperCase());
     if (selectedCategorie.length > 0) {
       filteredProducts = filteredProducts.filter(item =>
         selectedCategorie.includes(item.prodotto.nome_categoria.toUpperCase())
       );
     }
     // --- Filtro per Brand ---
-    const selectedBrands = this.brands.filter(brand => filters[brand]).map(brand => brand.toUpperCase());
+    const selectedBrands = this.brands
+      .filter(brand => filters[brand])
+      .map(brand => brand.toUpperCase());
     if (selectedBrands.length > 0) {
       filteredProducts = filteredProducts.filter(item =>
         selectedBrands.includes(item.prodotto.nome_brand.toUpperCase())
       );
     }
-    // --- Filtro per Modello ---
-    const selectedModelli = this.modelli.filter(modello => filters[modello]).map(modello => modello.toUpperCase());
+    // --- Filtro per Modello (usa id_modello) ---
+    const selectedModelli = this.modelli
+      .filter(modello => filters[modello.id])
+      .map(modello => modello.id);
     if (selectedModelli.length > 0) {
       filteredProducts = filteredProducts.filter(item =>
-        selectedModelli.includes(item.prodotto.nome_modello.toUpperCase())
+        selectedModelli.includes(item.prodotto.id_modello.toString())
       );
     }
     
-    // Raggruppa i prodotti filtrati per modello e aggiorna l'immagine principale
-    const grouped: { [model: string]: { immagini: string[], prodotto: ProdottiFull }[] } = {};
+    // Raggruppa i prodotti filtrati per id_modello
+    const grouped: { [id: string]: { immagini: string[], prodotto: ProdottiFull }[] } = {};
     filteredProducts.forEach(item => {
-      const modello = item.prodotto.nome_modello;
-      if (!grouped[modello]) {
-        grouped[modello] = [];
+      const idModello = item.prodotto.id_modello.toString();
+      if (!grouped[idModello]) {
+        grouped[idModello] = [];
       }
-      grouped[modello].push(item);
+      grouped[idModello].push(item);
     });
-    this.prodottiFiltrati = Object.keys(grouped).map(modello => ({
-      modello: modello,
-      prodotti: grouped[modello],
-      currentImage: this.generateUrl(grouped[modello][0].immagini[0]),
-      currentProductId: grouped[modello][0].prodotto.id
+    this.prodottiFiltrati = Object.keys(grouped).map(idModello => ({
+      modello: grouped[idModello][0].prodotto.nome_modello,
+      prodotti: grouped[idModello],
+      currentImage: this.generateUrl(grouped[idModello][0].immagini[0]),
+      currentProductId: grouped[idModello][0].prodotto.id
     }));
   }
   
@@ -213,11 +233,11 @@ export class ArticoliComponent implements OnInit {
     if (this.currentImageIndex[productId] === undefined) {
       this.currentImageIndex[productId] = 0;
     }
-    this.currentImageIndex[productId] = 
+    this.currentImageIndex[productId] =
       (this.currentImageIndex[productId] - 1 + totalImages) % totalImages;
   }
 
-  // Al passaggio del mouse su una miniatura aggiorna l'immagine principale del gruppo e memorizza l'id
+  // Al passaggio del mouse su una miniatura aggiorna l'immagine principale del gruppo e memorizza l'id del prodotto
   public changeMainImage(group: ProductGroup, newImage: string, productId: number): void {
     group.currentImage = newImage;
     group.currentProductId = productId;
