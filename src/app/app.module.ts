@@ -26,6 +26,7 @@ import { AddCategoriaComponent } from './components/add-categoria/add-categoria.
 import { UpdateBrandComponent } from './components/update-brand/update-brand.component';
 import { UpdateCategoriaComponent } from './components/update-categoria/update-categoria.component';
 import { MemberComponent } from './components/member/member.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { MemberComponent } from './components/member/member.component';
     AddCategoriaComponent,
     UpdateBrandComponent,
     UpdateCategoriaComponent,
-    MemberComponent
+    MemberComponent,
+    CheckoutComponent
   ],
   imports: [
   BrowserModule,

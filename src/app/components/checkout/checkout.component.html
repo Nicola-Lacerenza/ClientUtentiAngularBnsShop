@@ -1,0 +1,177 @@
+<div class="checkout-container">
+    <div class="left-column">
+      <!-- STEP 1: Spedizione/Ritiro -->
+      <div class="section-container step" [ngClass]="{ 'active-step': !shippingConfirmed, 'completed-step': shippingConfirmed }">
+        <h2>1. Dati di Spedizione/Ritiro</h2>
+        
+        <!-- Mostra il form solo se non confermato -->
+        <ng-container *ngIf="!shippingConfirmed">
+          <form #shippingForm="ngForm" (ngSubmit)="confirmShipping()">
+            <!-- Selezione tra Spedizione e Ritiro -->
+            <div class="delivery-type">
+              <label>
+                <input type="radio" name="deliveryType" value="spedizione" [(ngModel)]="deliveryType" (change)="onDeliveryChange('spedizione')" />
+                Spedizione
+              </label>
+              <label>
+                <input type="radio" name="deliveryType" value="ritiro" [(ngModel)]="deliveryType" (change)="onDeliveryChange('ritiro')" />
+                Ritiro in negozio
+              </label>
+            </div>
+  
+            <!-- Sezione Spedizione -->
+            <div *ngIf="deliveryType === 'spedizione'">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required [(ngModel)]="shippingData.email" #email="ngModel" />
+              <div class="error" *ngIf="email.invalid && (email.dirty || email.touched)">L'email è obbligatoria</div>
+  
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" required [(ngModel)]="shippingData.nome" #nome="ngModel" />
+              <div class="error" *ngIf="nome.invalid && (nome.dirty || nome.touched)">Il nome è obbligatorio</div>
+  
+              <label for="cognome">Cognome</label>
+              <input type="text" id="cognome" name="cognome" required [(ngModel)]="shippingData.cognome" #cognome="ngModel" />
+              <div class="error" *ngIf="cognome.invalid && (cognome.dirty || cognome.touched)">Il cognome è obbligatorio</div>
+  
+              <label for="indirizzo">Indirizzo</label>
+              <input type="text" id="indirizzo" name="indirizzo" required [(ngModel)]="shippingData.indirizzo" #indirizzo="ngModel" />
+              <div class="error" *ngIf="indirizzo.invalid && (indirizzo.dirty || indirizzo.touched)">L'indirizzo è obbligatorio</div>
+  
+              <label for="telefono">Telefono</label>
+              <input type="number" id="telefono" name="telefono" required [(ngModel)]="shippingData.telefono" #telefono="ngModel" />
+              <div class="error" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">Il numero di telefono è obbligatorio</div>
+            </div>
+  
+            <!-- Sezione Ritiro -->
+            <div *ngIf="deliveryType === 'ritiro'">
+              <label for="nomeRitiro">Nome</label>
+              <input type="text" id="nomeRitiro" name="nomeRitiro" required [(ngModel)]="shippingData.nome" #nomeRitiro="ngModel" />
+              <div class="error" *ngIf="nomeRitiro.invalid && (nomeRitiro.dirty || nomeRitiro.touched)">Il nome è obbligatorio</div>
+  
+              <label for="cognomeRitiro">Cognome</label>
+              <input type="text" id="cognomeRitiro" name="cognomeRitiro" required [(ngModel)]="shippingData.cognome" #cognomeRitiro="ngModel" />
+              <div class="error" *ngIf="cognomeRitiro.invalid && (cognomeRitiro.dirty || cognomeRitiro.touched)">Il cognome è obbligatorio</div>
+  
+              <label for="negozio">Seleziona negozio</label>
+              <select id="negozio" name="negozio" required [(ngModel)]="shippingData.negozio" #negozio="ngModel">
+                <option value="">-- Seleziona --</option>
+                <option value="Negozio A, Milano">Negozio A, Milano</option>
+                <option value="Negozio B, Roma">Negozio B, Roma</option>
+                <option value="Negozio C, Napoli">Negozio C, Napoli</option>
+              </select>
+              <div class="error" *ngIf="negozio.invalid && (negozio.dirty || negozio.touched)">Selezionare un negozio</div>
+  
+              <label for="telefonoRitiro">Telefono</label>
+              <input type="tel" id="telefonoRitiro" name="telefonoRitiro" required [(ngModel)]="shippingData.telefono" #telefonoRitiro="ngModel" />
+              <div class="error" *ngIf="telefonoRitiro.invalid && (telefonoRitiro.dirty || telefonoRitiro.touched)">Il numero di telefono è obbligatorio</div>
+            </div>
+  
+            <button type="submit" [disabled]="shippingForm.invalid">Conferma Spedizione</button>
+          </form>
+        </ng-container>
+  
+        <!-- Riepilogo della spedizione (visualizzato solo se confermato) -->
+        <ng-container *ngIf="shippingConfirmed">
+          <div class="summary">
+            <p><strong>Tipo di consegna:</strong> {{ deliveryType }}</p>
+            <div *ngIf="deliveryType === 'spedizione'">
+              <p><strong>Email:</strong> {{ shippingData.email }}</p>
+              <p><strong>Nome:</strong> {{ shippingData.nome }}</p>
+              <p><strong>Cognome:</strong> {{ shippingData.cognome }}</p>
+              <p><strong>Indirizzo:</strong> {{ shippingData.indirizzo }}</p>
+              <p><strong>Telefono:</strong> {{ shippingData.telefono }}</p>
+            </div>
+            <div *ngIf="deliveryType === 'ritiro'">
+              <p><strong>Nome:</strong> {{ shippingData.nome }}</p>
+              <p><strong>Cognome:</strong> {{ shippingData.cognome }}</p>
+              <p><strong>Negozio:</strong> {{ shippingData.negozio }}</p>
+              <p><strong>Telefono:</strong> {{ shippingData.telefono }}</p>
+            </div>
+            <button (click)="editShipping()">Modifica</button>
+          </div>
+        </ng-container>
+      </div>
+  
+      <!-- STEP 2: Pagamento -->
+      <div class="section-container step" [ngClass]="{ 'active-step': shippingConfirmed && !paymentConfirmed, 'inactive-step': !shippingConfirmed, 'completed-step': paymentConfirmed }">
+        <h2>2. Pagamento</h2>
+        
+        <!-- Form di pagamento (visibile solo se non confermato) -->
+        <ng-container *ngIf="!paymentConfirmed">
+          <p class="info" *ngIf="!shippingConfirmed">Completa prima i dati di spedizione per abilitare il pagamento</p>
+          <form #paymentForm="ngForm" (ngSubmit)="confirmPayment()">
+            <div>
+              <label>
+                <input type="radio" name="paymentType" value="carta" [(ngModel)]="paymentData.paymentType" required />
+                Carta di credito/debito
+              </label>
+              <label>
+                <input type="radio" name="paymentType" value="paypal" [(ngModel)]="paymentData.paymentType" required />
+                PayPal
+              </label>
+            </div>
+  
+            <!-- Se l'utente ha scelto "carta", mostra i campi disposti in linea -->
+            <div *ngIf="paymentData.paymentType === 'carta'" class="card-fields">
+              <div class="field">
+                <label for="cardNumber">Numero Carta</label>
+                <input type="text" id="cardNumber" name="cardNumber" required [(ngModel)]="paymentData.cardNumber" #cardNumber="ngModel" />
+                <div class="error" *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)">Obbligatorio</div>
+              </div>
+              <div class="field">
+                <label for="expiry">Scadenza (MM/AA)</label>
+                <input type="text" id="expiry" name="expiry" required [(ngModel)]="paymentData.expiry" #expiry="ngModel" />
+                <div class="error" *ngIf="expiry.invalid && (expiry.dirty || expiry.touched)">Obbligatorio</div>
+              </div>
+              <div class="field">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" required [(ngModel)]="paymentData.cvv" #cvv="ngModel" />
+                <div class="error" *ngIf="cvv.invalid && (cvv.dirty || cvv.touched)">Obbligatorio</div>
+              </div>
+            </div>
+  
+            <button type="submit" [disabled]="paymentForm.invalid || !shippingConfirmed">Conferma Pagamento</button>
+          </form>
+        </ng-container>
+  
+        <!-- Riepilogo del pagamento (visualizzato solo se confermato) -->
+        <ng-container *ngIf="paymentConfirmed">
+          <div class="summary">
+            <p><strong>Metodo di pagamento:</strong> {{ paymentData.paymentType }}</p>
+            <div *ngIf="paymentData.paymentType === 'carta'">
+              <p><strong>Numero Carta:</strong> {{ paymentData.cardNumber }}</p>
+              <p><strong>Scadenza:</strong> {{ paymentData.expiry }}</p>
+              <p><strong>CVV:</strong> {{ paymentData.cvv }}</p>
+            </div>
+            <button (click)="editPayment()">Modifica</button>
+          </div>
+        </ng-container>
+      </div>
+  
+      <!-- Pulsante per concludere l'ordine (visibile se il pagamento è confermato) -->
+      <div class="section-container" *ngIf="paymentConfirmed">
+        <button (click)="onSubmitOrder()">Concludi Ordine</button>
+      </div>
+    </div>
+  
+    <!-- COLONNA DESTRA: Riepilogo Ordine -->
+    <div class="right-column">
+      <h3>Riepilogo Ordine</h3>
+      <div class="cart-item">
+        <p>Scarpa Nike Air Max Dn8 - Uomo</p>
+        <p>Quantità: 1</p>
+        <p>Prezzo: 99,99 €</p>
+      </div>
+      <div class="cart-item">
+        <p>Maglietta Adidas - Uomo</p>
+        <p>Quantità: 2</p>
+        <p>Prezzo: 45,99 € (cadauna)</p>
+      </div>
+      <div class="order-totals">
+        <p>Subtotale: 189,99 €</p>
+        <p>Spedizione stimata: 0,00 €</p>
+        <p><strong>Totale: 189,99 €</strong></p>
+      </div>
+    </div>
+  </div>
+  

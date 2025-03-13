@@ -1,31 +1,29 @@
-
 import { Component, OnInit } from '@angular/core';
 import { AuthappService } from '../../services/authapp.service';
 import { Router } from '@angular/router';
 import { ServerResponse } from '../../models/ServerResponse.interface';
-import { UserRegister } from '../../models/UserRegister.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-member',
   templateUrl: './member.component.html',
-  styleUrl: './member.component.css'
+  styleUrls: ['./member.component.css']
 })
-
 export class MemberComponent implements OnInit {
 
   userInitials: string = 'NL';
   userName: string = 'Nicola Lacerenza';
   menuItems = [
-    { label: 'I miei ordini', link: '#' },
-    { label: 'I miei resi', link: '#' },
-    { label: 'ASOS Premier', link: '#' },
-    { label: 'ASOS Outlet', link: '#' },
-    { label: 'Carte regalo e buoni', link: '#' },
-    { label: 'I miei dettagli', link: '#' },
-    { label: 'Cambia password', link: '#' },
-    { label: 'Indirizzi', link: '#' },
+    { label: 'I miei ordini', value: 'ordini' },
+    { label: 'I miei resi', value: 'resi' },
+    { label: 'I miei dettagli', value: 'dettagli' },
+    { label: 'Cambia password', value: 'password' },
+    { label: 'Indirizzi', value: 'indirizzi' },
+    { label: 'I miei metodi di pagamento', value: 'pagamenti' },
   ];
+
+  // Variabile per tenere traccia dell'opzione selezionata
+  selectedTab: string = '';
 
   constructor(
     private auth: AuthappService,
@@ -33,18 +31,26 @@ export class MemberComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.auth.getUser().subscribe({         
-      next:(data:ServerResponse)=>{
+    // Imposta una tab di default, se necessar
+    this.auth.getUser().subscribe({
+      next: (data: ServerResponse) => {
         console.log(data);
       },
-      error:(error:HttpErrorResponse)=>{
-        if(error.status===401 || error.status===403){
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
           this.auth.doLogout();
-        }else{
-          //Gestire l'errore
+        } else {
           console.error(error);
         }
       }
-    })
+    });
   }
+
+  selectTab(tab: string, event?: Event): void {
+    if (event) {
+      event.preventDefault(); // Previene il comportamento di default del link
+    }
+    this.selectedTab = tab;
+  }
+  
 }

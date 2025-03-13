@@ -14,6 +14,7 @@ import { SizeSelectorComponent } from './components/size-selector/size-selector.
 import { AddProductComponent } from './components/add-product/add-product';
 import { roleGuard } from './services/role-guard.guard';
 import { MemberComponent } from './components/member/member.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path:'articoli',component:ArticoliComponent},
   {path:'grid',component:GridArticoliComponent, canActivate:[authGuard,roleGuard]},
   {path:'pdp/:id',component:PdpComponent},
+  {path:'checkout',component:CheckoutComponent},
   {path:'addProduct', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
   {path:'member', component: MemberComponent, canActivate:[authGuard,roleGuard]},
   {path:'addProduct/:id', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
