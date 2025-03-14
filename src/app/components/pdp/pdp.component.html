@@ -1,49 +1,43 @@
 <div class="product-page-container">
   <div class="product-content">
-    <!-- Contenitore principale delle immagini -->
-    <div class="product-images">
-        <!-- Sezione immagini prodotto -->
-      <div class="product-images" *ngIf="urlListProductToUpdate">
-        <!-- Immagine principale -->
-        <div class="main-image">
-          <div *ngFor="let singleUrl of urlListProductToUpdate; index as i">
-            <img [src]="createUrlByString(singleUrl)" alt="Main Preview" *ngIf="i === actualMainImage" />
-          </div>
-        </div>
+    <!-- Sezione immagini prodotto -->
+    <div class="product-images" *ngIf="urlListProductToUpdate">
+      <!-- Immagine principale: viene visualizzata direttamente quella attiva -->
+      <div class="main-image">
+        <img [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" alt="Main Preview" />
+      </div>
 
-        <!-- Contenitore unico per le miniature -->
-        <div class="thumbnail-images" *ngIf="urlListProductToUpdate">
-          <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
-            <img [src]="createUrlByString(singleUrl)"
-                 [class.active]="i === actualMainImage"
-                 alt="Thumbnail"
-                 (mouseenter)="setMainImage(i)" />
-          </ng-container>
-        </div>
-        
+      <!-- Contenitore per le miniature -->
+      <div class="thumbnail-images">
+        <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
+          <img [src]="createUrlByString(singleUrl)"
+               [class.active]="i === actualMainImage"
+               alt="Thumbnail"
+               (mouseenter)="setMainImage(i)" />
+        </ng-container>
       </div>
     </div>
 
     <!-- Colonna delle informazioni prodotto -->
     <div class="product-info">
-      <h1 class="product-title">{{ this.actualProductSelected.nome_modello }}</h1>
-      <p class="product-description">{{ this.actualProductSelected.descrizione_brand }} - {{ this.actualProductSelected.target}}</p>
-      <h2 class="product-price">{{ this.actualProductSelected.prezzo + " €"}}</h2>
+      <h1 class="product-title">{{ actualProductSelected.nome_modello }}</h1>
+      <p class="product-description">{{ actualProductSelected.descrizione_brand }} - {{ actualProductSelected.target }}</p>
+      <h2 class="product-price">{{ actualProductSelected.prezzo + " €" }}</h2>
 
-      <!-- Nuova sezione per i prodotti correlati -->
+      <!-- Sezione prodotti correlati -->
       <div class="related-products">
         <h3>Prodotti correlati</h3>
         <div class="thumbnail-images">
           <ng-container *ngFor="let prod of relatedProducts">
             <img [src]="createUrlByString(prod.url[0])" 
-                alt="{{ prod.nome_modello }}" 
-                (click)="selectRelatedProduct(prod)" />
+                 alt="{{ prod.nome_modello }}" 
+                 (click)="selectRelatedProduct(prod)" />
           </ng-container>
         </div>
       </div>
       
       <p class="product-description">
-        {{ this.actualProductSelected.descrizione_modello }}
+        {{ actualProductSelected.descrizione_modello }}
       </p>
 
       <!-- Selezione della taglia -->
@@ -59,7 +53,7 @@
         </div>
       </div>
 
-      <!-- Pulsanti CTA -->
+      <!-- Pulsanti Call-to-Action -->
       <div class="cta-buttons">
         <button (click)="addToCart()">Aggiungi al carrello</button>
         <button (click)="addToFavorites()">Aggiungi ai preferiti</button>
@@ -67,7 +61,7 @@
     </div>
   </div>
 
-  <!-- Sezione Informazioni aggiuntive posizionata sotto il contenuto principale -->
+  <!-- Sezione informazioni aggiuntive -->
   <div class="additional-info">
     <h3 class="info-header" (click)="toggleInfo('sizeFit')">Taglia/misura e fit</h3>
     <div *ngIf="isInfoVisible['sizeFit']">

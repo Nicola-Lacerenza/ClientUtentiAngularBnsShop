@@ -64,7 +64,6 @@ export class PdpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Usa il subscribe per aggiornare il prodotto ogni volta che cambia il parametro della rotta
     this.route.paramMap.subscribe(params => {
       const tmp = params.get("id");
       if (tmp !== null) {
@@ -84,7 +83,6 @@ export class PdpComponent implements OnInit {
     }
   }
   
-  
   private getProduct(): void {
     const tmp = this.route.snapshot.paramMap.get("id");
     if (tmp !== null) {
@@ -92,15 +90,14 @@ export class PdpComponent implements OnInit {
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
           const tmpProd = <ProdottiFull>data.message;
-          console.log("Prodotto selezionato:", tmpProd);
           this.actualProductSelected = tmpProd;
           this.urlListProductToUpdate = tmpProd.url;
           this.colorNameSelected = tmpProd.nome_colore;
           
-          // Reset delle quantità per le taglie prima di aggiornare
+          // Reset delle quantità per le taglie
           this.taglie.forEach(item => item.quantita = 0);
           
-          // Aggiorna le quantità per le taglie disponibili del prodotto corrente
+          // Aggiorna le quantità per le taglie disponibili
           for (const taglia of tmpProd.taglieProdotto) {
             let i = 0;
             while (i < this.taglie.length && this.taglie[i].taglia !== taglia.taglia.taglia_Eu) {
@@ -110,9 +107,8 @@ export class PdpComponent implements OnInit {
               this.taglie[i].quantita += taglia.taglia_prodotti.quantita;
             }
           }
-          console.log("Taglie disponibili:", this.actualProductSelected.taglieProdotto);
 
-          // Carica i prodotti correlati (stesso id_modello, diverso id e stato_pubblicazione = 1)
+          // Carica i prodotti correlati
           this.prodottiService.getProdotti().subscribe({
             next: (data: ServerResponse) => {
               const allProducts: ProdottiFull[] = <ProdottiFull[]>data.message;
@@ -147,19 +143,6 @@ export class PdpComponent implements OnInit {
     return `${environment.serverUrl}/${filename}`;
   }
   
-  changeMainImage(newImage: string): number {
-    let i = 0;
-    const array: string[] = this.urlListProductToUpdate || [];
-    while (i < array.length && array[i] !== newImage) {
-      i++;
-    }
-    if (i < array.length) {
-      this._actualMainImage = i;
-      return i;
-    }
-    return 0;
-  }
-
   public isTagliaAvailable(taglia: string): boolean {
     const available = this.taglie.find(item => item.taglia === taglia);
     return available ? available.quantita > 0 : false;
