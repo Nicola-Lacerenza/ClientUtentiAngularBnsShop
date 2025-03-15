@@ -3,24 +3,38 @@
   <table>
     <tbody>
       <tr *ngFor="let item of items" class="product-row">
-        <td class="image-details-container">
-        <img [src]="createUrlByString(item.product.url[0])" alt="{{ item.product.nome_modello }}" class="product-image">
-          <div class="product-details">
-            <p class="product-name">{{ item.product.nome_modello }}</p>
-            <p class="product-category">{{ item.product.nome_brand }} : {{ item.product.descrizione_brand }} – {{ item.product.target }}</p>
-            <p class="product-colors">COLORE : {{ item.product.nome_colore }}</p>
-            <p class="product-size">
-              Taglia/misura 
-              <span class="size" (click)="openSizeSelector(item.product,item.tagliaScelta)">{{ item.tagliaScelta }}</span>
-              <button class="change-size-button" (click)="openSizeSelector(item.product,item.tagliaScelta)">Cambia taglia</button>
-            </p>
-            <p class="product-quantity">
-              Quantità 
-              <select [(ngModel)]="item.quantity" (change)="updateCart(item.product.id, item.tagliaScelta, item.quantity)">
-                <option *ngFor="let qty of [1, 2, 3, 4, 5]" [value]="qty">{{ qty }}</option>
-              </select>
-            </p>
-            <button (click)="removeItem(item.product.id,item.tagliaScelta)" class="remove-button">Rimuovi</button>
+        <td class="product-container">
+          <div class="image-container">
+            <a (click)="openPDP(item.product.id)" class="pdp-link">
+              <img [src]="createUrlByString(item.product.url[0])" alt="{{ item.product.nome_modello }}" class="product-image">
+            </a>
+          </div>
+          <div class="info-container">
+            <a (click)="openPDP(item.product.id)" class="pdp-link">
+              <p class="product-name">{{ item.product.nome_modello }}</p>
+            </a>
+            <div class="product-details">
+              <p class="product-category">
+                {{ item.product.nome_brand }} : {{ item.product.descrizione_brand }} – {{ item.product.target }}
+              </p>
+              <p class="product-colors">COLORE : {{ item.product.nome_colore }}</p>
+              <p class="product-size">
+                Taglia/misura :
+                <span class="size" (click)="openSizeSelector(item.product, item.tagliaScelta)">
+                  {{ item.tagliaScelta }}
+                </span>
+              </p>
+              <p class="product-quantity">
+                Quantità :
+                <div class="quantity-controls">
+                  <button (click)="decrement(item)">–</button>
+                  <span>{{ item.quantity }}</span>
+                  <button (click)="increment(item)">+</button>
+                </div>
+              <button (click)="removeItem(item.product.id, item.tagliaScelta)" class="remove-button">
+                Rimuovi
+              </button>
+            </div>
           </div>
         </td>
         <td class="total-price-column">
@@ -31,36 +45,46 @@
   </table>
   <div id="summary">
     <h2>Riepilogo</h2>
-    <button class="promo-button" (click)="togglePromoCode()">Inserisci Codice Promozionale <span class="arrow">▼</span></button>
+    <button class="promo-button" (click)="togglePromoCode()">
+      Inserisci Codice Promozionale <span class="arrow">▼</span>
+    </button>
     
     <div *ngIf="showPromoCode" id="promo-code-container">
       <input type="text" id="promo-code" [(ngModel)]="promoCode" class="promo-input">
       <button class="apply-button" (click)="applyPromoCode()">Applica</button>
     </div>
     <hr class="separator">
-    <p class="cost-summary">Costi di spedizione: <span class="summary-price">{{ shippingCost }}€</span></p>
-    <p class="cost-summary">Totale: <span class="summary-price">{{ total + shippingCost }}€</span></p>
+    <p class="cost-summary">
+      Costi di spedizione: <span class="summary-price">{{ shippingCost }}€</span>
+    </p>
+    <p class="cost-summary">
+      Totale: <span class="summary-price">{{ total + shippingCost }}€</span>
+    </p>
     <button class="payment-button" (click)="payWithPaypal()">Paga con PayPal</button>
     <button class="payment-button" (click)="goToCheckout()">Vai al Pagamento</button>
   </div>
 </div>
 
-<!-- Popup di selezione della taglia -->
-<div class="popup" *ngIf="showSizeSelector">
-  <div class="popup-content">
-    <!-- Immagine del prodotto nel popup -->
-    <img [src]="createUrlByString(selectedItem.url[0])" alt="{{ selectedItem.nome_modello}}" class="popup-product-image">
-    <h3>Seleziona la taglia per {{ selectedItem.nome_modello }}</h3>
-    <div class="sizes-container">
-      <button *ngFor="let size of availableSizes"
-              [class.selected]="size === selectedSize"
-              (click)="selectSize(size)">
-        {{ size }}
-      </button>
-    </div>
-    <div class="popup-actions">
-      <button class="confirm-button" (click)="confirmSize()">Conferma</button>
-      <button class="close-button" (click)="closeSizeSelector()">Chiudi</button>
+<!-- Popup di selezione della taglia con overlay -->
+<div *ngIf="showSizeSelector">
+  <div class="popup-overlay" (click)="closeSizeSelector()"></div>
+  <div class="popup">
+    <div class="popup-content">
+      <img [src]="createUrlByString(selectedItem.url[0])" alt="{{ selectedItem.nome_modello}}" class="popup-product-image">
+      <div class="popup-details">
+        <h3>Seleziona la taglia per {{ selectedItem.nome_modello }}</h3>
+        <div class="sizes-container">
+          <button *ngFor="let size of availableSizes"
+                  [class.selected]="size === selectedSize"
+                  (click)="selectSize(size)">
+            {{ size }}
+          </button>
+        </div>
+        <div class="popup-actions">
+          <button class="confirm-button" (click)="confirmSize()">Conferma</button>
+          <button class="close-button" (click)="closeSizeSelector()">Chiudi</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

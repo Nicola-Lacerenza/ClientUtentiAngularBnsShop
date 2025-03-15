@@ -2,12 +2,10 @@
   <div class="product-content">
     <!-- Sezione immagini prodotto -->
     <div class="product-images" *ngIf="urlListProductToUpdate">
-      <!-- Immagine principale: viene visualizzata direttamente quella attiva -->
       <div class="main-image">
         <img [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" alt="Main Preview" />
       </div>
 
-      <!-- Contenitore per le miniature -->
       <div class="thumbnail-images">
         <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
           <img [src]="createUrlByString(singleUrl)"
@@ -21,8 +19,12 @@
     <!-- Colonna delle informazioni prodotto -->
     <div class="product-info">
       <h1 class="product-title">{{ actualProductSelected.nome_modello }}</h1>
-      <p class="product-description">{{ actualProductSelected.descrizione_brand }} - {{ actualProductSelected.target }}</p>
-      <h2 class="product-price">{{ actualProductSelected.prezzo + " €" }}</h2>
+      <p class="product-description">
+        {{ actualProductSelected.descrizione_brand }} - {{ actualProductSelected.target }}
+      </p>
+      <h2 class="product-price">
+        {{ actualProductSelected.prezzo + " €" }}
+      </h2>
 
       <!-- Sezione prodotti correlati -->
       <div class="related-products">
@@ -44,10 +46,11 @@
       <div class="size-selection">
         <h3>Seleziona la taglia</h3>
         <div class="size-buttons">
-          <button *ngFor="let size of ['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5', '45', '46', '47']"
-                  [ngClass]="{'selected': selectedSize === size}"
-                  (click)="selectSize(size)" 
-                  [disabled]="!isTagliaAvailable(size)">
+          <button
+            *ngFor="let size of ['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5', '45', '46', '47']"
+            [ngClass]="{'selected': selectedSize === size}"
+            (click)="selectSize(size)" 
+            [disabled]="!isTagliaAvailable(size)">
             {{ size }}
           </button>
         </div>
@@ -81,6 +84,37 @@
     <h3 class="info-header" (click)="toggleInfo('moreInfo')">Ulteriori informazioni</h3>
     <div *ngIf="isInfoVisible['moreInfo']">
       <p>Ulteriori informazioni sul prodotto e il brand.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Popup di notifica aggiunta al carrello -->
+<div class="cart-popup" *ngIf="showCartPopup">
+  <div class="cart-popup-content">
+    <!-- Header del popup con titolo e pulsante di chiusura -->
+    <div class="popup-header">
+      <span>Aggiunto al carrello!</span>
+      <button class="close-btn" (click)="closePopup()">X</button>
+    </div>
+
+    <!-- Corpo del popup con immagine e dettagli -->
+    <div class="popup-body">
+      <div class="popup-image">
+        <!-- Mostra l'immagine corrispondente all'indice selezionato -->
+        <img [src]="createUrlByString(urlListProductToUpdate![actualMainImage])" alt="Prodotto aggiunto" />
+      </div>
+      <div class="popup-info">
+        <h4>{{ addedProductName }}</h4>
+        <p>Brand: {{ actualProductSelected.nome_brand }}</p>
+        <p>Taglia: {{ selectedSize }}</p>
+        <p>Prezzo: {{ actualProductSelected.prezzo }} €</p>
+      </div>
+    </div>
+
+    <!-- Footer del popup con pulsanti -->
+    <div class="popup-actions">
+      <button (click)="vaiAlCarrello()">Visualizza carrello</button>
+      <button class="payment-btn" (click)="vaiAlPagamento()">Vai al pagamento</button>
     </div>
   </div>
 </div>

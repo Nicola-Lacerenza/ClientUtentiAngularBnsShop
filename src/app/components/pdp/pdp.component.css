@@ -37,8 +37,8 @@ body {
 }
 
 .main-image {
-  width: 80%;         /* Occupa tutta la larghezza disponibile */
-  height: 500px;       /* Altezza fissa: regola questo valore per aumentare o diminuire l'altezza */
+  width: 80%;
+  height: 500px;
   overflow: hidden;
   border-radius: 8px;
   margin-bottom: 10px;
@@ -51,10 +51,9 @@ body {
 .main-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;   /* L'immagine verrà scalata e ritagliata per coprire l'intero container */
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
-
 
 .thumbnail-images img {
   width: 70px;
@@ -196,6 +195,135 @@ body {
   margin-bottom: 10px;
 }
 
+/* Popup di notifica */
+.cart-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999; /* Assicura che stia sopra l’header o altri elementi */
+  max-width: 300px;
+  width: 100%;
+}
+
+/* Contenitore principale del popup */
+.cart-popup-content {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  overflow: hidden;
+  animation: slideInRight 0.4s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header del popup */
+.popup-header {
+  background-color: #3498db;
+  color: #fff;
+  padding: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header span {
+  font-size: 16px;
+}
+
+/* Pulsante di chiusura */
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0 5px;
+  font-weight: bold;
+}
+
+.close-btn:hover {
+  opacity: 0.8;
+}
+
+/* Corpo del popup */
+.popup-body {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+}
+
+.popup-image img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Info del popup */
+.popup-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.popup-info h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.popup-info p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Footer del popup */
+.popup-actions {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  justify-content: flex-end;
+}
+
+.popup-actions button {
+  border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.popup-actions button:hover {
+  opacity: 0.9;
+}
+
+.popup-actions button:first-child {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.payment-btn {
+  background-color: #e67e22;
+  color: #fff;
+}
+
+/* Animazione per il popup in entrata da destra */
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .product-content {
@@ -206,5 +334,9 @@ body {
   }
   .main-image {
     max-height: 300px;
+  }
+  .cart-popup {
+    max-width: 90%;
+    right: 5%;
   }
 }

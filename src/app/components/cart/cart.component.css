@@ -19,9 +19,21 @@ table {
   border-collapse: collapse;
 }
 
-.product-row {
+/* Layout della riga prodotto diviso in immagine e dettagli fissi */
+.product-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.image-container {
+  margin-right: 20px;
+}
+
+.info-container {
+  flex: 1;
+}
+
+.product-row {
   border-bottom: 1px solid #e0e0e0;
   padding: 20px 0;
   transition: background-color 0.2s;
@@ -31,29 +43,29 @@ table {
   background-color: #f8f9fa;
 }
 
-.image-details-container {
-  display: flex;
-  align-items: center;
-  width: 80%;
-}
-
 .product-image {
-  width: 120px;
-  height: 120px;
+  margin-top: 2px;
+  width: 250px;
+  height: 220px;
   object-fit: cover;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  margin-right: 15px;
 }
 
-.product-details {
-  font-size: 15px;
+.pdp-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .product-name {
   font-weight: bold;
   font-size: 18px;
   color: #333;
+  margin: 10px 0 0;
+}
+
+.product-details {
+  font-size: 15px;
 }
 
 .product-category {
@@ -61,12 +73,15 @@ table {
   color: #666;
 }
 
-.product-colors, .product-size, .product-quantity {
+.product-colors,
+.product-size,
+.product-quantity {
   color: #777;
   margin-top: 4px;
 }
 
-.size, .change-size-button {
+.size,
+.change-size-button {
   color: #0073e6;
   cursor: pointer;
 }
@@ -139,7 +154,8 @@ table {
   background-color: #005bb5;
 }
 
-.promo-button, .apply-button {
+.promo-button,
+.apply-button {
   background-color: #f4f5f7;
   color: #333;
   border: none;
@@ -157,19 +173,61 @@ table {
   border: 1px solid #ddd;
   border-radius: 8px;
 }
-/* Stile del popup */
+
+/* Controlli quantità */
+.quantity-controls {
+  display: inline-flex;
+  align-items: center;
+}
+
+.quantity-controls button {
+  background-color: #0073e6;
+  color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.quantity-controls button:hover {
+  background-color: #005bb5;
+}
+
+.quantity-controls span {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+  font-size: 16px;
+  margin: 0 5px;
+}
+
+/* Overlay per il popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Stili del popup migliorati */
 .popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 700px; /* Aumentata la larghezza del popup */
-  height: 300px;
-  max-width: 90%; /* Mantenuto per la responsività */
-  padding: 25px; /* Maggiore padding per un aspetto più curato */
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 500px;
+  max-width: 90%;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   animation: popupFadeIn 0.3s ease-out;
 }
@@ -181,25 +239,28 @@ table {
 
 .popup-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 20px;
 }
 
-/* Immagine del prodotto nel popup */
 .popup-product-image {
-  width: 200px; /* Aumentata la dimensione dell'immagine */
-  height: 200px;
+  width: 250px;
+  height: 250px;
   object-fit: cover;
   border-radius: 10px;
   border: 1px solid #ddd;
 }
 
-/* Testo e dettagli del popup */
-.popup h3 {
+.popup-details {
+  width: 100%;
+  text-align: center;
+}
+
+.popup-details h3 {
   font-size: 22px;
   color: #333;
   margin-bottom: 15px;
-  text-align: center; /* Centrato il titolo */
 }
 
 .sizes-container {
@@ -223,14 +284,13 @@ table {
 
 .sizes-container button.selected {
   background-color: #0073e6;
-  color: white;
+  color: #fff;
 }
 
 .sizes-container button:hover {
   background-color: #e0e6f7;
 }
 
-/* Pulsanti di azione nel popup */
 .popup-actions {
   display: flex;
   justify-content: center;

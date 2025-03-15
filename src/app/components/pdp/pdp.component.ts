@@ -51,6 +51,11 @@ export class PdpComponent implements OnInit {
     moreInfo: false
   };
 
+  // Variabili per il popup
+  showCartPopup: boolean = false;
+  addedProductName: string = '';
+  popupTimer: any; // Per gestire il timer di chiusura automatica
+
   constructor(
     private prodottiService: ProdottiService,
     private auth: AuthappService,
@@ -59,7 +64,10 @@ export class PdpComponent implements OnInit {
     private cartService: CartService
   ) {
     this._actualMainImage = 0;
-    const totalTaglie: string[] = ['35.5', '36', '36.5', '37', '37.5', '38', '38.5', '39', '39.5', '40', '40.5', '41', '41.5', '42', '42.5', '43', '43.5', '44', '44.5'];
+    const totalTaglie: string[] = [
+      '35.5', '36', '36.5', '37', '37.5', '38', '38.5', '39', '39.5', '40',
+      '40.5', '41', '41.5', '42', '42.5', '43', '43.5', '44', '44.5'
+    ];
     for (let i = 0; i < totalTaglie.length; i++){
       this.taglie.push({ taglia: totalTaglie[i], quantita: 0 });
     }
@@ -157,7 +165,24 @@ export class PdpComponent implements OnInit {
 
   addToCart() {
     if (this.selectedSize && this.actualProductSelected) {
+      // Aggiunta al carrello
       this.cartService.addProduct(this.actualProductSelected, this.selectedSize);
+      
+      // Salvo i dati da mostrare nel popup
+      this.addedProductName = this.actualProductSelected.nome_modello;
+      // Mostro il popup
+      this.showCartPopup = true;
+
+      // Se esiste già un timer, lo cancello
+      if (this.popupTimer) {
+        clearTimeout(this.popupTimer);
+      }
+
+      // Dopo 5 secondi il popup si chiude automaticamente
+      this.popupTimer = setTimeout(() => {
+        this.showCartPopup = false;
+      }, 5000);
+
     } else {
       // Gestione dell'errore: nessuna taglia selezionata
     }
@@ -178,5 +203,25 @@ export class PdpComponent implements OnInit {
   // Naviga alla pagina del prodotto correlato
   selectRelatedProduct(product: ProdottiFull): void {
     this.router.navigate(['/pdp', product.id]);
+  }
+
+  // Metodo per chiudere manualmente il popup
+  closePopup(): void {
+    this.showCartPopup = false;
+    if (this.popupTimer) {
+      clearTimeout(this.popupTimer);
+    }
+  }
+
+  // Metodo per andare al carrello
+  vaiAlCarrello(): void {
+    this.router.navigate(['/cart']); // rotta del tuo carrello
+    this.closePopup();
+  }
+
+  // Metodo per andare direttamente al pagamento
+  vaiAlPagamento(): void {
+    this.router.navigate(['/checkout']); // rotta del tuo checkout
+    this.closePopup();
   }
 }
