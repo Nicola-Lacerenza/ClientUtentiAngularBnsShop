@@ -116,12 +116,37 @@
   }
   
   /* Riepilogo ordine */
-  .cart-item {
-    margin-bottom: 10px;
-  }
-  .cart-item p {
-    margin: 3px 0;
-  }
+/* Container dell'item, posiziona immagine e descrizione in una riga */
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Immagine del prodotto */
+.product-image {
+  width: 100px;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Contenitore della descrizione, visualizza i dettagli in colonna */
+.cart-item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Margine ridotto per i paragrafi all'interno della descrizione */
+.cart-item-details p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
   
   .order-totals {
     margin-top: 20px;

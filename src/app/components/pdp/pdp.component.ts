@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProdottiService } from '../../services/prodotti.service';
 import { AuthappService } from '../../services/authapp.service';
 import { environment } from '../../../environments/environment';
+import { CartService } from './../../services/cart.service';
 
 @Component({
   selector: 'app-pdp',
@@ -54,7 +55,8 @@ export class PdpComponent implements OnInit {
     private prodottiService: ProdottiService,
     private auth: AuthappService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) {
     this._actualMainImage = 0;
     const totalTaglie: string[] = ['35.5', '36', '36.5', '37', '37.5', '38', '38.5', '39', '39.5', '40', '40.5', '41', '41.5', '42', '42.5', '43', '43.5', '44', '44.5'];
@@ -154,8 +156,8 @@ export class PdpComponent implements OnInit {
   }
 
   addToCart() {
-    if (this.selectedSize) {
-      // Logica per aggiungere al carrello
+    if (this.selectedSize && this.actualProductSelected) {
+      this.cartService.addProduct(this.actualProductSelected, this.selectedSize);
     } else {
       // Gestione dell'errore: nessuna taglia selezionata
     }

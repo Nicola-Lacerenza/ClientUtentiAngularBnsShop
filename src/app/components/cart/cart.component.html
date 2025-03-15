@@ -4,27 +4,27 @@
     <tbody>
       <tr *ngFor="let item of items" class="product-row">
         <td class="image-details-container">
-        <img [src]="item.image" alt="{{ item.name }}" class="product-image">
+        <img [src]="createUrlByString(item.product.url[0])" alt="{{ item.product.nome_modello }}" class="product-image">
           <div class="product-details">
-            <p class="product-name">{{ item.name }}</p>
-            <p class="product-category">Scarpa – Ragazzo/a</p>
-            <p class="product-colors">Particle Grey/Smoke Grey/Wolf Grey/Nero</p>
+            <p class="product-name">{{ item.product.nome_modello }}</p>
+            <p class="product-category">{{ item.product.nome_brand }} : {{ item.product.descrizione_brand }} – {{ item.product.target }}</p>
+            <p class="product-colors">COLORE : {{ item.product.nome_colore }}</p>
             <p class="product-size">
               Taglia/misura 
-              <span class="size" (click)="openSizeSelector(item)">{{ item.size }}</span>
-              <button class="change-size-button" (click)="openSizeSelector(item)">Cambia taglia</button>
+              <span class="size" (click)="openSizeSelector(item.product,item.tagliaScelta)">{{ item.tagliaScelta }}</span>
+              <button class="change-size-button" (click)="openSizeSelector(item.product,item.tagliaScelta)">Cambia taglia</button>
             </p>
             <p class="product-quantity">
               Quantità 
-              <select [(ngModel)]="item.quantity" (change)="updateCart()">
+              <select [(ngModel)]="item.quantity" (change)="updateCart(item.product.id, item.tagliaScelta, item.quantity)">
                 <option *ngFor="let qty of [1, 2, 3, 4, 5]" [value]="qty">{{ qty }}</option>
               </select>
             </p>
-            <button (click)="removeItem(item)" class="remove-button">Rimuovi</button>
+            <button (click)="removeItem(item.product.id,item.tagliaScelta)" class="remove-button">Rimuovi</button>
           </div>
         </td>
         <td class="total-price-column">
-          <p class="total-price">{{ item.price * item.quantity }}€</p>
+          <p class="total-price">{{ item.product.prezzo * item.quantity }}€</p>
         </td>
       </tr>
     </tbody>
@@ -49,8 +49,8 @@
 <div class="popup" *ngIf="showSizeSelector">
   <div class="popup-content">
     <!-- Immagine del prodotto nel popup -->
-    <img [src]="selectedItem?.image" alt="{{ selectedItem?.name }}" class="popup-product-image">
-    <h3>Seleziona la taglia per {{ selectedItem?.name }}</h3>
+    <img [src]="createUrlByString(selectedItem.url[0])" alt="{{ selectedItem.nome_modello}}" class="popup-product-image">
+    <h3>Seleziona la taglia per {{ selectedItem.nome_modello }}</h3>
     <div class="sizes-container">
       <button *ngFor="let size of availableSizes"
               [class.selected]="size === selectedSize"

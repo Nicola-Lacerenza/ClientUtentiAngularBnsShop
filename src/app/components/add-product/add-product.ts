@@ -443,8 +443,6 @@ colorCode:{[key: string]: string} = {
     }
   }
   
-  
-  
   public createUrlByString(filename: string): string {
     return `${environment.serverUrl}/${filename}`;
   }

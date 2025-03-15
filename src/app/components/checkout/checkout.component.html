@@ -157,20 +157,38 @@
     <!-- COLONNA DESTRA: Riepilogo Ordine -->
     <div class="right-column">
       <h3>Riepilogo Ordine</h3>
-      <div class="cart-item">
-        <p>Scarpa Nike Air Max Dn8 - Uomo</p>
-        <p>Quantità: 1</p>
-        <p>Prezzo: 99,99 €</p>
+      <div *ngFor="let item of items" class="cart-item">
+        <img
+          *ngIf="item.product.url && item.product.url.length > 0"
+          [src]="createUrlByString(item.product.url[0])"
+          alt="{{ item.product.nome_modello }}"
+          class="product-image"
+        />
+        <div class="cart-item-details">
+          <p><strong>Prodotto:</strong> {{ item.product.nome_modello }}</p>
+          <p><strong>Taglia:</strong> {{ item.tagliaScelta }}</p>
+          <p><strong>Quantità:</strong> {{ item.quantity }}</p>
+          <p>
+            <strong>Prezzo unitario:</strong>
+            {{ item.product.prezzo | currency:'EUR':'symbol':'1.2-2' }}
+          </p>
+          <p>
+            <strong>Totale riga:</strong>
+            {{ (item.product.prezzo * item.quantity) | currency:'EUR':'symbol':'1.2-2' }}
+          </p>
+        </div>
       </div>
-      <div class="cart-item">
-        <p>Maglietta Adidas - Uomo</p>
-        <p>Quantità: 2</p>
-        <p>Prezzo: 45,99 € (cadauna)</p>
-      </div>
+      
       <div class="order-totals">
-        <p>Subtotale: 189,99 €</p>
-        <p>Spedizione stimata: 0,00 €</p>
-        <p><strong>Totale: 189,99 €</strong></p>
+        <p>
+          <strong>Subtotale:</strong>
+          {{ total | currency:'EUR':'symbol':'1.2-2' }}
+        </p>
+        <p><strong>Spedizione stimata:</strong> 0,00 €</p>
+        <p>
+          <strong>Totale:</strong>
+          {{ total | currency:'EUR':'symbol':'1.2-2' }}
+        </p>
       </div>
     </div>
   </div>
