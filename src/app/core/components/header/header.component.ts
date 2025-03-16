@@ -1,45 +1,33 @@
-import { Component , OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthappService } from '../../../services/authapp.service';
-import { user } from './../../../models/user';
 import { UserRegister } from '../../../models/UserRegister.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']  // Usa styleUrls (con la "s")
 })
 export class HeaderComponent implements OnInit {
+  public utente!: UserRegister;
+  public adminUser: boolean = false; // Proprietà modificabile per il ruolo admin
+  public loggedIn: boolean = false;  // Proprietà per lo stato di login
 
-  private _utente !: UserRegister;
-  private _isAdmin : boolean;
+  constructor(public basicAuth: AuthappService) {}
 
-  constructor(public BasicAuth: AuthappService){
-    this._isAdmin=false;
-  }
+  ngOnInit(): void {
+    // Imposta lo stato di login all'avvio
+    this.loggedIn = this.basicAuth.isLogged();
 
-  public get utente():UserRegister{
-    return this._utente;
-  }
-  
-  ngOnInit(): void {}
-
-  public isLogged():boolean{
-    return this.BasicAuth.isLogged();
-  }
-
-  public get isAdmin(): boolean{
-    this.BasicAuth.isAdmin().subscribe({
-      next:(ruolo:boolean)=>{
-        this._isAdmin=ruolo;
+    // Sottoscrivi il risultato dell'osservabile per l'admin
+    this.basicAuth.isAdmin().subscribe({
+      next: (ruolo: boolean) => {
+        this.adminUser = ruolo;
       },
-      error:(error:HttpErrorResponse)=>{
-        this._isAdmin=false;
+      error: (error: HttpErrorResponse) => {
         console.error(error);
+        this.adminUser = false;
       }
     });
-    return this._isAdmin;
   }
 }
-
-

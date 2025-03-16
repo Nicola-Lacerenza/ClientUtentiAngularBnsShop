@@ -98,16 +98,7 @@
           </div>
         </div>
 
-        <!-- Filtro per Modello -->
-        <div class="filter-group">
-          <h3>Modello</h3>
-          <div class="filter-options">
-            <label *ngFor="let modello of modelli">
-              <!-- Il valore del checkbox è l'id_modello ma viene visualizzato il nome_modello -->
-              <input type="checkbox" [name]="modello.id" ngModel> {{ modello.nome }}
-            </label>
-          </div>
-        </div>
+  
         
         <button type="submit">Applica filtri</button>
       </form>
