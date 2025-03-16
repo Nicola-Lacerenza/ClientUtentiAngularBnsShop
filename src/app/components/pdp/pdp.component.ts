@@ -224,4 +224,9 @@ export class PdpComponent implements OnInit {
     this.router.navigate(['/checkout']); // rotta del tuo checkout
     this.closePopup();
   }
+  public isVideo(url: string): boolean {
+    return url ? url.toLowerCase().endsWith('.mp4') : false;
+  }
+  
+  
 }
