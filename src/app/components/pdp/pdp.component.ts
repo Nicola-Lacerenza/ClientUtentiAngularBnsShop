@@ -228,15 +228,31 @@ export class PdpComponent implements OnInit {
     this.router.navigate(['/checkout']); // rotta del tuo checkout
     this.closePopup();
   }
-  // Metodo per aggiornare il tempo del video tramite lo scroll
-  onVideoScroll(event: WheelEvent): void {
-    event.preventDefault(); // Previene lo scroll della pagina
-    const video = this.mainVideo.nativeElement;
-    // Fattore di scala per convertire deltaY in secondi; sperimenta con questo valore
-    const factor = 0.005;
-    const newTime = video.currentTime + event.deltaY * factor;
-    video.currentTime = Math.max(0, Math.min(video.duration, newTime));
+// Metodo chiamato al wheel event, con animazione del currentTime
+onVideoScroll(event: WheelEvent): void {
+  event.preventDefault();
+  const video = this.mainVideo.nativeElement;
+  // Usa un fattore minore per incrementi più piccoli
+  const factor = 0.01;
+  // Calcola il tempo target assicurandoti di rimanere nei limiti del video
+  const targetTime = Math.max(0, Math.min(video.duration, video.currentTime + event.deltaY * factor));
+  this.animateVideoTime(video, targetTime);
+}
+
+// Funzione che anima gradualmente il currentTime del video
+animateVideoTime(video: HTMLVideoElement, targetTime: number): void {
+  const diff = targetTime - video.currentTime;
+  // Se la differenza è piccola, imposta direttamente il target per evitare animazioni infinitesimali
+  if (Math.abs(diff) < 0.1) {
+    video.currentTime = targetTime;
+    return;
   }
+  // Aggiorna il currentTime in maniera incrementale (10% della differenza)
+  video.currentTime += diff * 0.1;
+  // Richiama l'animazione al frame successivo
+  requestAnimationFrame(() => this.animateVideoTime(video, targetTime));
+}
+
   
   
 

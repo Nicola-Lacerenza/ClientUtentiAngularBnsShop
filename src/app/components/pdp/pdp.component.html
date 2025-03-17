@@ -16,10 +16,11 @@
           <!-- Slider per il controllo del video -->
           <div class="video-slider">
             <input type="range"
-                   [min]="0"
-                   [max]="videoDuration"
-                   [(ngModel)]="videoTime"
-                   (input)="onSliderChange($event)" />
+            [min]="0"
+            [max]="videoDuration"
+            step="0.01"
+            [(ngModel)]="videoTime"
+            (input)="onSliderChange($event)" />     
           </div>
         </ng-container>
         <ng-template #showImage>
