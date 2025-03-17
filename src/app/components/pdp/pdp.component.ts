@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -15,6 +15,7 @@ import { CartService } from './../../services/cart.service';
 })
 export class PdpComponent implements OnInit {
   private _actualMainImage: number;
+  @ViewChild('mainVideo') mainVideo!: ElementRef<HTMLVideoElement>;
   private colorNameSelected: string[] | undefined;
   private taglie: { taglia: string, quantita: number }[] = [];
   private actualId: number | undefined;
@@ -36,6 +37,9 @@ export class PdpComponent implements OnInit {
     url: [],
     nome_colore: []
   };
+
+  videoDuration: number = 0;
+  videoTime: number = 0;
 
   // Proprietà per i prodotti correlati
   public relatedProducts: ProdottiFull[] = [];
@@ -224,9 +228,36 @@ export class PdpComponent implements OnInit {
     this.router.navigate(['/checkout']); // rotta del tuo checkout
     this.closePopup();
   }
-  public isVideo(url: string): boolean {
-    return url ? url.toLowerCase().endsWith('.mp4') : false;
+  // Metodo per aggiornare il tempo del video tramite lo scroll
+  onVideoScroll(event: WheelEvent): void {
+    event.preventDefault(); // Previene lo scroll della pagina
+    const video = this.mainVideo.nativeElement;
+    // Fattore di scala per convertire deltaY in secondi; sperimenta con questo valore
+    const factor = 0.005;
+    const newTime = video.currentTime + event.deltaY * factor;
+    video.currentTime = Math.max(0, Math.min(video.duration, newTime));
   }
   
   
+
+  // Metodo chiamato quando i metadati del video sono caricati (disponibile la durata)
+  onLoadedMetadata(): void {
+    this.videoDuration = this.mainVideo.nativeElement.duration;
+  }
+
+  // Aggiorna lo slider in base al progresso del video
+  onTimeUpdate(): void {
+    this.videoTime = this.mainVideo.nativeElement.currentTime;
+  }
+
+  // Aggiorna il currentTime del video quando lo slider viene modificato
+  onSliderChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    this.mainVideo.nativeElement.currentTime = value;
+  }
+  
+  public isVideo(url: string): boolean {
+    return url ? url.toLowerCase().endsWith('.mp4') : false;
+  }
 }

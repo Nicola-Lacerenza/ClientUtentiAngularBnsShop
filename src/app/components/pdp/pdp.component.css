@@ -38,15 +38,18 @@ body {
 
 .main-image {
   width: 80%;
-  height: 500px;
+  /* Imposta l'altezza su 'auto' o un valore fisso a seconda delle tue necessità */
+  height: auto;
   overflow: hidden;
   border-radius: 8px;
   margin-bottom: 10px;
   display: flex;
+  flex-direction: column; /* Dispone i figli verticalmente */
   justify-content: center;
   align-items: center;
   background-color: #f0f0f0;
 }
+
 
 .main-image img {
   width: 100%;
@@ -54,6 +57,26 @@ body {
   object-fit: cover;
   transition: transform 0.3s ease;
 }
+
+.video-wrapper {
+  display: flex;
+  flex-direction: column; /* Dispone gli elementi verticalmente */
+  width: 100%;
+}
+
+.video-container {
+  width: 100%;
+}
+
+.video-slider {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.video-slider input[type="range"] {
+  width: 100%;
+}
+
 
 .thumbnail-images img {
   width: 70px;

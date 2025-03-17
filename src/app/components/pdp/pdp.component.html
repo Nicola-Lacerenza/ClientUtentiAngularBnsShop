@@ -4,17 +4,30 @@
     <div class="product-images" *ngIf="urlListProductToUpdate">
       <div class="main-image">
         <ng-container *ngIf="isVideo(urlListProductToUpdate[actualMainImage]); else showImage">
-          <video width="100%" height="100%" controls>
-            <source [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" type="video/mp4">
-            Il tuo browser non supporta il tag video.
-          </video>
+          <!-- Contenitore video -->
+          <div class="video-container" (wheel)="onVideoScroll($event)">
+            <video #mainVideo width="100%" height="100%" 
+                   (loadedmetadata)="onLoadedMetadata()"
+                   (timeupdate)="onTimeUpdate()">
+              <source [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" type="video/mp4">
+              Il tuo browser non supporta il tag video.
+            </video>
+          </div>
+          <!-- Slider per il controllo del video -->
+          <div class="video-slider">
+            <input type="range"
+                   [min]="0"
+                   [max]="videoDuration"
+                   [(ngModel)]="videoTime"
+                   (input)="onSliderChange($event)" />
+          </div>
         </ng-container>
         <ng-template #showImage>
           <img [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" alt="Main Preview" />
         </ng-template>
       </div>
       
-
+      <!-- Le immagini in miniatura sono già posizionate sotto questo blocco -->
       <div class="thumbnail-images">
         <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
           <img [src]="createUrlByString(singleUrl)"
@@ -23,6 +36,7 @@
                (mouseenter)="setMainImage(i)" />
         </ng-container>
       </div>
+      
     </div>
 
     <!-- Colonna delle informazioni prodotto -->
