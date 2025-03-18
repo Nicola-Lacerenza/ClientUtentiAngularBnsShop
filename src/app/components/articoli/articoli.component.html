@@ -108,8 +108,17 @@
     <div class="products-container">
       <div class="model-group" *ngFor="let group of prodottiFiltrati" (click)="viewProduct(group.currentProductId)">
         <div class="main-image">
-          <img [src]="group.currentImage" [alt]="group.modello">
+          <ng-container *ngIf="isVideo(group.currentImage); else imageTemplate">
+            <video [src]="group.currentImage" muted loop playsinline 
+                   (mouseenter)="playVideo($event)" 
+                   (mouseleave)="pauseVideo($event)">
+            </video>
+          </ng-container>
+          <ng-template #imageTemplate>
+            <img [src]="group.currentImage" [alt]="group.modello">
+          </ng-template>
         </div>
+        
         <!-- Informazioni del modello sotto l'immagine -->
         <div class="model-info">
           <h3 class="model-title">{{ group.modello }}</h3>

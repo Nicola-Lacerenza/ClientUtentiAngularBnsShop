@@ -263,4 +263,25 @@ export class ArticoliComponent implements OnInit {
   toggleFilters() {
     this.showFilters = !this.showFilters;
   }
+
+  // Verifica se l'URL corrisponde a un video in base all'estensione
+isVideo(mediaUrl: string): boolean {
+  return mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm') || mediaUrl.endsWith('.ogg');
+}
+
+playVideo(event: MouseEvent): void {
+  const videoElement = event.target as HTMLVideoElement;
+  if (videoElement && videoElement.play) {
+    videoElement.play();
+  }
+}
+
+pauseVideo(event: MouseEvent): void {
+  const videoElement = event.target as HTMLVideoElement;
+  if (videoElement && videoElement.pause) {
+    videoElement.pause();
+    videoElement.currentTime = 0; // Ripristina l'inizio del video
+  }
+}
+
 }
