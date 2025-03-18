@@ -5,52 +5,57 @@
       <div class="main-image">
         <ng-container *ngIf="isVideo(urlListProductToUpdate[actualMainImage]); else showImage">
           <!-- Contenitore video -->
-          <div class="video-container" (wheel)="onVideoScroll($event)">
-            <video #mainVideo width="100%" height="100%" 
+          <div class="video-container">
+            <video #mainVideo
                    (loadedmetadata)="onLoadedMetadata()"
                    (timeupdate)="onTimeUpdate()">
               <source [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" type="video/mp4">
               Il tuo browser non supporta il tag video.
             </video>
           </div>
-          <!-- Slider per il controllo del video -->
+          <!-- Slider per aggiornare il currentTime; il listener wheel è applicato sia al div che all'input -->
           <div class="video-slider">
             <input type="range"
-            [min]="0"
-            [max]="videoDuration"
-            step="0.01"
-            [(ngModel)]="videoTime"
-            (input)="onSliderChange($event)" />     
+                   [min]="0"
+                   [max]="videoDuration"
+                   step="0.01"
+                   [(ngModel)]="videoTime"
+                   (input)="onSliderChange($event)"
+                   (wheel)="onVideoScroll($event)" />
           </div>
         </ng-container>
         <ng-template #showImage>
+          <!-- L'immagine viene adattata al contenitore -->
           <img [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" alt="Main Preview" />
         </ng-template>
       </div>
       
-      <!-- Le immagini in miniatura sono già posizionate sotto questo blocco -->
+      <!-- Thumbnail images -->
       <div class="thumbnail-images">
         <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
-          <img [src]="createUrlByString(singleUrl)"
+          <img *ngIf="!isVideo(singleUrl)" 
+               [src]="createUrlByString(singleUrl)"
                [class.active]="i === actualMainImage"
                alt="Thumbnail"
                (mouseenter)="setMainImage(i)" />
+          <img *ngIf="isVideo(singleUrl)" 
+               src="assets/video-thumbnail.jpg"
+               [class.active]="i === actualMainImage"
+               alt="Video Thumbnail"
+               (mouseenter)="setMainImage(i)" />
         </ng-container>
       </div>
-      
     </div>
 
-    <!-- Colonna delle informazioni prodotto -->
+    <!-- Sezione informazioni prodotto -->
     <div class="product-info">
       <h1 class="product-title">{{ actualProductSelected.nome_modello }}</h1>
       <p class="product-description">
         {{ actualProductSelected.descrizione_brand }} - {{ actualProductSelected.target }}
       </p>
-      <h2 class="product-price">
-        {{ actualProductSelected.prezzo + " €" }}
-      </h2>
-
-      <!-- Sezione prodotti correlati -->
+      <h2 class="product-price">{{ actualProductSelected.prezzo + " €" }}</h2>
+      
+      <!-- Prodotti correlati -->
       <div class="related-products">
         <h3>Prodotti correlati</h3>
         <div class="thumbnail-images">
@@ -65,46 +70,45 @@
       <p class="product-description">
         {{ actualProductSelected.descrizione_modello }}
       </p>
-
+      
       <!-- Selezione della taglia -->
       <div class="size-selection">
         <h3>Seleziona la taglia</h3>
         <div class="size-buttons">
-          <button
-            *ngFor="let size of ['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5', '45', '46', '47']"
-            [ngClass]="{'selected': selectedSize === size}"
-            (click)="selectSize(size)" 
-            [disabled]="!isTagliaAvailable(size)">
+          <button *ngFor="let size of ['35.5', '36', '36.5', '37', '38', '38.5', '39', '40', '40.5', '41', '42', '42.5', '43', '44', '44.5', '45', '46', '47']"
+                  [ngClass]="{'selected': selectedSize === size}"
+                  (click)="selectSize(size)"
+                  [disabled]="!isTagliaAvailable(size)">
             {{ size }}
           </button>
         </div>
       </div>
-
-      <!-- Pulsanti Call-to-Action -->
+      
+      <!-- Call-to-Action -->
       <div class="cta-buttons">
         <button (click)="addToCart()">Aggiungi al carrello</button>
         <button (click)="addToFavorites()">Aggiungi ai preferiti</button>
       </div>
     </div>
   </div>
-
+  
   <!-- Sezione informazioni aggiuntive -->
   <div class="additional-info">
     <h3 class="info-header" (click)="toggleInfo('sizeFit')">Taglia/misura e fit</h3>
     <div *ngIf="isInfoVisible['sizeFit']">
       <p>Informazioni dettagliate sulla taglia e fit della scarpa.</p>
     </div>
-
+    
     <h3 class="info-header" (click)="toggleInfo('shipping')">Spedizione e resi gratuiti</h3>
     <div *ngIf="isInfoVisible['shipping']">
       <p>Dettagli sulla spedizione e resi gratuiti.</p>
     </div>
-
+    
     <h3 class="info-header" (click)="toggleInfo('reviews')">Recensioni (170)</h3>
     <div *ngIf="isInfoVisible['reviews']">
       <p>Recensioni dei clienti e feedback sulla scarpa.</p>
     </div>
-
+    
     <h3 class="info-header" (click)="toggleInfo('moreInfo')">Ulteriori informazioni</h3>
     <div *ngIf="isInfoVisible['moreInfo']">
       <p>Ulteriori informazioni sul prodotto e il brand.</p>
@@ -112,19 +116,15 @@
   </div>
 </div>
 
-<!-- Popup di notifica aggiunta al carrello -->
+<!-- Popup notifica aggiunta al carrello -->
 <div class="cart-popup" *ngIf="showCartPopup">
   <div class="cart-popup-content">
-    <!-- Header del popup con titolo e pulsante di chiusura -->
     <div class="popup-header">
       <span>Aggiunto al carrello!</span>
       <button class="close-btn" (click)="closePopup()">X</button>
     </div>
-
-    <!-- Corpo del popup con immagine e dettagli -->
     <div class="popup-body">
       <div class="popup-image">
-        <!-- Mostra l'immagine corrispondente all'indice selezionato -->
         <img [src]="createUrlByString(urlListProductToUpdate![actualMainImage])" alt="Prodotto aggiunto" />
       </div>
       <div class="popup-info">
@@ -134,8 +134,6 @@
         <p>Prezzo: {{ actualProductSelected.prezzo }} €</p>
       </div>
     </div>
-
-    <!-- Footer del popup con pulsanti -->
     <div class="popup-actions">
       <button (click)="vaiAlCarrello()">Visualizza carrello</button>
       <button class="payment-btn" (click)="vaiAlPagamento()">Vai al pagamento</button>

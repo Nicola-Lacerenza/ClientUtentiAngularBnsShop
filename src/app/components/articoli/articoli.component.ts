@@ -38,8 +38,7 @@ export class ArticoliComponent implements OnInit {
 
 
   expandedGroups: { [key: string]: boolean } = {};
-  showFilters: boolean = true;
-  
+  showFilters: boolean = false; 
   constructor(   
     private prodottiService: ProdottiService,
     private auth: AuthappService,
@@ -266,8 +265,10 @@ export class ArticoliComponent implements OnInit {
 
   // Verifica se l'URL corrisponde a un video in base all'estensione
 isVideo(mediaUrl: string): boolean {
-  return mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm') || mediaUrl.endsWith('.ogg');
+  const lowerUrl = mediaUrl.toLowerCase();
+  return lowerUrl.endsWith('.mp4') || lowerUrl.endsWith('.webm') || lowerUrl.endsWith('.ogg');
 }
+
 
 playVideo(event: MouseEvent): void {
   const videoElement = event.target as HTMLVideoElement;
@@ -283,5 +284,17 @@ pauseVideo(event: MouseEvent): void {
     videoElement.currentTime = 0; // Ripristina l'inizio del video
   }
 }
+public generateThumbnailUrl(media: string): string {
+  const url = this.generateUrl(media);
+  if (this.isVideo(media)) {
+    // Se il thumbnail ha un'estensione diversa (ad esempio .jpeg), modificare opportunamente
+    return url.replace(/\.(mp4|webm|ogg)$/i, '.jpg');
+  }
+  return url;
+}
+
+
+
+
 
 }

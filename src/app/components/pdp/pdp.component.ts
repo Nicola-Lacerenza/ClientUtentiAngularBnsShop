@@ -14,7 +14,7 @@ import { CartService } from './../../services/cart.service';
   styleUrls: ['./pdp.component.css']
 })
 export class PdpComponent implements OnInit {
-  private _actualMainImage: number;
+  private _actualMainImage: number = 0;
   @ViewChild('mainVideo') mainVideo!: ElementRef<HTMLVideoElement>;
   private colorNameSelected: string[] | undefined;
   private taglie: { taglia: string, quantita: number }[] = [];
@@ -40,14 +40,10 @@ export class PdpComponent implements OnInit {
 
   videoDuration: number = 0;
   videoTime: number = 0;
-
-  // Proprietà per i prodotti correlati
+  
+  // Prodotti correlati
   public relatedProducts: ProdottiFull[] = [];
-
-  // Stato della taglia selezionata
   selectedSize: string | null = null;
-
-  // Stato per la visibilità delle info aggiuntive
   isInfoVisible: { [key: string]: boolean } = {
     sizeFit: false,
     shipping: false,
@@ -55,10 +51,9 @@ export class PdpComponent implements OnInit {
     moreInfo: false
   };
 
-  // Variabili per il popup
   showCartPopup: boolean = false;
   addedProductName: string = '';
-  popupTimer: any; // Per gestire il timer di chiusura automatica
+  popupTimer: any;
 
   constructor(
     private prodottiService: ProdottiService,
@@ -67,7 +62,6 @@ export class PdpComponent implements OnInit {
     private router: Router,
     private cartService: CartService
   ) {
-    this._actualMainImage = 0;
     const totalTaglie: string[] = [
       '35.5', '36', '36.5', '37', '37.5', '38', '38.5', '39', '39.5', '40',
       '40.5', '41', '41.5', '42', '42.5', '43', '43.5', '44', '44.5'
@@ -87,31 +81,29 @@ export class PdpComponent implements OnInit {
     });
   }
 
-  public get actualMainImage(): number {
+  get actualMainImage(): number {
     return this._actualMainImage;
   }
 
-  public setMainImage(index: number): void {
+  setMainImage(index: number): void {
     if (this._actualMainImage !== index) {
       this._actualMainImage = index;
     }
   }
-  
+
   private getProduct(): void {
     const tmp = this.route.snapshot.paramMap.get("id");
     if (tmp !== null) {
       this.actualId = parseInt(tmp, 10);
       this.prodottiService.getProdotto(this.actualId).subscribe({
         next: (data: ServerResponse) => {
-          const tmpProd = <ProdottiFull>data.message;
+          const tmpProd = data.message as ProdottiFull;
           this.actualProductSelected = tmpProd;
           this.urlListProductToUpdate = tmpProd.url;
           this.colorNameSelected = tmpProd.nome_colore;
           
-          // Reset delle quantità per le taglie
+          // Reset quantità taglie
           this.taglie.forEach(item => item.quantita = 0);
-          
-          // Aggiorna le quantità per le taglie disponibili
           for (const taglia of tmpProd.taglieProdotto) {
             let i = 0;
             while (i < this.taglie.length && this.taglie[i].taglia !== taglia.taglia.taglia_Eu) {
@@ -121,11 +113,11 @@ export class PdpComponent implements OnInit {
               this.taglie[i].quantita += taglia.taglia_prodotti.quantita;
             }
           }
-
-          // Carica i prodotti correlati
+          
+          // Carica prodotti correlati
           this.prodottiService.getProdotti().subscribe({
             next: (data: ServerResponse) => {
-              const allProducts: ProdottiFull[] = <ProdottiFull[]>data.message;
+              const allProducts = data.message as ProdottiFull[];
               this.relatedProducts = allProducts.filter(prod => 
                 prod.id_modello === this.actualProductSelected.id_modello &&
                 prod.id !== this.actualProductSelected.id &&
@@ -153,11 +145,11 @@ export class PdpComponent implements OnInit {
     }
   }
 
-  public createUrlByString(filename: string): string {
+  createUrlByString(filename: string): string {
     return `${environment.serverUrl}/${filename}`;
   }
-  
-  public isTagliaAvailable(taglia: string): boolean {
+
+  isTagliaAvailable(taglia: string): boolean {
     const available = this.taglie.find(item => item.taglia === taglia);
     return available ? available.quantita > 0 : false;
   }
@@ -169,34 +161,19 @@ export class PdpComponent implements OnInit {
 
   addToCart() {
     if (this.selectedSize && this.actualProductSelected) {
-      // Aggiunta al carrello
       this.cartService.addProduct(this.actualProductSelected, this.selectedSize);
-      
-      // Salvo i dati da mostrare nel popup
       this.addedProductName = this.actualProductSelected.nome_modello;
-      // Mostro il popup
       this.showCartPopup = true;
-
-      // Se esiste già un timer, lo cancello
-      if (this.popupTimer) {
-        clearTimeout(this.popupTimer);
-      }
-
-      // Dopo 5 secondi il popup si chiude automaticamente
+      if (this.popupTimer) { clearTimeout(this.popupTimer); }
       this.popupTimer = setTimeout(() => {
         this.showCartPopup = false;
       }, 5000);
-
-    } else {
-      // Gestione dell'errore: nessuna taglia selezionata
     }
   }
 
   addToFavorites() {
     if (this.selectedSize) {
       // Logica per aggiungere ai preferiti
-    } else {
-      // Gestione dell'errore: nessuna taglia selezionata
     }
   }
 
@@ -204,76 +181,52 @@ export class PdpComponent implements OnInit {
     this.isInfoVisible[info] = !this.isInfoVisible[info];
   }
 
-  // Naviga alla pagina del prodotto correlato
   selectRelatedProduct(product: ProdottiFull): void {
     this.router.navigate(['/pdp', product.id]);
   }
 
-  // Metodo per chiudere manualmente il popup
   closePopup(): void {
     this.showCartPopup = false;
-    if (this.popupTimer) {
-      clearTimeout(this.popupTimer);
-    }
+    if (this.popupTimer) { clearTimeout(this.popupTimer); }
   }
 
-  // Metodo per andare al carrello
   vaiAlCarrello(): void {
-    this.router.navigate(['/cart']); // rotta del tuo carrello
+    this.router.navigate(['/cart']);
     this.closePopup();
   }
 
-  // Metodo per andare direttamente al pagamento
   vaiAlPagamento(): void {
-    this.router.navigate(['/checkout']); // rotta del tuo checkout
+    this.router.navigate(['/checkout']);
     this.closePopup();
   }
-// Metodo chiamato al wheel event, con animazione del currentTime
-onVideoScroll(event: WheelEvent): void {
-  event.preventDefault();
-  const video = this.mainVideo.nativeElement;
-  // Usa un fattore minore per incrementi più piccoli
-  const factor = 0.01;
-  // Calcola il tempo target assicurandoti di rimanere nei limiti del video
-  const targetTime = Math.max(0, Math.min(video.duration, video.currentTime + event.deltaY * factor));
-  this.animateVideoTime(video, targetTime);
-}
 
-// Funzione che anima gradualmente il currentTime del video
-animateVideoTime(video: HTMLVideoElement, targetTime: number): void {
-  const diff = targetTime - video.currentTime;
-  // Se la differenza è piccola, imposta direttamente il target per evitare animazioni infinitesimali
-  if (Math.abs(diff) < 0.1) {
-    video.currentTime = targetTime;
-    return;
+  // Gestione dello scroll sullo slider: aggiorna direttamente il currentTime
+  onVideoScroll(event: WheelEvent): void {
+    const video = this.mainVideo.nativeElement;
+    const factor = 0.05; // Regola il fattore di scorrimento
+    let newTime = video.currentTime + event.deltaY * factor;
+    newTime = Math.max(0, Math.min(video.duration, newTime));
+    video.currentTime = newTime;
+    this.videoTime = newTime;
   }
-  // Aggiorna il currentTime in maniera incrementale (10% della differenza)
-  video.currentTime += diff * 0.1;
-  // Richiama l'animazione al frame successivo
-  requestAnimationFrame(() => this.animateVideoTime(video, targetTime));
-}
 
-  
-  
-
-  // Metodo chiamato quando i metadati del video sono caricati (disponibile la durata)
   onLoadedMetadata(): void {
     this.videoDuration = this.mainVideo.nativeElement.duration;
   }
 
-  // Aggiorna lo slider in base al progresso del video
   onTimeUpdate(): void {
     this.videoTime = this.mainVideo.nativeElement.currentTime;
   }
 
-  // Aggiorna il currentTime del video quando lo slider viene modificato
   onSliderChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     const value = Number(input.value);
     this.mainVideo.nativeElement.currentTime = value;
+    this.videoTime = value;
   }
-  
-  public isVideo(url: string): boolean {
+
+  // Verifica se l'URL è un video (basato sull'estensione)
+  isVideo(url: string): boolean {
     return url ? url.toLowerCase().endsWith('.mp4') : false;
   }
 }

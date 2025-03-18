@@ -36,48 +36,88 @@ body {
   align-items: center;
 }
 
+/* Contenitore principale per video e immagine con altezza fissa aumentata */
 .main-image {
   width: 80%;
-  /* Imposta l'altezza su 'auto' o un valore fisso a seconda delle tue necessità */
-  height: auto;
+  height: 500px;  /* Altezza aumentata per immagini e video */
   overflow: hidden;
   border-radius: 8px;
   margin-bottom: 10px;
-  display: flex;
-  flex-direction: column; /* Dispone i figli verticalmente */
-  justify-content: center;
-  align-items: center;
   background-color: #f0f0f0;
+  position: relative;
 }
 
+/* Video container */
+.video-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 
+/* Stile per l'immagine */
 .main-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  object-position: center;
 }
 
-.video-wrapper {
-  display: flex;
-  flex-direction: column; /* Dispone gli elementi verticalmente */
-  width: 100%;
-}
-
-.video-container {
-  width: 100%;
-}
-
+/* Slider video (presente solo per il video) */
 .video-slider {
   width: 80%;
-  margin: 10px 0;
+  margin: 10px auto;
 }
-
 .video-slider input[type="range"] {
+  -webkit-appearance: none;
   width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: background 0.2s ease;
+}
+.video-slider input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: #ddd;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.video-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: -4px;
+}
+.video-slider input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #3498db;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-
+/* Thumbnail images */
+.thumbnail-images {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .thumbnail-images img {
   width: 70px;
   height: 70px;
@@ -86,13 +126,10 @@ body {
   cursor: pointer;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
-
 .thumbnail-images img:hover {
   transform: scale(1.1);
   opacity: 0.8;
 }
-
-/* Stile per il thumbnail attivo */
 .thumbnail-images img.active {
   border: 2px solid #616161;
   transform: scale(1.1);
@@ -106,20 +143,17 @@ body {
   gap: 15px;
   padding: 10px;
 }
-
 .product-title {
   font-size: 28px;
   font-weight: bold;
   color: #222;
 }
-
 .product-price {
   font-size: 24px;
   font-weight: bold;
   color: #e74c3c;
   margin-bottom: 15px;
 }
-
 .product-description {
   font-size: 16px;
   line-height: 1.5;
@@ -133,13 +167,11 @@ body {
   margin-bottom: 10px;
   color: #333;
 }
-
 .size-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
-
 .size-buttons button {
   padding: 10px 14px;
   font-size: 14px;
@@ -149,27 +181,24 @@ body {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
-
 .size-buttons button:hover,
 .size-buttons button.selected {
   background-color: #3498db;
   color: #fff;
   border-color: #3498db;
 }
-
 .size-buttons button:disabled {
   background-color: #f0f0f0;
   color: #aaa;
   cursor: not-allowed;
 }
 
-/* Pulsanti Call-to-Action */
+/* Call-to-Action */
 .cta-buttons {
   display: flex;
   gap: 15px;
   margin-top: 20px;
 }
-
 .cta-buttons button {
   flex: 1;
   padding: 12px;
@@ -182,7 +211,6 @@ body {
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
 .cta-buttons button:hover {
   background-color: #219150;
 }
@@ -195,7 +223,6 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   border-radius: 8px;
 }
-
 .additional-info .info-header {
   font-size: 18px;
   font-weight: bold;
@@ -205,11 +232,9 @@ body {
   cursor: pointer;
   transition: color 0.3s;
 }
-
 .additional-info .info-header:hover {
   color: #1c5980;
 }
-
 .additional-info div {
   padding: 10px 0;
   font-size: 16px;
@@ -218,17 +243,15 @@ body {
   margin-bottom: 10px;
 }
 
-/* Popup di notifica */
+/* Popup notifica */
 .cart-popup {
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 9999; /* Assicura che stia sopra l’header o altri elementi */
+  z-index: 9999;
   max-width: 300px;
   width: 100%;
 }
-
-/* Contenitore principale del popup */
 .cart-popup-content {
   background: #fff;
   border: 1px solid #ddd;
@@ -239,8 +262,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-
-/* Header del popup */
 .popup-header {
   background-color: #3498db;
   color: #fff;
@@ -250,12 +271,9 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-
 .popup-header span {
   font-size: 16px;
 }
-
-/* Pulsante di chiusura */
 .close-btn {
   background: transparent;
   border: none;
@@ -265,45 +283,35 @@ body {
   padding: 0 5px;
   font-weight: bold;
 }
-
 .close-btn:hover {
   opacity: 0.8;
 }
-
-/* Corpo del popup */
 .popup-body {
   display: flex;
   padding: 10px;
   gap: 10px;
 }
-
 .popup-image img {
   width: 80px;
   height: 80px;
   object-fit: cover;
   border-radius: 6px;
 }
-
-/* Info del popup */
 .popup-info {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-
 .popup-info h4 {
   margin: 0;
   font-size: 16px;
   color: #333;
 }
-
 .popup-info p {
   margin: 2px 0;
   font-size: 14px;
   color: #666;
 }
-
-/* Footer del popup */
 .popup-actions {
   display: flex;
   gap: 10px;
@@ -311,7 +319,6 @@ body {
   border-top: 1px solid #ddd;
   justify-content: flex-end;
 }
-
 .popup-actions button {
   border: none;
   padding: 8px 14px;
@@ -320,22 +327,17 @@ body {
   border-radius: 6px;
   transition: background-color 0.3s;
 }
-
 .popup-actions button:hover {
   opacity: 0.9;
 }
-
 .popup-actions button:first-child {
   background-color: #3498db;
   color: #fff;
 }
-
 .payment-btn {
   background-color: #e67e22;
   color: #fff;
 }
-
-/* Animazione per il popup in entrata da destra */
 @keyframes slideInRight {
   0% {
     opacity: 0;
