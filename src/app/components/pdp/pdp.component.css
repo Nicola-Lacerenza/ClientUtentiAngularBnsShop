@@ -36,10 +36,10 @@ body {
   align-items: center;
 }
 
-/* Contenitore principale per video e immagine con altezza fissa aumentata */
+/* Contenitore principale per video e immagine */
 .main-image {
   width: 80%;
-  height: 500px;  /* Altezza aumentata per immagini e video */
+  height: 500px;
   overflow: hidden;
   border-radius: 8px;
   margin-bottom: 10px;
@@ -68,7 +68,7 @@ body {
   object-position: center;
 }
 
-/* Slider video (presente solo per il video) */
+/* Slider video (opzionale) */
 .video-slider {
   width: 80%;
   margin: 10px auto;
@@ -110,6 +110,23 @@ body {
   cursor: pointer;
   transition: background 0.2s ease;
 }
+
+/* Controllo scroll per il video */
+.video-scroll-control {
+  width: 80%;
+  margin: 10px auto;
+  text-align: center;
+  padding: 20px; /* Aumentato il padding per una maggiore area */
+  background-color: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.video-scroll-control p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
 
 /* Thumbnail images */
 .thumbnail-images {

@@ -200,16 +200,6 @@ export class PdpComponent implements OnInit {
     this.closePopup();
   }
 
-  // Gestione dello scroll sullo slider: aggiorna direttamente il currentTime
-  onVideoScroll(event: WheelEvent): void {
-    const video = this.mainVideo.nativeElement;
-    const factor = 0.05; // Regola il fattore di scorrimento
-    let newTime = video.currentTime + event.deltaY * factor;
-    newTime = Math.max(0, Math.min(video.duration, newTime));
-    video.currentTime = newTime;
-    this.videoTime = newTime;
-  }
-
   onLoadedMetadata(): void {
     this.videoDuration = this.mainVideo.nativeElement.duration;
   }
@@ -223,6 +213,38 @@ export class PdpComponent implements OnInit {
     const value = Number(input.value);
     this.mainVideo.nativeElement.currentTime = value;
     this.videoTime = value;
+  }
+
+  private scrollAccumulator: number = 0; 
+  // Controllo dello scroll per avanzare o indietreggiare il video a frame discreti
+  onVideoScroll(event: WheelEvent): void {
+    event.preventDefault();
+    const video = this.mainVideo.nativeElement;
+    const totalFrames = 36;
+    const frameDuration = video.duration / totalFrames;
+
+    // Applichiamo un fattore per rendere lo scroll meno sensibile
+    const factor = 0.01;
+    this.scrollAccumulator += event.deltaY * factor;
+
+    // Definiamo una soglia (ad esempio 1 unità) per cambiare frame
+    let frameChange = 0;
+    if (this.scrollAccumulator >= 1) {
+      frameChange = Math.floor(this.scrollAccumulator);
+      this.scrollAccumulator -= frameChange;
+    } else if (this.scrollAccumulator <= -1) {
+      frameChange = Math.ceil(this.scrollAccumulator);
+      this.scrollAccumulator -= frameChange;
+    }
+
+    if (frameChange !== 0) {
+      let currentFrame = Math.round(video.currentTime / frameDuration);
+      currentFrame += frameChange;
+      currentFrame = Math.max(0, Math.min(totalFrames - 1, currentFrame));
+      const newTime = currentFrame * frameDuration;
+      video.currentTime = newTime;
+      this.videoTime = newTime;
+    }
   }
 
   // Verifica se l'URL è un video (basato sull'estensione)

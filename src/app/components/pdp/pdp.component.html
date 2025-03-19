@@ -3,7 +3,7 @@
     <!-- Sezione immagini prodotto -->
     <div class="product-images" *ngIf="urlListProductToUpdate">
       <div class="main-image">
-        <ng-container *ngIf="isVideo(urlListProductToUpdate[actualMainImage]); else showImage">
+        <ng-container *ngIf="isVideo(urlListProductToUpdate[actualMainImage]); else imgTemplate">
           <!-- Contenitore video -->
           <div class="video-container">
             <video #mainVideo
@@ -13,21 +13,26 @@
               Il tuo browser non supporta il tag video.
             </video>
           </div>
-          <!-- Slider per aggiornare il currentTime; il listener wheel è applicato sia al div che all'input -->
-          <div class="video-slider">
-            <input type="range"
-                   [min]="0"
-                   [max]="videoDuration"
-                   step="0.01"
-                   [(ngModel)]="videoTime"
-                   (input)="onSliderChange($event)"
-                   (wheel)="onVideoScroll($event)" />
-          </div>
         </ng-container>
-        <ng-template #showImage>
-          <!-- L'immagine viene adattata al contenitore -->
+        <ng-template #imgTemplate>
+          <!-- Visualizzazione immagine se non è un video -->
           <img [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" alt="Main Preview" />
         </ng-template>
+      </div>
+      
+      <!-- Controlli per video: scroll e slider (visualizzati solo se l'URL è un video) -->
+      <div *ngIf="isVideo(urlListProductToUpdate[actualMainImage])">
+        <!-- Controllo scroll dedicato sotto il video -->
+
+        <!-- Slider (opzionale) per aggiornare il currentTime -->
+        <div class="video-slider">
+          <input type="range"
+                 [min]="0"
+                 [max]="videoDuration"
+                 step="0.01"
+                 [(ngModel)]="videoTime"
+                 (input)="onSliderChange($event)" />
+        </div>
       </div>
       
       <!-- Thumbnail images -->
