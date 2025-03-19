@@ -462,5 +462,6 @@ colorCode:{[key: string]: string} = {
   public extractColorHex(colorName: string): string {
     return this.colorCode[colorName];
   }
+  
 }
 

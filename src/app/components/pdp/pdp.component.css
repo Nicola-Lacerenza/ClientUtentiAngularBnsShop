@@ -68,10 +68,10 @@ body {
   object-position: center;
 }
 
-/* Slider video (opzionale) */
+/* Slider video: deve occupare l'intera larghezza del contenitore principale */
 .video-slider {
-  width: 80%;
-  margin: 10px auto;
+  width: 40%;          /* stesso valore di .main-image */
+  margin: 10px auto;   /* centrato e con margine verticale */
 }
 .video-slider input[type="range"] {
   -webkit-appearance: none;
@@ -110,23 +110,6 @@ body {
   cursor: pointer;
   transition: background 0.2s ease;
 }
-
-/* Controllo scroll per il video */
-.video-scroll-control {
-  width: 80%;
-  margin: 10px auto;
-  text-align: center;
-  padding: 20px; /* Aumentato il padding per una maggiore area */
-  background-color: #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.video-scroll-control p {
-  margin: 0;
-  font-size: 14px;
-  color: #333;
-}
-
 
 /* Thumbnail images */
 .thumbnail-images {
@@ -380,5 +363,8 @@ body {
   .cart-popup {
     max-width: 90%;
     right: 5%;
+  }
+  .video-slider, .main-image {
+    width: 100%;
   }
 }

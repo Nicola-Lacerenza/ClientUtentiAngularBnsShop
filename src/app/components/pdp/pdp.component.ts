@@ -40,7 +40,8 @@ export class PdpComponent implements OnInit {
 
   videoDuration: number = 0;
   videoTime: number = 0;
-  
+  videoFrame: number = 0;  // Variabile per lo slider (frame corrente)
+
   // Prodotti correlati
   public relatedProducts: ProdottiFull[] = [];
   selectedSize: string | null = null;
@@ -206,47 +207,20 @@ export class PdpComponent implements OnInit {
 
   onTimeUpdate(): void {
     this.videoTime = this.mainVideo.nativeElement.currentTime;
+    // Aggiorna lo slider in base al tempo corrente del video
+    const frameDuration = this.videoDuration / 36;
+    this.videoFrame = Math.floor(this.videoTime / frameDuration);
   }
 
   onSliderChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    this.mainVideo.nativeElement.currentTime = value;
-    this.videoTime = value;
+    this.videoFrame = Number(input.value); // valore compreso tra 0 e 35
+    const frameDuration = this.videoDuration / 36;
+    const newTime = this.videoFrame * frameDuration;
+    this.mainVideo.nativeElement.currentTime = newTime;
+    this.videoTime = newTime;
   }
-
-  private scrollAccumulator: number = 0; 
-  // Controllo dello scroll per avanzare o indietreggiare il video a frame discreti
-  onVideoScroll(event: WheelEvent): void {
-    event.preventDefault();
-    const video = this.mainVideo.nativeElement;
-    const totalFrames = 36;
-    const frameDuration = video.duration / totalFrames;
-
-    // Applichiamo un fattore per rendere lo scroll meno sensibile
-    const factor = 0.01;
-    this.scrollAccumulator += event.deltaY * factor;
-
-    // Definiamo una soglia (ad esempio 1 unità) per cambiare frame
-    let frameChange = 0;
-    if (this.scrollAccumulator >= 1) {
-      frameChange = Math.floor(this.scrollAccumulator);
-      this.scrollAccumulator -= frameChange;
-    } else if (this.scrollAccumulator <= -1) {
-      frameChange = Math.ceil(this.scrollAccumulator);
-      this.scrollAccumulator -= frameChange;
-    }
-
-    if (frameChange !== 0) {
-      let currentFrame = Math.round(video.currentTime / frameDuration);
-      currentFrame += frameChange;
-      currentFrame = Math.max(0, Math.min(totalFrames - 1, currentFrame));
-      const newTime = currentFrame * frameDuration;
-      video.currentTime = newTime;
-      this.videoTime = newTime;
-    }
-  }
-
+  
   // Verifica se l'URL è un video (basato sull'estensione)
   isVideo(url: string): boolean {
     return url ? url.toLowerCase().endsWith('.mp4') : false;
