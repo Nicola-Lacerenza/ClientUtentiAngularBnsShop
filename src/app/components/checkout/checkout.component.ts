@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { CartService } from '../../services/cart.service';
 import { environment } from '../../../environments/environment';
+import { Indirizzo } from '../../models/indirizzo.interface';
+import { IndirizzoService } from './../../services/indirizzo.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -9,25 +12,30 @@ import { environment } from '../../../environments/environment';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
 
   total = 0;
   deliveryType: 'spedizione' | 'ritiro' = 'spedizione';
   items : {product : ProdottiFull, quantity : number, tagliaScelta : string}[];
-
+  indirizzi : Indirizzo[] = [];
+  
   // Flag per conferma delle sezioni
   shippingConfirmed = false;
   paymentConfirmed = false;
 
   // Dati di spedizione/ritiro
-  shippingData = {
-    email: '',
-    nome: '',
-    cognome: '',
-    indirizzo: '',
-    telefono: '',
-    negozio: ''
-  };
+  shippingData : Indirizzo = {
+    id : 0,
+    id_utente : 0,
+    nome : '',
+    cognome : '',  
+    citta : '',
+    stato : '',
+    cap : '',
+    indirizzo : '',
+    email : '',
+    numero_telefono : '' 
+  }
 
   // Dati di pagamento (inclusi i campi per carta)
   paymentData = {
@@ -40,19 +48,33 @@ export class CheckoutComponent {
   ngOnInit() {
     this.items = this.cartService.getListProducts();
     this.calculateTotal();
+    this.indirizzoService.getindirizzi().subscribe(indirizzi => {
+      this.indirizzi = <Indirizzo[]>indirizzi.message;
+    });
   }
 
-  constructor(private cartService : CartService) {
+  constructor(private cartService : CartService , private indirizzoService : IndirizzoService) {
       this.items = [];
   }
+
 
   onDeliveryChange(type: 'spedizione' | 'ritiro') {
     this.deliveryType = type;
   }
 
-  confirmShipping() {
-    // Qui potresti inserire validazioni extra se necessario
+  confirmShipping(form : NgForm) {
+    if(form.valid) {
+      this.indirizzoService.insertindirizzo({body : this.shippingData}).subscribe(indirizzo => {
+        this.indirizzi.push(<Indirizzo>indirizzo.message);
+      });
+    }
     this.shippingConfirmed = true;
+  }
+
+  selectIndirizzo(event : Event){
+    const target = event.target as HTMLSelectElement;
+    const id = parseInt(target.value);
+    this.shippingData = <Indirizzo>this.indirizzi.find(indirizzo => indirizzo.id === id);
   }
 
   editShipping() {

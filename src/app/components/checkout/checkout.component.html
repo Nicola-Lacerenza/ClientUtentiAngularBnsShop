@@ -4,9 +4,14 @@
       <div class="section-container step" [ngClass]="{ 'active-step': !shippingConfirmed, 'completed-step': shippingConfirmed }">
         <h2>1. Dati di Spedizione/Ritiro</h2>
         
+        <select (change)="selectIndirizzo($event)">  
+          <option value=""></option>
+          <option [value]="indirizzo.id" *ngFor="let indirizzo of indirizzi">{{ indirizzo.nome }} {{ indirizzo.cognome }} - {{ indirizzo.indirizzo }} / {{ indirizzo.citta }}</option>
+        </select>
+
         <!-- Mostra il form solo se non confermato -->
         <ng-container *ngIf="!shippingConfirmed">
-          <form #shippingForm="ngForm" (ngSubmit)="confirmShipping()">
+          <form #shippingForm="ngForm" (ngSubmit)="confirmShipping(shippingForm)">
             <!-- Selezione tra Spedizione e Ritiro -->
             <div class="delivery-type">
               <label>
@@ -37,8 +42,8 @@
               <input type="text" id="indirizzo" name="indirizzo" required [(ngModel)]="shippingData.indirizzo" #indirizzo="ngModel" />
               <div class="error" *ngIf="indirizzo.invalid && (indirizzo.dirty || indirizzo.touched)">L'indirizzo è obbligatorio</div>
   
-              <label for="telefono">Telefono</label>
-              <input type="number" id="telefono" name="telefono" required [(ngModel)]="shippingData.telefono" #telefono="ngModel" />
+              <label for="numero_telefono">Telefono</label>
+              <input type="string" id="numero_telefono" name="numero_telefono" required [(ngModel)]="shippingData.numero_telefono" #telefono="ngModel" />
               <div class="error" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">Il numero di telefono è obbligatorio</div>
             </div>
   
@@ -52,17 +57,9 @@
               <input type="text" id="cognomeRitiro" name="cognomeRitiro" required [(ngModel)]="shippingData.cognome" #cognomeRitiro="ngModel" />
               <div class="error" *ngIf="cognomeRitiro.invalid && (cognomeRitiro.dirty || cognomeRitiro.touched)">Il cognome è obbligatorio</div>
   
-              <label for="negozio">Seleziona negozio</label>
-              <select id="negozio" name="negozio" required [(ngModel)]="shippingData.negozio" #negozio="ngModel">
-                <option value="">-- Seleziona --</option>
-                <option value="Negozio A, Milano">Negozio A, Milano</option>
-                <option value="Negozio B, Roma">Negozio B, Roma</option>
-                <option value="Negozio C, Napoli">Negozio C, Napoli</option>
-              </select>
-              <div class="error" *ngIf="negozio.invalid && (negozio.dirty || negozio.touched)">Selezionare un negozio</div>
   
               <label for="telefonoRitiro">Telefono</label>
-              <input type="tel" id="telefonoRitiro" name="telefonoRitiro" required [(ngModel)]="shippingData.telefono" #telefonoRitiro="ngModel" />
+              <input type="tel" id="telefonoRitiro" name="telefonoRitiro" required [(ngModel)]="shippingData.numero_telefono" #telefonoRitiro="ngModel" />
               <div class="error" *ngIf="telefonoRitiro.invalid && (telefonoRitiro.dirty || telefonoRitiro.touched)">Il numero di telefono è obbligatorio</div>
             </div>
   
@@ -79,13 +76,12 @@
               <p><strong>Nome:</strong> {{ shippingData.nome }}</p>
               <p><strong>Cognome:</strong> {{ shippingData.cognome }}</p>
               <p><strong>Indirizzo:</strong> {{ shippingData.indirizzo }}</p>
-              <p><strong>Telefono:</strong> {{ shippingData.telefono }}</p>
+              <p><strong>Telefono:</strong> {{ shippingData.numero_telefono }}</p>
             </div>
             <div *ngIf="deliveryType === 'ritiro'">
               <p><strong>Nome:</strong> {{ shippingData.nome }}</p>
               <p><strong>Cognome:</strong> {{ shippingData.cognome }}</p>
-              <p><strong>Negozio:</strong> {{ shippingData.negozio }}</p>
-              <p><strong>Telefono:</strong> {{ shippingData.telefono }}</p>
+              <p><strong>Telefono:</strong> {{ shippingData.numero_telefono }}</p>
             </div>
             <button (click)="editShipping()">Modifica</button>
           </div>

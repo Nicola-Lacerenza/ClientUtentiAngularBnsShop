@@ -1,31 +1,42 @@
 <form #shoeForm="ngForm" (ngSubmit)="actionProdotti(shoeForm)" enctype="multipart/form-data">
   <div class="form-group">
-    <label for="images">Immagini del prodotto</label>
-    <input type="file" id="images" name="images"(change)="onImageChange($event)" multiple accept="image/*" ngModel />
-    <div *ngIf="submitted && productForm.get('images')?.errors">
-      <small class="error">Seleziona almeno un'immagine.</small>
+    <label for="media">Media del prodotto (immagini e video)</label>
+    <input type="file" id="media" name="media" (change)="onMediaChange($event)" multiple accept="image/*,video/*" ngModel />
+    <div *ngIf="submitted && productForm.get('media')?.errors">
+      <small class="error">Seleziona almeno un'immagine o video.</small>
     </div>
   </div>
 
-  <!-- Sezione per visualizzare l'immagine principale e le miniature -->
-<!-- Sezione per visualizzare l'immagine principale e le miniature -->
-<div class="image-preview-container">
-  <!-- Visualizzazione dell'immagine principale con la "X" per la rimozione -->
-  <div class="main-image" *ngIf="imagePreviews.length > 0">
-    <img [src]="mainImagePreview" alt="">
-    <button type="button" (click)="removeImage()" class="remove-button">X</button>
-  </div>
-  <div *ngIf="imagePreviews.length === 0">
-    <p>Nessuna immagine selezionata</p>
-  </div>
+  <!-- Sezione per visualizzare il media principale e le miniature -->
+  <div class="media-preview-container">
+    <!-- Visualizzazione del media principale con la "X" per la rimozione -->
+    <div class="main-media" *ngIf="mediaPreviews.length > 0">
+      <!-- Se il file principale è un'immagine -->
+      <img *ngIf="mainMediaPreview?.type === 'image'" [src]="mainMediaPreview?.url" alt="">
+      <!-- Se il file principale è un video -->
+      <video *ngIf="mainMediaPreview?.type === 'video'"
+             [src]="mainMediaPreview?.url"
+             (mouseenter)="playVideo($event)"
+             (mouseleave)="pauseVideo($event)"
+             muted
+             playsinline>
+      </video>
+      <button type="button" (click)="removeMedia()" class="remove-button">X</button>
+    </div>
+    <div *ngIf="mediaPreviews.length === 0">
+      <p>Nessun media selezionato</p>
+    </div>
 
-  <!-- Visualizzazione delle miniature: cliccando su una miniatura viene impostata come immagine principale -->
-  <div class="thumbnail-container">
-    <div class="thumbnail" *ngFor="let preview of imagePreviews; let i = index">
-      <img [src]="preview" alt="Thumbnail" (click)="mainImagePreview = preview">
+    <!-- Visualizzazione delle miniature: cliccando su una miniatura viene impostata come media principale -->
+    <div class="thumbnail-container">
+      <div class="thumbnail" *ngFor="let media of mediaPreviews; let i = index">
+        <!-- Miniatura per immagine -->
+        <img *ngIf="media.type === 'image'" [src]="media.url" alt="Thumbnail" (click)="setMainMedia(i)">
+        <!-- Miniatura per video: il video non parte in miniatura -->
+        <video *ngIf="media.type === 'video'" [src]="media.url" muted playsinline disablePictureInPicture (click)="setMainMedia(i)"></video>
+      </div>
     </div>
   </div>
-</div>
 
   <!-- Campo Nome Modello -->
   <div class="form-group">
@@ -132,7 +143,4 @@
     
   <button type="submit" *ngIf="!this.actualProductSelected.id || this.actualProductSelected.id<=0">Inserisci Prodotto</button>
   <button type="submit" *ngIf="this.actualProductSelected.id && this.actualProductSelected.id>0">ModificaProdotto</button>
-  <p>  </p>
-  <p>  </p>
-  <p> g </p>
 </form>

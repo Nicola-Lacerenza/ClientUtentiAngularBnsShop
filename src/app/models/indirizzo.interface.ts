@@ -1,8 +1,12 @@
 export interface Indirizzo {
     id : number;
+    id_utente : number;
+    nome : string;
+    cognome : string;
     citta : string;
     stato : string;
-    cap : number;
+    cap : string;
     indirizzo : string;
-    id_customers : number;
+    email : string;
+    numero_telefono : string;
 }

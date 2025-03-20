@@ -16,6 +16,11 @@ import { UpdateCategoriaComponent } from '../update-categoria/update-categoria.c
 import { ActivatedRoute } from '@angular/router';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { environment } from '../../../environments/environment';
+interface MediaPreview {
+  url: string;
+  type: 'image' | 'video';
+  file: File;
+}
 
 @Component({
   selector: 'app-add-product',
@@ -32,6 +37,10 @@ export class AddProductComponent implements OnInit {
   private _brands: Brand[] = [];
   private _categorie: Categoria[] = [];
   successMessage: string | null = null;  // Variabile per il messaggio di successo
+
+  mediaPreviews: MediaPreview[] = [];
+  // Media principale (selezionato)
+  mainMediaPreview!: MediaPreview;
 
   selectedBrandAction: string | null = null;
   selectedCategoriaAction: string | null = null;
@@ -127,6 +136,20 @@ colorCode:{[key: string]: string} = {
           const tmp = <ProdottiFull>data.message;
           console.log("Prodotto selezionato:",tmp);
           this.actualProductSelected = tmp;
+          if (tmp.url && tmp.url.length > 0) {
+            // Popola sia imagePreviews che mediaPreviews per i file esistenti
+            this.imagePreviews = tmp.url.map(url => this.createUrlByString(url));
+            this.mediaPreviews = tmp.url.map(url => ({
+              url: this.createUrlByString(url),
+              type: url.endsWith('.mp4') ? 'video' : 'image', // o usa un'altra logica per determinare il tipo
+              file: null as any  // oppure un valore fittizio se non hai il File originale
+            }));
+            // Imposta il media principale
+            if (this.mediaPreviews.length > 0) {
+              this.mainMediaPreview = this.mediaPreviews[0];
+            }
+          }
+          
           this.urlListProductToUpdate = tmp.url;
           this.imagePreviews = tmp.url.map(url => this.createUrlByString(url));
           this.colorNameSelected=tmp.nome_colore;
@@ -363,7 +386,9 @@ colorCode:{[key: string]: string} = {
 
       // Invia le URL delle immagini esistenti (se presenti)
       if (this.urlListProductToUpdate && this.urlListProductToUpdate.length > 0) {
-          formData.append("", JSON.stringify(this.urlListProductToUpdate));
+          formData.append("url", JSON.stringify(this.urlListProductToUpdate));
+      }else{
+          formData.append("url", JSON.stringify([]));
       }
   
       // Aggiungi i dati generali del form
@@ -462,6 +487,54 @@ colorCode:{[key: string]: string} = {
   public extractColorHex(colorName: string): string {
     return this.colorCode[colorName];
   }
+    // Gestione della selezione di immagini e video
+    onMediaChange(event: any): void {
+      if (event.target.files && event.target.files.length) {
+        const files: File[] = Array.from(event.target.files);
+        this.mediaPreviews = [];
+        files.forEach(file => {
+          const fileUrl = URL.createObjectURL(file);
+          const fileType = file.type.startsWith('video') ? 'video' : 'image';
+          this.mediaPreviews.push({ url: fileUrl, type: fileType, file: file });
+        });
+        // Imposta il primo file come media principale
+        if (this.mediaPreviews.length > 0) {
+          this.mainMediaPreview = this.mediaPreviews[0];
+        }
+        this.productForm.patchValue({ media: files });
+      }
+    }
+  
+    // Al click di una miniatura viene impostato come media principale
+    setMainMedia(index: number): void {
+      this.mainMediaPreview = this.mediaPreviews[index];
+    }
+  
+    // Al passaggio del mouse sul video principale, avvia la riproduzione
+    playVideo(event: any): void {
+      const videoElem = event.target as HTMLVideoElement;
+      videoElem.play();
+    }
+  
+    // Quando il mouse esce, ferma il video
+    pauseVideo(event: any): void {
+      const videoElem = event.target as HTMLVideoElement;
+      videoElem.pause();
+      videoElem.currentTime = 0;
+    }
+  
+    // Rimuove il media principale
+    removeMedia(): void {
+      const index = this.mediaPreviews.indexOf(this.mainMediaPreview);
+      if (index === -1) { return; }
+      // Se il media rimosso è nuovo o già presente sul server, gestisci di conseguenza
+      this.mediaPreviews.splice(index, 1);
+      // Aggiorna il form (solo per i nuovi file)
+      const remainingFiles = this.mediaPreviews.filter(media => media.file).map(media => media.file);
+      this.productForm.patchValue({ media: remainingFiles });
+      this.mainMediaPreview = this.mediaPreviews.length > 0 ? this.mediaPreviews[0] : {} as MediaPreview;
+    }
+  
   
 }
 
