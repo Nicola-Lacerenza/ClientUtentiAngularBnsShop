@@ -34,15 +34,29 @@
 
     <div class="card-body">
       <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
-        <!-- Itera su _prodotti per visualizzare ogni prodotto -->
+        <!-- Itera sui prodotti -->
         <div *ngFor="let prodotto of _prodotti" class="col">
           <div class="card">
-            <div class="image-carousel">
-              <img 
-                [src]="generateUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])"
-                alt="Immagine prodotto" 
-                class="carousel-image"
-              >
+            <div class="media-container" style="position: relative;">
+              <!-- Visualizza immagine o video -->
+              <ng-container *ngIf="!isVideo(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])">
+                <img 
+                  [src]="generateUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])"
+                  alt="Immagine prodotto" 
+                  class="carousel-image">
+              </ng-container>
+              <ng-container *ngIf="isVideo(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])">
+                <video 
+                  [src]="generateUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])" 
+                  poster="URL_della_tua_miniatura" 
+                  preload="metadata" 
+                  muted
+                  disablePictureInPicture
+                  class="carousel-video">
+                  Il tuo browser non supporta il tag video.
+                </video>
+              </ng-container>
+              <!-- Controlli del carousel -->
               <div class="carousel-controls">
                 <button 
                   class="carousel-button left" 
@@ -66,7 +80,6 @@
             </div>
           </div>
         </div>
-
         <!-- Pulsante per aggiungere un nuovo prodotto -->
         <a type="button" routerLink="/addProduct" class="col-auto">
           <img title="Aggiungi" class="img-circle" src="/assets/images/aggiungi.png" width="80" height="80">

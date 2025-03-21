@@ -14,7 +14,7 @@ import { ProdottiFull } from '../../models/prodottiFull.interface';
 })
 export class GridArticoliComponent implements OnInit {
   public _prodotti: { immagini: string[], prodotto: ProdottiFull }[] = [];
-  public currentImageIndex: { [id: number]: number } = {}; // Stato dell'immagine corrente per ogni prodotto
+  public currentImageIndex: { [id: number]: number } = {};
 
   constructor(
     private prodottiService: ProdottiService,
@@ -26,11 +26,10 @@ export class GridArticoliComponent implements OnInit {
     this.getProdotti();
   }
 
-
   private getProdotti(): void {
     this.prodottiService.getProdotti().subscribe({
       next: (data: ServerResponse) => {
-        console.log("data" ,data);
+        console.log("data", data);
         const tmp: ProdottiFull[] = <ProdottiFull[]>data.message;
         tmp.forEach(attuale => {
           if (!this._prodotti.find(p => p.prodotto.id === attuale.id)) {
@@ -41,7 +40,7 @@ export class GridArticoliComponent implements OnInit {
           const prodotto = this._prodotti.find(p => p.prodotto.id === attuale.id);
           if (prodotto) prodotto.immagini.push(attuale.url[0]);
         });
-        console.log("prodotti" ,this._prodotti);
+        console.log("prodotti", this._prodotti);
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
@@ -73,17 +72,21 @@ export class GridArticoliComponent implements OnInit {
       (this.currentImageIndex[productId] + 1) % totalImages;
   }
 
+  // Funzione per determinare se il file corrente è un video (controlla l'estensione)
+  public isVideo(fileName: string): boolean {
+    const videoExtensions = ['.mp4', '.webm', '.ogg'];
+    return videoExtensions.some(ext => fileName.toLowerCase().endsWith(ext));
+  }
+
   handleEdit(id: number): void {
     this.router.navigateByUrl(`/addProduct/${id}`);
-   }
+  }
   
   handleDelete(id: number): void {
     console.log('Elimina prodotto con ID:', id);
-    // Chiamata al servizio per eliminare il prodotto
     this.prodottiService.deleteProdotti(id).subscribe({
       next: (data: ServerResponse) => {
         console.log(data);
-        // Rimuoviamo il prodotto dalla lista _prodotti
         this._prodotti = this._prodotti.filter(prodotto => prodotto.prodotto.id !== id);
         console.log('Prodotti aggiornati:', this._prodotti);
       },
