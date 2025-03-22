@@ -5,6 +5,8 @@ import { environment } from '../../../environments/environment';
 import { Indirizzo } from '../../models/indirizzo.interface';
 import { IndirizzoService } from './../../services/indirizzo.service';
 import { NgForm } from '@angular/forms';
+import { ServerResponse } from '../../models/ServerResponse.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-checkout',
@@ -14,7 +16,6 @@ import { NgForm } from '@angular/forms';
 export class CheckoutComponent implements OnInit {
 
   total = 0;
-  // Rimosso 'ritiro', teniamo solo 'spedizione'
   deliveryType: 'spedizione' = 'spedizione';
 
   items: { product: ProdottiFull; quantity: number; tagliaScelta: string }[] = [];
@@ -31,7 +32,6 @@ export class CheckoutComponent implements OnInit {
   // Dati di spedizione (usati sia in aggiunta che modifica)
   shippingData: Indirizzo = {
     id: 0,
-    id_utente: 0,
     nome: '',
     cognome: '',
     citta: '',
@@ -89,7 +89,6 @@ export class CheckoutComponent implements OnInit {
   onAddNewAddress() {
     this.editingAddress = {
       id: 0,
-      id_utente: 0,
       nome: '',
       cognome: '',
       citta: '',
@@ -112,25 +111,27 @@ export class CheckoutComponent implements OnInit {
 
     if (this.editingAddress?.id && this.editingAddress.id !== 0) {
       // Se ha un id diverso da 0, stiamo aggiornando un indirizzo esistente
-      this.indirizzoService
-        .insertindirizzo({ body: this.editingAddress }) // In questo esempio usiamo lo stesso metodo per update/insert
-        .subscribe((res) => {
-          const updated = res.message as Indirizzo;
-          const index = this.indirizzi.findIndex((i) => i.id === updated.id);
-          if (index > -1) {
-            this.indirizzi[index] = updated;
-          }
-          this.editingAddress = null;
-        });
+      this.indirizzoService.updateindirizzo(this.editingAddress.id,{ body: <Indirizzo>form.value }).subscribe({
+        next : (value: ServerResponse) => {
+          const tmp : string = <string>value.message;
+          console.log(tmp);
+        },
+        error : (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      });
     } else {
       // Aggiunta nuovo indirizzo
-      this.indirizzoService
-        .insertindirizzo({ body: this.editingAddress! })
-        .subscribe((res) => {
-          const nuovo = res.message as Indirizzo;
-          this.indirizzi.push(nuovo);
+      this.indirizzoService.insertindirizzo(form.value).subscribe({
+        next : (value: ServerResponse) => {
+          const tmp : string = <string>value.message;
           this.editingAddress = null;
-        });
+          this.indirizzi.push(<Indirizzo>form.value);
+        },
+        error : (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      });
     }
   }
 
@@ -141,7 +142,7 @@ export class CheckoutComponent implements OnInit {
 
   // Conferma della spedizione
   confirmShipping() {
-    if (!this.selectedAddressId) return; // Non confermare se nessun indirizzo è selezionato
+    if (!this.selectedAddressId) return; 
     this.shippingConfirmed = true;
   }
 

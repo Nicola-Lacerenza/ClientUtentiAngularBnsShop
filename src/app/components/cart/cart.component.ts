@@ -101,9 +101,9 @@ export class CartComponent implements OnInit {
   }
 
   goToCheckout() {
-    alert('Vai alla pagina di pagamento non ancora implementato.');
+    this.router.navigate(['/checkout']);
   }
-  
+
   public createUrlByString(filename: string): string {
     return `${environment.serverUrl}/${filename}`;
   }

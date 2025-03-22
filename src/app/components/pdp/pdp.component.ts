@@ -196,7 +196,7 @@ export class PdpComponent implements OnInit {
     this.closePopup();
   }
 
-  vaiAlPagamento(): void {
+  goToCheckout(): void {
     this.router.navigate(['/checkout']);
     this.closePopup();
   }
@@ -225,4 +225,17 @@ export class PdpComponent implements OnInit {
   isVideo(url: string): boolean {
     return url ? url.toLowerCase().endsWith('.mp4') : false;
   }
+
+  pauseVideo(video: HTMLVideoElement): void {
+    setTimeout(() => {
+      video.pause();
+    }, 100); // Attende un breve momento per garantire che il primo frame venga caricato
+  }
+  
+  preventVideoOpen(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  
+  
 }

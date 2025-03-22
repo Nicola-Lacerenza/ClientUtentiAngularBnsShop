@@ -37,11 +37,17 @@
                [class.active]="i === actualMainImage"
                alt="Thumbnail"
                (mouseenter)="setMainImage(i)" />
-          <img *ngIf="isVideo(singleUrl)" 
-               src="assets/video-thumbnail.jpg"
-               [class.active]="i === actualMainImage"
-               alt="Video Thumbnail"
-               (mouseenter)="setMainImage(i)" />
+          <video *ngIf="isVideo(singleUrl)" 
+                #thumbVideo 
+                preload="metadata" 
+                muted
+                (loadedmetadata)="pauseVideo(thumbVideo)"
+                [class.active]="i === actualMainImage"
+                style="width:70px; height:70px; object-fit: cover; border-radius: 6px; cursor: pointer;"
+                (mouseenter)="setMainImage(i)"
+                (click)="preventVideoOpen($event)">
+                <source [src]="createUrlByString(singleUrl)" type="video/mp4">
+          </video>     
         </ng-container>
       </div>
     </div>
@@ -56,7 +62,7 @@
       
       <!-- Prodotti correlati -->
       <div class="related-products">
-        <h3>Prodotti correlati</h3>
+        <h3>Colori</h3>
         <div class="thumbnail-images">
           <ng-container *ngFor="let prod of relatedProducts">
             <img [src]="createUrlByString(prod.url[0])" 
@@ -135,7 +141,7 @@
     </div>
     <div class="popup-actions">
       <button (click)="vaiAlCarrello()">Visualizza carrello</button>
-      <button class="payment-btn" (click)="vaiAlPagamento()">Vai al pagamento</button>
+      <button class="payment-btn" (click)="goToCheckout()">Vai al pagamento</button>
     </div>
   </div>
 </div>

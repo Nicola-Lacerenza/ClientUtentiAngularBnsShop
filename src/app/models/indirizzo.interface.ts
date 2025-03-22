@@ -1,6 +1,5 @@
 export interface Indirizzo {
     id : number;
-    id_utente : number;
     nome : string;
     cognome : string;
     citta : string;
