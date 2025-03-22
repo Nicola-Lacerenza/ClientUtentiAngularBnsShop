@@ -1,122 +1,121 @@
 .checkout-container {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Colonna sinistra per i form */
-  .left-column {
-    flex: 2;
-  }
-  
-  /* Colonna destra per il riepilogo ordine */
-  .right-column {
-    flex: 1;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  .right-column h3 {
-    margin-top: 0;
-  }
-  
-  .section-container {
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-  }
-  
-  .step h2 {
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-  }
-  
-  /* Stati degli step */
-  .active-step {
-    border-left: 5px solid #007BFF;
-  }
-  .active-step h2 {
-    color: #007BFF;
-  }
-  
-  .completed-step {
-    border-left: 5px solid #28a745;
-  }
-  .completed-step h2 {
-    color: #28a745;
-  }
-  
-  .inactive-step {
-    opacity: 0.6;
-  }
-  .inactive-step h2 {
-    color: #888;
-  }
-  
-  label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: 600;
-  }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  input[type="radio"] {
-    margin-right: 5px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #007BFF;
-    color: #fff;
-    font-size: 1rem;
-    margin-top: 10px;
-  }
-  
-  button[disabled] {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .summary {
-    background-color: #f9f9f9;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.9rem;
-  }
-  
-  .info {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 10px;
-  }
-  
-  /* Riepilogo ordine */
-/* Container dell'item, posiziona immagine e descrizione in una riga */
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Colonna sinistra per i form */
+.left-column {
+  flex: 2;
+}
+
+/* Colonna destra per il riepilogo ordine */
+.right-column {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+.right-column h3 {
+  margin-top: 0;
+}
+
+.section-container {
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.step h2 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+/* Stati degli step */
+.active-step {
+  border-left: 5px solid #007BFF;
+}
+.active-step h2 {
+  color: #007BFF;
+}
+
+.completed-step {
+  border-left: 5px solid #28a745;
+}
+.completed-step h2 {
+  color: #28a745;
+}
+
+.inactive-step {
+  opacity: 0.6;
+}
+.inactive-step h2 {
+  color: #888;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: 600;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type='radio'] {
+  margin-right: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007BFF;
+  color: #fff;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.summary {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+}
+
+.info {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+/* Riepilogo ordine */
 .cart-item {
   display: flex;
   align-items: center;
@@ -133,32 +132,122 @@
   border-radius: 4px;
 }
 
-/* Contenitore della descrizione, visualizza i dettagli in colonna */
+/* Contenitore della descrizione */
 .cart-item-details {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-
-/* Margine ridotto per i paragrafi all'interno della descrizione */
 .cart-item-details p {
   margin: 0;
   font-size: 0.9rem;
 }
 
-  
-  .order-totals {
-    margin-top: 20px;
-    font-weight: bold;
-  }
-  
-  /* Disposizione in linea dei campi per carta */
-  .card-fields {
-    display: flex;
-    gap: 10px;
-  }
-  .card-fields .field {
-    flex: 1;
-  }
-  
+.order-totals {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Disposizione in linea dei campi per carta */
+.card-fields {
+  display: flex;
+  gap: 10px;
+}
+.card-fields .field {
+  flex: 1;
+}
+
+/* Nuovi stili per l'elenco di indirizzi */
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* Stile aggiornato per le card degli indirizzi */
+.address-card {
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background-color: #fff;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.address-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.address-card.selected {
+  border: 2px solid #007BFF;
+  background-color: #e8f5ff;
+}
+
+/* Rimuoviamo lo stile per il radio button in quanto non viene più utilizzato */
+.address-radio {
+  display: none;
+}
+
+
+.address-info {
+  flex: 1;
+}
+
+.add-new-address-btn {
+  margin-top: 10px;
+  background-color: #28a745;
+}
+
+.edit-form-container {
+  margin-top: 20px;
+  border: 1px solid #eee;
+  padding: 15px;
+  background-color: #fafafa;
+  border-radius: 5px;
+}
+
+.form-field {
+  margin-bottom: 10px;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  margin-left: 10px;
+}
+
+.confirm-shipping-btn {
+  background-color: #007BFF;
+}
+/* ... (altri stili invariati) ... */
+
+/* Nuovi stili per il form di indirizzo */
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.half-width {
+  flex: 1 1 48%;
+}
+
+.third-width {
+  flex: 1 1 30%;
+}
+
+.full-width {
+  flex: 1 1 100%;
+}
+
+
