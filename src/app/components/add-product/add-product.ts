@@ -497,14 +497,15 @@ colorCode:{[key: string]: string} = {
           const fileType = file.type.startsWith('video') ? 'video' : 'image';
           this.mediaPreviews.push({ url: fileUrl, type: fileType, file: file });
         });
-        // Imposta il primo file come media principale
+        // Aggiorna anche imageFiles
+        this.imageFiles = files;
         if (this.mediaPreviews.length > 0) {
           this.mainMediaPreview = this.mediaPreviews[0];
         }
         this.productForm.patchValue({ media: files });
       }
     }
-  
+   
     // Al click di una miniatura viene impostato come media principale
     setMainMedia(index: number): void {
       this.mainMediaPreview = this.mediaPreviews[index];

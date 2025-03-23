@@ -111,10 +111,13 @@ export class CheckoutComponent implements OnInit {
 
     if (this.editingAddress?.id && this.editingAddress.id !== 0) {
       // Se ha un id diverso da 0, stiamo aggiornando un indirizzo esistente
-      this.indirizzoService.updateindirizzo(this.editingAddress.id,{ body: <Indirizzo>form.value }).subscribe({
+      this.indirizzoService.updateindirizzo(this.editingAddress.id,form.value).subscribe({
         next : (value: ServerResponse) => {
           const tmp : string = <string>value.message;
-          console.log(tmp);
+          const index : number = this.indirizzi.findIndex((indirizzo) => indirizzo.id === this.editingAddress?.id);
+          this.indirizzi.splice(index,1);
+          this.indirizzi.push(<Indirizzo>form.value);
+          this.editingAddress = null;
         },
         error : (error: HttpErrorResponse) => {
           console.log(error);
