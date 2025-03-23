@@ -6,7 +6,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { ArticoliComponent } from './components/articoli/articoli.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { GridArticoliComponent } from './components/grid-articoli/grid-articoli.component';
-import { authGuard, authGuard1 } from './services/auth.guard';
+import { authGuard } from './services/auth.guard';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { PdpComponent } from './components/pdp/pdp.component';
 import { CartComponent } from './components/cart/cart.component';
@@ -15,6 +15,7 @@ import { AddProductComponent } from './components/add-product/add-product';
 import { roleGuard } from './services/role-guard.guard';
 import { MemberComponent } from './components/member/member.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { AddCodicescontoComponent } from './components/add-codicesconto/add-codicesconto.component';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path:'pdp/:id',component:PdpComponent},
   {path:'checkout',component:CheckoutComponent},
   {path:'addProduct', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
+  {path:'addCodiceSconto', component: AddCodicescontoComponent, canActivate:[authGuard,roleGuard]},
   {path:'member', component: MemberComponent, canActivate:[authGuard,roleGuard]},
   {path:'addProduct/:id', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
   {path:'cart',component:CartComponent},

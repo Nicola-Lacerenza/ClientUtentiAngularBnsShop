@@ -1,7 +1,13 @@
 export interface Codice_Sconto {
     id : number;
-    id_prodotti : number;
-    id_ordine : number;
     codice : string;
-    sconto : number;
+    valore : number;
+    descrizione : string;
+    tipo : string;
+    data_inizio : Date;
+    data_fine : Date;
+    uso_massimo : number;
+    uso_per_utente : number;
+    minimo_acquisto : number;
+    attivo : number;
 }

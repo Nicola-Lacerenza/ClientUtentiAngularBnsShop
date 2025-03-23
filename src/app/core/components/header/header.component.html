@@ -18,7 +18,12 @@
 
           <a class="nav-link"  *ngIf="BasicAuth.isLogged() "   title="AggiungiProdotti"  routerLink="/grid">
             <span class="material-icons md-archive" title="AggiungiProdotti" aria-hidden="true"></span>
-            Aggiungi Prodotti
+            Magazzino
+          </a>
+
+          <a class="nav-link"  *ngIf="BasicAuth.isLogged() "   title="AggiungiCodiciSconto"  routerLink="/addCodiceSconto">
+            <span class="material-icons md-archive" title="AggiungiCodiciSconto" aria-hidden="true"></span>
+            Codice Sconto
           </a>
 
         </li>

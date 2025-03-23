@@ -27,6 +27,7 @@ import { UpdateBrandComponent } from './components/update-brand/update-brand.com
 import { UpdateCategoriaComponent } from './components/update-categoria/update-categoria.component';
 import { MemberComponent } from './components/member/member.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { AddCodicescontoComponent } from './components/add-codicesconto/add-codicesconto.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
     UpdateBrandComponent,
     UpdateCategoriaComponent,
     MemberComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    AddCodicescontoComponent
   ],
   imports: [
   BrowserModule,

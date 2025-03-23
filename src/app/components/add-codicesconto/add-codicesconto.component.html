@@ -1,0 +1,122 @@
+<div class="main-container">
+  <!-- Colonna sinistra: Form per inserimento/modifica -->
+  <div class="left-container">
+    <div class="form-container">
+      <h2>{{ isEditing ? 'Modifica Codice Sconto' : 'Aggiungi Codice Sconto' }}</h2>
+      <form [formGroup]="codiceScontoForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="codice">Codice</label>
+          <input
+            type="text"
+            id="codice"
+            formControlName="codice"
+            placeholder="Inserisci il codice sconto"
+            class="form-control"
+          >
+          <div class="error-message" *ngIf="duplicateCodeError">
+            {{ duplicateCodeError }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="valore">Valore</label>
+          <input type="number" id="valore" formControlName="valore" placeholder="Inserisci il valore" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="descrizione">Descrizione</label>
+          <textarea id="descrizione" formControlName="descrizione" placeholder="Inserisci la descrizione (opzionale)" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="tipo">Tipo</label>
+          <select id="tipo" formControlName="tipo" class="form-control">
+            <option value="" disabled>Seleziona il tipo</option>
+            <option value="percentuale">Percentuale</option>
+            <option value="fisso">Fisso</option>
+          </select>
+        </div>
+
+        <div class="form-group date-group">
+          <div>
+            <label for="data_inizio">Data Inizio</label>
+            <input type="date" id="data_inizio" formControlName="data_inizio" class="form-control">
+          </div>
+          <div>
+            <label for="data_fine">Data Fine</label>
+            <input type="date" id="data_fine" formControlName="data_fine" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="uso_massimo">Uso Massimo</label>
+          <input type="number" id="uso_massimo" formControlName="uso_massimo" placeholder="Numero massimo di utilizzi (opzionale)" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="uso_per_utente">Uso per Utente</label>
+          <input type="number" id="uso_per_utente" formControlName="uso_per_utente" placeholder="Numero di usi per utente" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="minimo_acquisto">Minimo Acquisto</label>
+          <input type="number" id="minimo_acquisto" formControlName="minimo_acquisto" placeholder="Importo minimo di acquisto" class="form-control">
+        </div>
+
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="attivo" formControlName="attivo">
+          <label for="attivo">Attivo</label>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          {{ isEditing ? 'Aggiorna Codice Sconto' : 'Aggiungi Codice Sconto' }}
+        </button>
+        <button *ngIf="isEditing" type="button" class="btn-cancel" (click)="cancelEdit()">Annulla</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Colonna destra: Elenco codici sconto con filtro -->
+  <div class="right-container">
+    <h2>Elenco Codici Sconto</h2>
+    <!-- Campo filtro in alto -->
+    <div class="filter-container">
+      <input
+        type="text"
+        placeholder="Filtra per codice..."
+        [(ngModel)]="filterText"
+        class="filter-input"
+      >
+    </div>
+    <div *ngFor="let codice of filteredCodiciSconto" class="codice-card">
+      <div class="card-header">
+        <h3>{{ codice.codice }}</h3>
+        <span class="code-label">Codice: {{ codice.codice }}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-row">
+          <div class="card-col"><strong>Valore:</strong> {{ codice.valore }}</div>
+          <div class="card-col"><strong>Tipo:</strong> {{ codice.tipo }}</div>
+        </div>
+        <div class="card-row">
+          <div class="card-col"><strong>Attivo:</strong> {{ codice.attivo === 1 ? 'Si' : 'No' }}</div>
+        </div>
+        <div class="card-row" *ngIf="codice.descrizione">
+          <div class="card-col full"><strong>Descrizione:</strong> {{ codice.descrizione }}</div>
+        </div>
+        <div class="card-row" *ngIf="codice.data_inizio || codice.data_fine">
+          <div class="card-col" *ngIf="codice.data_inizio"><strong>Data Inizio:</strong> {{ codice.data_inizio | date:'dd/MM/yyyy' }}</div>
+          <div class="card-col" *ngIf="codice.data_fine"><strong>Data Fine:</strong> {{ codice.data_fine | date:'dd/MM/yyyy' }}</div>
+        </div>
+        <div class="card-row">
+          <div class="card-col"><strong>Uso per Utente:</strong> {{ codice.uso_per_utente }}</div>
+          <div class="card-col"><strong>Minimo Acquisto:</strong> {{ codice.minimo_acquisto }}</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button (click)="editCodice(codice)" class="btn-flat btn-edit">Modifica</button>
+        <button (click)="deleteCodice(codice)" class="btn-flat btn-delete">Elimina</button>
+      </div>
+    </div>
+  </div>
+</div>
