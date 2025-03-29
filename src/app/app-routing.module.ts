@@ -16,6 +16,8 @@ import { roleGuard } from './services/role-guard.guard';
 import { MemberComponent } from './components/member/member.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AddCodicescontoComponent } from './components/add-codicesconto/add-codicesconto.component';
+import { CheckoutSuccessComponent } from './components/checkout-success/checkout-success.component';
+import { CheckoutFailureComponent } from './components/checkout-failure/checkout-failure.component';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -26,6 +28,8 @@ const routes: Routes = [
   {path:'grid',component:GridArticoliComponent, canActivate:[authGuard,roleGuard]},
   {path:'pdp/:id',component:PdpComponent},
   {path:'checkout',component:CheckoutComponent},
+  {path:'checkout-success',component:CheckoutSuccessComponent},
+  {path:'checkout-failure',component:CheckoutFailureComponent},
   {path:'addProduct', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
   {path:'addCodiceSconto', component: AddCodicescontoComponent, canActivate:[authGuard,roleGuard]},
   {path:'member', component: MemberComponent, canActivate:[authGuard,roleGuard]},

@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { CartService } from '../../services/cart.service';
-import { environment } from '../../../environments/environment';
 import { Indirizzo } from '../../models/indirizzo.interface';
 import { IndirizzoService } from './../../services/indirizzo.service';
 import { NgForm } from '@angular/forms';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { HttpRequestService } from '../../services/http-request.service';
+import { PaypalService } from '../../services/paypal.service';
+import { AuthappService } from '../../services/authapp.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
+
 export class CheckoutComponent implements OnInit {
 
   total = 0;
@@ -52,7 +57,10 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private indirizzoService: IndirizzoService
+    private indirizzoService: IndirizzoService,
+    private paypalService : PaypalService,
+    private authService : AuthappService,
+    private router : Router
   ) {}
 
   ngOnInit() {
@@ -173,4 +181,21 @@ export class CheckoutComponent implements OnInit {
   public createUrlByString(filename: string): string {
     return `${environment.serverUrl}/${filename}`;
   }
+
+  public createOrder() {
+    this.paypalService.createOrder().subscribe({
+      next: (res: ServerResponse) => {
+        this.router.navigateByUrl(<string>res.message);
+      },
+      error: (err: HttpErrorResponse) => {
+        if(err.status === 401) {
+          this.authService.doLogout();
+        }else{
+          console.error('Error creating order:', err);
+        }
+        
+      }
+    });
+  } 
+
 }

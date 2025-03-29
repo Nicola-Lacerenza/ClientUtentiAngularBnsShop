@@ -1,0 +1,42 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f2f5, #ffcccb);
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+  }
+  
+  .container {
+    background-color: #fff;
+    padding: 40px 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .logo-container {
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    max-width: 150px;
+    height: auto;
+  }
+  
+  h1 {
+    color: #dc3545;
+    margin-bottom: 20px;
+    font-size: 2em;
+  }
+  
+  p {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.5;
+  }
+  

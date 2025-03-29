@@ -8,5 +8,5 @@ import { UserLogin } from "./UserLogin.interface";
 import { UserRegister } from "./UserRegister.interface";
 
 export interface ServerRequest{
-    body : UserLogin | UserRegister | Brand | Modello | Categoria | ProdottiFull | ProdottiFull[] | Indirizzo | Indirizzo[] | Codice_Sconto | Codice_Sconto[];
+    body : UserLogin | UserRegister | Brand | Modello | Categoria | ProdottiFull | ProdottiFull[] | Indirizzo | Indirizzo[] | Codice_Sconto | Codice_Sconto[] | {product : ProdottiFull, quantity : number, tagliaScelta : string}[] | undefined;
 }
