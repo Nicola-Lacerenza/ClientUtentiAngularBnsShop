@@ -217,7 +217,7 @@
         <p class="info" *ngIf="!shippingConfirmed">
           Completa prima i dati di spedizione per abilitare il pagamento
         </p>
-        <form #paymentForm="ngForm" (ngSubmit)="confirmPayment()">
+        <form #paymentForm="ngForm" (ngSubmit)="createOrder()">
           <div>
             <label>
               <input

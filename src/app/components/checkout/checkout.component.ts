@@ -161,11 +161,6 @@ export class CheckoutComponent implements OnInit {
     this.shippingConfirmed = false;
   }
 
-  // Conferma del pagamento
-  confirmPayment() {
-    this.paymentConfirmed = true;
-  }
-
   editPayment() {
     this.paymentConfirmed = false;
   }
@@ -185,7 +180,8 @@ export class CheckoutComponent implements OnInit {
   public createOrder() {
     this.paypalService.createOrder().subscribe({
       next: (res: ServerResponse) => {
-        this.router.navigateByUrl(<string>res.message);
+      //  this.router.navigateByUrl(<string>res.message);
+      console.log('Order created:', res.message);
       },
       error: (err: HttpErrorResponse) => {
         if(err.status === 401) {
