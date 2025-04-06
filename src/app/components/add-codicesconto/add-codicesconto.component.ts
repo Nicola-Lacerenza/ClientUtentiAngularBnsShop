@@ -4,6 +4,9 @@ import { CodiceScontoService } from '../../services/codice-sconto.service';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { Codice_Sconto } from '../../models/codice_sconto.interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CategoriaService } from '../../services/categoria.service';
+import { Categoria } from '../../models/categoria.interface';
+import { AuthappService } from '../../services/authapp.service';
 
 @Component({
   selector: 'app-add-codicesconto',
@@ -13,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AddCodicescontoComponent implements OnInit {
   codiceScontoForm!: FormGroup;
   codiciSconto: Codice_Sconto[] = [];
+  private _categorie: Categoria[] = [];
   isEditing: boolean = false;
   editingId: number | null = null;
   duplicateCodeError: string = '';
@@ -20,16 +24,20 @@ export class AddCodicescontoComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private codiceScontoService: CodiceScontoService
+    private codiceScontoService: CodiceScontoService,
+    private categoriaService : CategoriaService,
+    private auth: AuthappService 
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.getCodiciSconto();
+    this.getCategorie();
   }
 
   initializeForm(): void {
     this.codiceScontoForm = this.fb.group({
+      categoria: [null, Validators.required],  // Nuovo campo per la categoria
       codice: ['', Validators.required],
       valore: [0, [Validators.required, Validators.min(0)]],
       descrizione: [''],
@@ -42,6 +50,9 @@ export class AddCodicescontoComponent implements OnInit {
       attivo: [true]
     });
   }
+  get categorie(): Categoria[] {
+    return this._categorie;
+  }  
 
   private getCodiciSconto(): void {
     this.codiceScontoService.getCodiceSconti().subscribe({
@@ -64,6 +75,35 @@ export class AddCodicescontoComponent implements OnInit {
       c.codice.toLowerCase().includes(this.filterText.toLowerCase())
     );
   }
+
+  deleteCodice(codice: Codice_Sconto): void {
+    this.codiceScontoService.deleteCodiceSconto(codice.id).subscribe({
+      next: (response: ServerResponse) => {
+        console.log(response.message);
+        this.codiciSconto = this.codiciSconto.filter(item => item.id !== codice.id);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Errore nell\'eliminazione del codice sconto', error);
+      }
+    });
+  }
+
+
+  private getCategorie(): void {
+    this.categoriaService.getCategorie().subscribe({
+      next: (data: ServerResponse) => {
+        this._categorie = <Categoria[]>data.message;
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.auth.doLogout();
+        } else {
+          console.error(error);
+        }
+      }
+    });
+  }
+
 
   onSubmit(): void {
     if (this.codiceScontoForm.valid) {
@@ -147,15 +187,5 @@ export class AddCodicescontoComponent implements OnInit {
     });
   }
 
-  deleteCodice(codice: Codice_Sconto): void {
-    this.codiceScontoService.deleteCodiceSconto(codice.id).subscribe({
-      next: (response: ServerResponse) => {
-        console.log(response.message);
-        this.codiciSconto = this.codiciSconto.filter(item => item.id !== codice.id);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('Errore nell\'eliminazione del codice sconto', error);
-      }
-    });
-  }
+
 }
