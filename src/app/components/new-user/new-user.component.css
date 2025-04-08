@@ -1,44 +1,56 @@
-.login-container{
-    margin-top: 3%;
-    margin-bottom: 4%;
-    margin-left: 35%;
-  
-  }
-  .login-form{
-    padding: 5%;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
-  }
-  .login-form h3{
-    text-align: center;
-    color: #333;
-  }
-  .login-container form{
-    padding: 5%;
-  }
-  .btnSubmit
-  {
-    width: 40%;
-    border-radius: 0.5rem;
-    padding: 1.5%;
-    border: none;
-    cursor: pointer;
-  }
-  .login-form .btnSubmit{
-    font-weight: 600;
-    color: #fff;
-    background-color: #0062cc;
-  }
-  .login-form .ForgetPwd{
-    color: #0062cc;
-    font-weight: 600;
-    text-decoration: none;
-  }
-  
-  .form-group {
-    margin-top: 3%;
-  }
-  
-  .alert {
-    margin-top: 2%;
-  }
-  
+/* Centrare il contenitore con min-height al 100vh per occupare tutta l'altezza della viewport */
+.login-container {
+  min-height: 100vh;
+  /* Questi possono essere utili se si vuole avere un po' di padding sui lati */
+  padding: 15px;
+}
+
+/* Stile del form */
+.login-form {
+  width: 100%;
+  max-width: 500px; /* Limita la larghezza massima per maggiore leggibilità */
+  padding: 40px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff; /* Sfondo bianco per risaltare sullo sfondo */
+  border-radius: 10px;
+}
+
+/* Titolo centrato già gestito dalla classe text-center di Bootstrap */
+.login-form h3 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Personalizzazione dei campi di input */
+.form-control {
+  border-radius: 5px;
+  height: 45px;
+  font-size: 16px;
+}
+
+/* Spazio tra i gruppi di form */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Bottone di submit migliorato */
+.btnSubmit {
+  width: 50%;
+  border-radius: 5px;
+  padding: 10px 0;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #fff;
+  background-color: #0062cc;
+  transition: background-color 0.3s ease;
+}
+.btnSubmit:hover {
+  background-color: #004a99;
+}
+
+/* Messaggio di alert, centrato e con margine top */
+.alert {
+  margin-top: 20px;
+  text-align: center;
+}
