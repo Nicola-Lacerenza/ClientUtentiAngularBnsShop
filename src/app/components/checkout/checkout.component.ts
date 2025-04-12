@@ -180,8 +180,7 @@ export class CheckoutComponent implements OnInit {
   public createOrder() {
     this.paypalService.createOrder().subscribe({
       next: (res: ServerResponse) => {
-      //  this.router.navigateByUrl(<string>res.message);
-      console.log('Order created:', res.message);
+        window.location.href = <string>res.message;
       },
       error: (err: HttpErrorResponse) => {
         if(err.status === 401) {

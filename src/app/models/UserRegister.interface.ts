@@ -7,4 +7,6 @@ export interface UserRegister{
     sesso : string;
     email : string;
     telefono : string;
+    id_taglia_preferita : number;
+    id_colore_preferito : number;
 }

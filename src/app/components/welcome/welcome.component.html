@@ -1,149 +1,153 @@
 <!-- Sezione immagine principale con testo sovrapposto -->
 <section class="hero">
     <a routerLink="/articoli">
-        <img src="assets/images/home.png" alt="Scarpa" class="hero-image">
-        <div class="hero-text">
-            <h1 class="hero-title">Nuova Collezione 2024</h1>
-            <p class="hero-description">Scopri il comfort e lo stile unico delle nostre scarpe da running. Perfette per ogni avventura.</p>
-        </div>
+      <img src="assets/images/home.png" alt="Scarpa" class="hero-image">
+      <!-- Overlay animato -->
+      <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <h1 class="hero-title">Nuova Collezione 2024</h1>
+        <p class="hero-description">
+          Scopri il comfort e lo stile unico delle nostre scarpe da running. Perfette per ogni avventura.
+        </p>
+        <a href="/scopri" class="cta-button">Scopri Ora</a>
+      </div>
     </a>
-</section>
-
-<!-- Menù a scorrimento per i Brand -->
-<section class="product-slider">
+  </section>
+  
+  <!-- Menù a scorrimento per i Brand -->
+  <section class="product-slider">
     <h2>Brand Popolari</h2>
     <div class="slider">
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/brand/nike.png" alt="Nike">
-            </a>
-            <button class="shoe-button">Nike</button>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/brand/adidas.png" alt="Adidas">
-            </a>
-            <button class="shoe-button">Adidas</button>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/brand/puma.png" alt="Puma">
-            </a>
-            <button class="shoe-button">Puma</button>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/brand/converse.png" alt="Converse">
-            </a>
-            <button class="shoe-button">Converse</button>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/brand/reebok.png" alt="Reebok">
-            </a>
-            <button class="shoe-button">Reebok</button>
-        </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/brand/nike.png" alt="Nike">
+        </a>
+        <button class="shoe-button">Nike</button>
+      </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/brand/adidas.png" alt="Adidas">
+        </a>
+        <button class="shoe-button">Adidas</button>
+      </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/brand/puma.png" alt="Puma">
+        </a>
+        <button class="shoe-button">Puma</button>
+      </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/brand/converse.png" alt="Converse">
+        </a>
+        <button class="shoe-button">Converse</button>
+      </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/brand/reebok.png" alt="Reebok">
+        </a>
+        <button class="shoe-button">Reebok</button>
+      </div>
     </div>
-</section>
-
-<!-- Menù a scorrimento per le Categorie di Scarpe -->
-<section class="product-slider">
+  </section>
+  
+  <!-- Menù a scorrimento per le Categorie di Scarpe -->
+  <section class="product-slider">
     <h2>Categorie di Scarpe</h2>
     <div class="slider">
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/categories/running.png" alt="Running">
-            </a>
-            <button class="shoe-button">Running</button>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/categories/casual.png" alt="Casual">
-            </a>
-            <button class="shoe-button">Casual</button>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/categories/formal.png" alt="Formal">
-            </a>
-            <button class="shoe-button">Formal</button>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/categories/sport.png" alt="Sport">
-            </a>
-            <button class="shoe-button">Sport</button>
-        </div>
-        <div class="product">
-            <a routerLink="/articoli">
-                <img src="assets/images/categories/boots.png" alt="Boots">
-            </a>
-            <button class="shoe-button">Boots</button>
-        </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/categories/running.png" alt="Running">
+        </a>
+        <button class="shoe-button">Running</button>
+      </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/categories/casual.png" alt="Casual">
+        </a>
+        <button class="shoe-button">Casual</button>
+      </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/categories/formal.png" alt="Formal">
+        </a>
+        <button class="shoe-button">Formal</button>
+      </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/categories/sport.png" alt="Sport">
+        </a>
+        <button class="shoe-button">Sport</button>
+      </div>
+      <div class="product">
+        <a routerLink="/articoli">
+          <img src="assets/images/categories/boots.png" alt="Boots">
+        </a>
+        <button class="shoe-button">Boots</button>
+      </div>
     </div>
-</section>
-
-
-<!-- Menù a scorrimento Offerte Uomo -->
-<section class="product-slider">
+  </section>
+  
+  <!-- Sezione Offerte: Uomo -->
+  <section class="product-slider">
     <h2>Offerte Uomo</h2>
     <div class="slider">
-        <div class="product" *ngFor="let item of prodottiUomo">
-            <ng-container >
-                <a routerLink="/articoli">
-                    <div class="image-container">
-                        <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
-                        <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
-                    </div>
-                </a>
-                <div class="product-details">
-                    <p class="product-description">{{ item.prodotto.descrizione_brand }}</p>
-                    <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
-                </div>
-            </ng-container>
-        </div>
+      <div class="product" *ngFor="let item of prodottiUomo">
+        <ng-container>
+          <a routerLink="/articoli">
+            <div class="image-container">
+              <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
+              <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
+            </div>
+          </a>
+          <div class="product-details">
+            <p class="product-description">{{ item.prodotto.descrizione_brand }}</p>
+            <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
+          </div>
+        </ng-container>
+      </div>
     </div>
-</section>
-
-<!-- Menù a scorrimento Offerte Donna -->
-<section class="product-slider">
+  </section>
+  
+  <!-- Sezione Offerte: Donna -->
+  <section class="product-slider">
     <h2>Offerte Donna</h2>
     <div class="slider">
-        <div class="product" *ngFor="let item of prodottiDonna">
-            <ng-container>
-                <a routerLink="/articoli">
-                    <div class="image-container">
-                        <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
-                        <button class="shoe-button">{{item.prodotto.nome_modello}}</button>
-                    </div>
-                </a>
-                <div class="product-details">
-                    <p class="product-description">{{ item.prodotto.descrizione_brand }}</p>
-                    <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
-                </div>
-            </ng-container>
-        </div>
+      <div class="product" *ngFor="let item of prodottiDonna">
+        <ng-container>
+          <a routerLink="/articoli">
+            <div class="image-container">
+              <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
+              <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
+            </div>
+          </a>
+          <div class="product-details">
+            <p class="product-description">{{ item.prodotto.descrizione_brand }}</p>
+            <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
+          </div>
+        </ng-container>
+      </div>
     </div>
-</section>
-
-<!-- Menù a scorrimento Offerte Bambini -->
-<section class="product-slider">
+  </section>
+  
+  <!-- Sezione Offerte: Bambini -->
+  <section class="product-slider">
     <h2>Offerte Bambini</h2>
     <div class="slider">
-        <div class="product" *ngFor="let item of prodottiBambino">
-            <ng-container >
-                <a routerLink="/articoli">
-                    <div class="image-container">
-                        <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
-                        <button class="shoe-button">{{item.prodotto.nome_modello}}</button>
-                    </div>
-                </a>
-                <div class="product-details">
-                    <p class="product-description">{{ item.prodotto.descrizione_brand }}</p>
-                    <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
-                </div>
-            </ng-container>
-        </div>
+      <div class="product" *ngFor="let item of prodottiBambino">
+        <ng-container>
+          <a routerLink="/articoli">
+            <div class="image-container">
+              <img [src]="generateUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
+              <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
+            </div>
+          </a>
+          <div class="product-details">
+            <p class="product-description">{{ item.prodotto.descrizione_brand }}</p>
+            <p class="product-price">{{ item.prodotto.prezzo | currency:'EUR':'symbol' }}</p>
+          </div>
+        </ng-container>
+      </div>
     </div>
-</section>
-
+  </section>
+  
