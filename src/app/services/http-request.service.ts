@@ -17,14 +17,14 @@ export class HttpRequestService {
     return this.http.get<ServerResponse>(url);
   }
 
-  public postRequest(url:string,body:ServerRequest | {message:string | null} | FormData):Observable<ServerResponse>{
+  public postRequest(url:string,body:ServerRequest | {message:string | null} | FormData | {token:string,payerId:string}):Observable<ServerResponse>{
     return this.http.post<ServerResponse>(url,body);
   }
 
   public putRequest(url: string, body: ServerRequest | {message:string | null} | FormData): Observable<ServerResponse> {
     return this.http.put<ServerResponse>(url, body);
   }
-  
+
   public deleteRequest(url: string): Observable<ServerResponse> {
     return this.http.delete<ServerResponse>(url);
   }

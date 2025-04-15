@@ -18,7 +18,7 @@ export class PaypalService {
     return this.httpRequest.postRequest(environment.serverUrl + "/CreaPagamento",{body});
   }
 
-  public executePayment(paymentId: string, payerId: string): Observable<ServerResponse> {
-    return this.httpRequest.postRequest(environment.serverUrl + "/ConfermaPagamentoServlet?paymentId="+ paymentId + "&payerId=" + payerId,{body : undefined});
+  public executePayment(token: string, payerId: string): Observable<ServerResponse> {
+    return this.httpRequest.postRequest(environment.serverUrl + "/ConfermaPagamentoServlet",{token,payerId});
   }
 }
