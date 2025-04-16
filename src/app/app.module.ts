@@ -28,6 +28,9 @@ import { UpdateCategoriaComponent } from './components/update-categoria/update-c
 import { MemberComponent } from './components/member/member.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AddCodicescontoComponent } from './components/add-codicesconto/add-codicesconto.component';
+import { ListaOrdiniComponent } from './components/lista-ordini/lista-ordini.component';
+import { ListaResiComponent } from './components/lista-resi/lista-resi.component';
+import { ListaIndirizziComponent } from './components/lista-indirizzi/lista-indirizzi.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,10 @@ import { AddCodicescontoComponent } from './components/add-codicesconto/add-codi
     UpdateCategoriaComponent,
     MemberComponent,
     CheckoutComponent,
-    AddCodicescontoComponent
+    AddCodicescontoComponent,
+    ListaOrdiniComponent,
+    ListaResiComponent,
+    ListaIndirizziComponent
   ],
   imports: [
   BrowserModule,

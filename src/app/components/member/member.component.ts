@@ -14,7 +14,7 @@ export class MemberComponent implements OnInit {
   userInitials: string = 'NL';
   userName: string = 'Nicola Lacerenza';
   menuItems = [
-    { label: 'I miei ordini', value: 'ordini' },
+    //{ label: 'I miei ordini', value: 'ordini' },
     { label: 'I miei resi', value: 'resi' },
     { label: 'I miei dettagli', value: 'dettagli' },
     { label: 'Cambia password', value: 'password' },

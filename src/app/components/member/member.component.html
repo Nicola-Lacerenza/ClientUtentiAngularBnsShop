@@ -7,6 +7,7 @@
     </div>
 
     <nav class="menu">
+      <a routerLink="/member/listaOrdini"> I miei ordini </a>
       <ul>
         <li *ngFor="let item of menuItems">
           <!-- Passiamo l'evento al metodo per prevenire la navigazione -->
@@ -19,59 +20,6 @@
 
   <!-- Contenuto principale -->
   <main class="main-content">
-    <h1>BENVENUTO NEL TUO ACCOUNT</h1>
-    <!-- ngSwitch per visualizzare il contenuto dinamicamente -->
-    <div [ngSwitch]="selectedTab">
-      <div *ngSwitchCase="'ordini'">
-        <h2>I miei ordini</h2>
-        <!-- Inserisci qui il codice per mostrare gli ordini -->
-      </div>
-      <div *ngSwitchCase="'resi'">
-        <h2>I miei resi</h2>
-        <!-- Inserisci qui il codice per mostrare i resi -->
-      </div>
-      <div *ngSwitchCase="'dettagli'">
-        <h2>I miei dettagli</h2>
-        <!-- Form per mostrare e modificare nome, cognome, data nascita, email, telefono -->
-        <form>
-          <label>
-            Nome:
-            <input type="text" name="nome" value="Nicola">
-          </label>
-          <label>
-            Cognome:
-            <input type="text" name="cognome" value="Lacerenza">
-          </label>
-          <label>
-            Data di nascita:
-            <input type="date" name="dataNascita">
-          </label>
-          <label>
-            Email:
-            <input type="email" name="email">
-          </label>
-          <label>
-            Numero di telefono:
-            <input type="tel" name="telefono">
-          </label>
-          <button type="submit">Salva</button>
-        </form>
-      </div>
-      <div *ngSwitchCase="'password'">
-        <h2>Cambia Password</h2>
-        <!-- Form per cambiare la password -->
-      </div>
-      <div *ngSwitchCase="'indirizzi'">
-        <h2>Indirizzi</h2>
-        <!-- Codice per gestire gli indirizzi -->
-      </div>
-      <div *ngSwitchCase="'pagamenti'">
-        <h2>I miei metodi di pagamento</h2>
-        <!-- Codice per gestire i metodi di pagamento -->
-      </div>
-      <div *ngSwitchDefault>
-        <p>Seleziona un'opzione dal menu a sinistra.</p>
-      </div>
-    </div>
+      <router-outlet></router-outlet>  
   </main>
 </div>
