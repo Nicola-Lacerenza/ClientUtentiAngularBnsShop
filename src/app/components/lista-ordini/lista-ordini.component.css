@@ -1,0 +1,65 @@
+/* Container generale: griglia responsive */
+.ordini-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  /* Card per ogni ordine */
+  .ordine-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Intestazione della card */
+  .ordine-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  .ordine-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .ordine-header .stato {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+  }
+  
+  /* Dettagli ordine */
+  .ordine-details {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+  }
+  .ordine-details li {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+  }
+  
+  /* Pulsante reso */
+  .btn-reso {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .btn-reso:hover {
+    background-color: #0056b3;
+  }
+  

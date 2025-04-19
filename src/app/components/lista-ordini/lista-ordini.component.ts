@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdineService } from '../../services/ordine.service';
+import { Ordine } from '../../models/ordine.interface';
+import { ServerResponse } from '../../models/ServerResponse.interface';
 
 @Component({
   selector: 'app-lista-ordini',
@@ -7,9 +9,13 @@ import { OrdineService } from '../../services/ordine.service';
   styleUrl: './lista-ordini.component.css'
 })
 export class ListaOrdiniComponent implements OnInit {
-   constructor(
+
+  ordini: Ordine[] = [];
+
+
+  constructor(
     private ordineService : OrdineService,
-   ) { }
+  ) { }
 
    ngOnInit(): void {
      this.getOrdini();
@@ -17,12 +23,17 @@ export class ListaOrdiniComponent implements OnInit {
 
    private getOrdini() {
     this.ordineService.getOrdini().subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (data:ServerResponse) => {
+        this.ordini = <Ordine[]>data.message;
       },
       error: (error) => {
         console.error('Errore nel recupero degli ordini:', error);
       }
     });
+  }
+
+  effettuaReso(idOrdine: number) {
+    // qui la chiamata al servizio per gestire il reso
+    console.log('Richiesto reso per ordine', idOrdine);
   }
 }

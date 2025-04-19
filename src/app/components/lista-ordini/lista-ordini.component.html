@@ -1,0 +1,19 @@
+<div class="ordini-container">
+    <div class="ordine-card" *ngFor="let ordine of ordini">
+      <div class="ordine-header">
+        <h3>Ordine #{{ ordine.id }}</h3>
+        <span class="stato">{{ ordine.stato_ordine }}</span>
+      </div>
+      <ul class="ordine-details">
+        <li><strong>ID PayPal:</strong> {{ ordine.id_ordine_paypal }}</li>
+        <li><strong>Pagamento:</strong> {{ ordine.id_pagamento }}</li>
+        <li><strong>Indirizzo:</strong> {{ ordine.id_indirizzo }}</li>
+        <li><strong>Data ordine:</strong> {{ ordine.data_ordine | date:'dd/MM/yyyy HH:mm' }}</li>
+        <li><strong>Importo:</strong> {{ ordine.importo | currency:ordine.valuta }}</li>
+      </ul>
+      <button class="btn-reso" (click)="effettuaReso(ordine.id)">
+        Effettua Reso
+      </button>
+    </div>
+  </div>
+  

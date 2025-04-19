@@ -32,18 +32,7 @@ export class MemberComponent implements OnInit {
 
   ngOnInit(): void {
     // Imposta una tab di default, se necessar
-    this.auth.getUser().subscribe({
-      next: (data: ServerResponse) => {
-        console.log(data);
-      },
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 401 || error.status === 403) {
-          this.auth.doLogout();
-        } else {
-          console.error(error);
-        }
-      }
-    });
+    
   }
 
   selectTab(tab: string, event?: Event): void {
