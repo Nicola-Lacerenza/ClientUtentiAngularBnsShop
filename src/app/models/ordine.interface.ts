@@ -1,3 +1,4 @@
+import { ProdottiFull } from "./prodottiFull.interface";
 
 export interface Ordine{
     id : number;
@@ -11,4 +12,5 @@ export interface Ordine{
     importo : number;
     valuta : string;
     locale_utente : string;
+    prodotti: ProdottiFull[];
 }

@@ -31,6 +31,7 @@ import { AddCodicescontoComponent } from './components/add-codicesconto/add-codi
 import { ListaOrdiniComponent } from './components/lista-ordini/lista-ordini.component';
 import { ListaResiComponent } from './components/lista-resi/lista-resi.component';
 import { ListaIndirizziComponent } from './components/lista-indirizzi/lista-indirizzi.component';
+import { RichiestaResoComponent } from './components/richiesta-reso/richiesta-reso.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ListaIndirizziComponent } from './components/lista-indirizzi/lista-indi
     AddCodicescontoComponent,
     ListaOrdiniComponent,
     ListaResiComponent,
-    ListaIndirizziComponent
+    ListaIndirizziComponent,
+    RichiestaResoComponent
   ],
   imports: [
   BrowserModule,

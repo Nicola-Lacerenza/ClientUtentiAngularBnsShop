@@ -9,6 +9,6 @@ import { Taglia } from './taglia.interface';
 import { UserRegister } from './UserRegister.interface';
 
 export interface ServerResponse{
-    message : string | UserRegister | Brand | Brand[] | Modello | Modello[] | Categoria | Categoria[] | ProdottiFull | ProdottiFull[] | Indirizzo | Indirizzo[] | Codice_Sconto | Codice_Sconto[] | Taglia | Taglia[] | Ordine[];
+    message : string | UserRegister | Brand | Brand[] | Modello | Modello[] | Categoria | Categoria[] | ProdottiFull | ProdottiFull[] | Indirizzo | Indirizzo[] | Codice_Sconto | Codice_Sconto[] | Taglia | Taglia[] | Ordine[] | Ordine;
     check:boolean;
 }
