@@ -21,7 +21,7 @@ export class RichiestaResoComponent {
   ) { }
 
   ngOnInit(): void {
-    
+    this.getOrdine();
   }
 
   private getOrdine() {
@@ -30,6 +30,7 @@ export class RichiestaResoComponent {
     this.ordineService.getOrdine(idOrdine).subscribe({
       next: (data:ServerResponse) => {
         this.ordine = <Ordine>data.message;
+        console.log(this.ordine);
       },
       error: (error) => {
         console.error('Errore nel recupero degli ordini:', error);
