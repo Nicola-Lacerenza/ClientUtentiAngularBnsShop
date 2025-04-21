@@ -25,7 +25,6 @@ export class ArticoliComponent implements OnInit {
   public _prodotti: { immagini: string[], prodotto: ProdottiFull }[] = [];
   public prodottiFiltrati: ProductGroup[] = [];
   public currentImageIndex: { [id: number]: number } = {}; 
-  // Array di modelli con id (usato per il filtraggio) e nome (visualizzato in pagina)
   modelli: { id: string, nome: string }[] = [];
 
   // Filtri ausiliari
@@ -254,7 +253,6 @@ export class ArticoliComponent implements OnInit {
     return this.expandedGroups[group];
   }
   
-  // Cliccando sul contenitore del gruppo, apriamo la pagina con l'id del prodotto attualmente selezionato
   viewProduct(id: number): void {
     this.router.navigateByUrl(`/pdp/${id}`);
   }

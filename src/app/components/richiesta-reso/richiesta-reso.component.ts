@@ -4,6 +4,7 @@ import { OrdineService } from '../../services/ordine.service';
 import { ResoService } from '../../services/reso.service';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { Ordine } from '../../models/ordine.interface';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-richiesta-reso',
@@ -12,6 +13,9 @@ import { Ordine } from '../../models/ordine.interface';
 })
 export class RichiestaResoComponent {
   ordine!: Ordine;
+  motivo: string = '';
+  prodottiSelezionati: number[] = [];
+
 
 
   constructor(
@@ -24,6 +28,40 @@ export class RichiestaResoComponent {
     this.getOrdine();
   }
 
+  
+  toggleProdotto(idProdotto: number, event: Event) {
+    const input = event.target as HTMLInputElement;
+  
+    if (input.checked) {
+      this.prodottiSelezionati.push(idProdotto);
+    } else {
+      this.prodottiSelezionati = this.prodottiSelezionati.filter(id => id !== idProdotto);
+    }
+  }
+  
+  submitReso() {
+    if (this.prodottiSelezionati.length === 0) {
+      alert('Seleziona almeno un prodotto da restituire.');
+      return;
+    }
+  
+    const richiestaReso = {
+      idOrdine: this.ordine.id,
+      motivo: this.motivo,
+      prodotti: this.prodottiSelezionati
+    };
+  
+    /*this.resoService.inviaRichiestaReso(richiestaReso).subscribe({
+      next: response => {
+        alert("Richiesta di reso inviata con successo!");
+      },
+      error: err => {
+        console.error("Errore nell'invio del reso", err);
+      }
+    });*/
+  }
+  
+  
   private getOrdine() {
     const idOrdine = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -37,5 +75,9 @@ export class RichiestaResoComponent {
       }
     });
   }
+
+    public generateUrl(filename: string): string {
+      return `${environment.serverUrl}/${filename}`;
+    }
 
 }

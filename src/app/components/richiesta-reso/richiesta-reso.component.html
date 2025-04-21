@@ -1,1 +1,33 @@
-<p>richiesta-reso works!</p>
+<div class="reso-container" *ngIf="ordine">
+  <h2>Richiesta di Reso - Ordine #{{ ordine.id }}</h2>
+
+  <form (ngSubmit)="submitReso()" #resoForm="ngForm">
+    <div class="prodotti-lista">
+      <h3>Prodotti acquistati</h3>
+      <div *ngFor="let prodotto of ordine.prodotti" class="prodotto-item">
+        <label>
+          <input
+          type="checkbox"
+          [checked]="prodottiSelezionati.includes(prodotto.id)"
+          (change)="toggleProdotto(prodotto.id, $event)"
+         />
+          <div class="img-wrapper">
+            <img [src]="generateUrl(prodotto.url[0])" alt="{{ prodotto.nome_modello }}" />
+          </div>          
+          <div class="prodotto-info">
+            <strong>{{ prodotto.nome_modello }}</strong><br />
+            {{ prodotto.nome_brand }} - {{ prodotto.nome_colore.join(', ') }}<br />
+            Prezzo: €{{ prodotto.prezzo }}
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="motivo-reso">
+      <label for="motivo">Motivazione del reso</label>
+      <textarea id="motivo" name="motivo" [(ngModel)]="motivo" required></textarea>
+    </div>
+
+    <button type="submit" [disabled]="!resoForm.form.valid">Invia Richiesta di Reso</button>
+  </form>
+</div>

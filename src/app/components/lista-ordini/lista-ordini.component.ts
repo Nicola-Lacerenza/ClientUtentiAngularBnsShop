@@ -15,7 +15,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ListaOrdiniComponent implements OnInit {
   ordini: Ordine[] = [];
 
-  // Modal reso
   showResoModal = false;
   selectedOrder!: Ordine;
   resoForm!: FormGroup;
@@ -35,6 +34,7 @@ export class ListaOrdiniComponent implements OnInit {
     this.ordineService.getOrdini().subscribe({
       next: (data:ServerResponse) => {
         this.ordini = <Ordine[]>data.message;
+        console.log(this.ordini);
       },
       error: (error) => {
         console.error('Errore nel recupero degli ordini:', error);

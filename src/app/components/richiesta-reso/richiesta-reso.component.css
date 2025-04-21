@@ -1,0 +1,144 @@
+/* Container principale */
+.reso-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Titoli */
+  .reso-container h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .reso-container h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #444;
+  }
+  
+  /* Lista prodotti */
+  .prodotti-lista {
+    margin-bottom: 2rem;
+  }
+  
+  .prodotto-item {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .prodotto-item:hover {
+    background-color: #eef3f7;
+  }
+  
+  .prodotto-item label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  /* Immagine del prodotto */
+  .prodotto-item img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: transform 0.2s ease-in-out;
+    background-color: #fff;
+  }
+  
+  .prodotto-item img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Info prodotto */
+  .prodotto-info {
+    flex-grow: 1;
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.4;
+  }
+  
+  /* Textarea motivo */
+  .motivo-reso {
+    margin-top: 1.5rem;
+  }
+  
+  .motivo-reso label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  .motivo-reso textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    resize: vertical;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fdfdfd;
+    transition: border-color 0.2s;
+  }
+  
+  .motivo-reso textarea:focus {
+    outline: none;
+    border-color: #2d89ef;
+  }
+  
+  /* Pulsante submit */
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 2rem;
+    background-color: #2d89ef;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #1b5cb8;
+    transform: translateY(-2px);
+  }
+  
+  button[type="submit"]:disabled {
+    background-color: #bbb;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .img-wrapper {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
