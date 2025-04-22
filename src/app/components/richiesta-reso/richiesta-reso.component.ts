@@ -5,6 +5,7 @@ import { ResoService } from '../../services/reso.service';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { Ordine } from '../../models/ordine.interface';
 import { environment } from '../../../environments/environment';
+import { ProdottiFull } from '../../models/prodottiFull.interface';
 
 @Component({
   selector: 'app-richiesta-reso',
@@ -15,7 +16,7 @@ export class RichiestaResoComponent {
   ordine!: Ordine;
   motivo: string = '';
   prodottiSelezionati: number[] = [];
-
+  quantitaSelezionata: Record<number, number> = {};
 
 
   constructor(
@@ -76,8 +77,21 @@ export class RichiestaResoComponent {
     });
   }
 
-    public generateUrl(filename: string): string {
-      return `${environment.serverUrl}/${filename}`;
-    }
+  public generateUrl(filename: string): string {
+    return `${environment.serverUrl}/${filename}`;
+  }
+
+  getDisponibilita(prodotto: ProdottiFull): number {
+    const wrapper = prodotto.taglieProdotto.find(tp => tp.taglia_prodotti.id_prodotto === prodotto.id);
+    return wrapper?.taglia_prodotti.quantita ?? 1;
+  }
+
+  getRange(max: number): number[] {
+    return Array.from({ length: max }, (_, i) => i + 1);
+  }
+
+  isSelected(id: number): boolean {
+    return this.prodottiSelezionati.includes(id);
+  }
 
 }

@@ -4,28 +4,51 @@
   <form (ngSubmit)="submitReso()" #resoForm="ngForm">
     <div class="prodotti-lista">
       <h3>Prodotti acquistati</h3>
-      <div *ngFor="let prodotto of ordine.prodotti" class="prodotto-item">
-        <label>
-          <input
-          type="checkbox"
-          [checked]="prodottiSelezionati.includes(prodotto.id)"
-          (change)="toggleProdotto(prodotto.id, $event)"
-         />
-          <div class="img-wrapper">
-            <img [src]="generateUrl(prodotto.url[0])" alt="{{ prodotto.nome_modello }}" />
-          </div>          
-          <div class="prodotto-info">
-            <strong>{{ prodotto.nome_modello }}</strong><br />
-            {{ prodotto.nome_brand }} - {{ prodotto.nome_colore.join(', ') }}<br />
-            Prezzo: €{{ prodotto.prezzo }}
+      <ng-container *ngFor="let prodotto of ordine.prodotti">
+        <div class="prodotto-item">
+          <label class="prodotto-label">
+            <input
+              type="checkbox"
+              [checked]="isSelected(prodotto.id)"
+              (change)="toggleProdotto(prodotto.id, $event)"
+            />
+            <div class="img-wrapper">
+              <img [src]="generateUrl(prodotto.url[0])" alt="{{ prodotto.nome_modello }}" />
+            </div>
+            <div class="prodotto-info">
+              <strong>{{ prodotto.nome_modello }}</strong><br />
+              {{ prodotto.nome_brand }} - {{ prodotto.nome_colore.join(', ') }}<br />
+              Prezzo: €{{ prodotto.prezzo | number:'1.2-2' }}
+            </div>
+          </label>
+
+          <div *ngIf="isSelected(prodotto.id)" class="quantita-reso">
+            <label for="qta-{{ prodotto.id }}">Quantità da rendere:</label>
+            <select
+              id="qta-{{ prodotto.id }}"
+              name="qta-{{ prodotto.id }}"
+              [(ngModel)]="quantitaSelezionata[prodotto.id]"
+              required
+            >
+              <option value="" disabled>Seleziona...</option>
+              <option *ngFor="let q of getRange(getDisponibilita(prodotto))" [value]="q">
+                {{ q }}
+              </option>
+            </select>
           </div>
-        </label>
-      </div>
+        </div>
+      </ng-container>
     </div>
 
     <div class="motivo-reso">
       <label for="motivo">Motivazione del reso</label>
-      <textarea id="motivo" name="motivo" [(ngModel)]="motivo" required></textarea>
+      <textarea
+        id="motivo"
+        name="motivo"
+        rows="4"
+        [(ngModel)]="motivo"
+        required
+      ></textarea>
     </div>
 
     <button type="submit" [disabled]="!resoForm.form.valid">Invia Richiesta di Reso</button>
