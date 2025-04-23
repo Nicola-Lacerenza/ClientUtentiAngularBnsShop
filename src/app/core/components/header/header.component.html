@@ -64,7 +64,7 @@
           </span>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" *ngIf="BasicAuth.isLogged()" routerLink="/member">Profilo</a></li>
-          <li><a class="dropdown-item" *ngIf="BasicAuth.isLogged()" routerLink="">Ordini</a></li>
+          <li><a class="dropdown-item" *ngIf="BasicAuth.isLogged()" routerLink="member/listaOrdini">Ordini</a></li>
           <li><a class="dropdown-item" *ngIf="BasicAuth.isLogged()" routerLink="/logout">Logout</a></li>
           <li><a class="dropdown-item disabled" *ngIf="!BasicAuth.isLogged()"  href="#">Logout</a></li>
 
