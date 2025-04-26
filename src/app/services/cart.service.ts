@@ -169,4 +169,13 @@ export class CartService {
     }
     return output;
   }
+
+  public clearCart() : boolean{
+    if(!localStorage.getItem('cart')){
+      return false;
+    }
+    localStorage.removeItem('cart');
+    this.cart.clear();
+    return true;
+  }
 }
