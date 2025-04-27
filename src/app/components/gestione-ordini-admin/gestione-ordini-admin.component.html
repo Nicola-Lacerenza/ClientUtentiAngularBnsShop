@@ -1,0 +1,77 @@
+<!-- gestione-ordini-admin.component.html -->
+<div class="returns-container">
+    <header class="returns-header">
+      <h1>Gestione Resi</h1>
+      <div class="filters">
+        <div class="filter-item">
+          <label for="status">Stato:</label>
+          <select id="status" [(ngModel)]="statusFilter" (change)="onStatusFilterChange(statusFilter)">
+            <option value="all">Tutti</option>
+            <option value="requested">In richieste</option>
+            <option value="approved">Approvati</option>
+            <option value="rejected">Rifiutati</option>
+            <option value="completed">Completati</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label for="search">Cerca:</label>
+          <input
+            id="search"
+            type="text"
+            placeholder="Ordine o cliente…"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchTermChange(searchTerm)"
+          />
+        </div>
+      </div>
+    </header>
+  
+    <div class="table-wrapper">
+      <table class="returns-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Ordine</th>
+            <th>Cliente</th>
+            <th>Data</th>
+            <th>Stato</th>
+            <th class="actions-col">Azioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of filteredReturns">
+            <td>{{ r.id }}</td>
+            <td>{{ r.orderNumber }}</td>
+            <td>{{ r.customerName }}</td>
+            <td>{{ r.dateRequested | date: 'dd/MM/yyyy' }}</td>
+            <td>
+              <span class="badge" [ngClass]="'badge-' + r.status">
+                {{ r.status }}
+              </span>
+            </td>
+            <td class="actions-col">
+              <button class="btn btn-approve" *ngIf="r.status==='requested'" (click)="approveReturn(r.id)">
+                ✔
+              </button>
+              <button class="btn btn-reject" *ngIf="r.status==='requested'" (click)="rejectReturn(r.id,'')">
+                ✖
+              </button>
+              <button class="btn btn-complete" *ngIf="r.status==='approved'" (click)="completeReturn(r.id)">
+                🏷
+              </button>
+              <button class="btn btn-label" *ngIf="r.labelUrl" (click)="downloadLabel(r.id)">
+                📄
+              </button>
+              <button class="btn btn-refund" *ngIf="r.status==='completed'" (click)="issueRefund(r.id)">
+                💶
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredReturns.length === 0">
+            <td colspan="6" class="empty">Nessun reso trovato.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

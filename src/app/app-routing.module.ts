@@ -20,6 +20,7 @@ import { CheckoutSuccessComponent } from './components/checkout-success/checkout
 import { CheckoutFailureComponent } from './components/checkout-failure/checkout-failure.component';
 import { ListaOrdiniComponent } from './components/lista-ordini/lista-ordini.component';
 import { RichiestaResoComponent } from './components/richiesta-reso/richiesta-reso.component';
+import { GestioneOrdiniAdminComponent } from './components/gestione-ordini-admin/gestione-ordini-admin.component';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -38,6 +39,7 @@ const routes: Routes = [
     {path:'listaOrdini', component: ListaOrdiniComponent},
     {path:'reso/:id', component: RichiestaResoComponent}
   ]},
+  {path:'gestioneOrdini', component: GestioneOrdiniAdminComponent, canActivate:[authGuard,roleGuard]},
   {path:'addProduct/:id', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
   {path:'cart',component:CartComponent},
   {path:'size-selector',component:SizeSelectorComponent},

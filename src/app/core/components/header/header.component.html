@@ -41,6 +41,11 @@
             Codice Sconto
           </a>
 
+          <a class="nav-link"  *ngIf="BasicAuth.isLogged() "   title="GestioneOrdiniResi"  routerLink="/gestioneOrdini">
+            <span class="material-icons md-archive" title="GestioneOrdiniResi" aria-hidden="true"></span>
+            Gestione Ordini
+          </a>
+
         </li>
       </ul>
 

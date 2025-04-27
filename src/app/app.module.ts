@@ -32,6 +32,7 @@ import { ListaOrdiniComponent } from './components/lista-ordini/lista-ordini.com
 import { ListaResiComponent } from './components/lista-resi/lista-resi.component';
 import { ListaIndirizziComponent } from './components/lista-indirizzi/lista-indirizzi.component';
 import { RichiestaResoComponent } from './components/richiesta-reso/richiesta-reso.component';
+import { GestioneOrdiniAdminComponent } from './components/gestione-ordini-admin/gestione-ordini-admin.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { RichiestaResoComponent } from './components/richiesta-reso/richiesta-re
     ListaOrdiniComponent,
     ListaResiComponent,
     ListaIndirizziComponent,
-    RichiestaResoComponent
+    RichiestaResoComponent,
+    GestioneOrdiniAdminComponent
   ],
   imports: [
   BrowserModule,

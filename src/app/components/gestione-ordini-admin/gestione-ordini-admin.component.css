@@ -1,0 +1,133 @@
+/* gestione-ordini-admin.component.css */
+:root {
+    --color-bg: #f9f9fa;
+    --color-card: #ffffff;
+    --color-primary: #0275d8;
+    --color-success: #5cb85c;
+    --color-warning: #f0ad4e;
+    --color-danger: #d9534f;
+    --color-text: #333;
+    --color-border: #e1e4e8;
+  }
+  
+  .returns-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: var(--color-card);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .returns-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .returns-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--color-text);
+  }
+  
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+  }
+  
+  .filter-item label {
+    margin-bottom: 0.25rem;
+    color: var(--color-text);
+  }
+  
+  .filter-item select,
+  .filter-item input {
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    min-width: 150px;
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .returns-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  
+  .returns-table thead {
+    background: var(--color-bg);
+  }
+  
+  .returns-table th,
+  .returns-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+  
+  .returns-table th.actions-col,
+  .returns-table td.actions-col {
+    text-align: center;
+    width: 160px;
+  }
+  
+  .returns-table tbody tr:hover {
+    background: #f1f5f8;
+  }
+  
+  .empty {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-text);
+  }
+  
+  .btn {
+    border: none;
+    background: none;
+    font-size: 1.1rem;
+    margin: 0 0.2rem;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  
+  .btn:hover {
+    transform: scale(1.2);
+  }
+  
+  .btn-approve { color: var(--color-success); }
+  .btn-reject  { color: var(--color-danger); }
+  .btn-complete{ color: var(--color-primary); }
+  .btn-label   { color: var(--color-primary); }
+  .btn-refund  { color: var(--color-success); }
+  
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    text-transform: capitalize;
+    font-size: 0.85rem;
+    color: #fff;
+  }
+  
+  .badge-requested { background: var(--color-warning); }
+  .badge-approved  { background: var(--color-success); }
+  .badge-rejected  { background: var(--color-danger); }
+  .badge-completed { background: var(--color-primary); }
+  
