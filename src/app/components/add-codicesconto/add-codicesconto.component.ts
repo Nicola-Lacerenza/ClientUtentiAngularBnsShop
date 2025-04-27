@@ -26,7 +26,7 @@ export class AddCodicescontoComponent implements OnInit {
     private fb: FormBuilder,
     private codiceScontoService: CodiceScontoService,
     private categoriaService : CategoriaService,
-    private auth: AuthappService 
+    private auth: AuthappService
   ) {}
 
   ngOnInit(): void {
@@ -52,13 +52,12 @@ export class AddCodicescontoComponent implements OnInit {
   }
   get categorie(): Categoria[] {
     return this._categorie;
-  }  
+  }
 
   private getCodiciSconto(): void {
     this.codiceScontoService.getCodiceSconti().subscribe({
-      next: (data: ServerResponse) => {
-        const tmp: Codice_Sconto[] = <Codice_Sconto[]>data.message;
-        this.codiciSconto = tmp;
+      next: (data: Codice_Sconto[]) => {
+        this.codiciSconto = data;
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401 || error.status === 403) {
@@ -154,13 +153,25 @@ export class AddCodicescontoComponent implements OnInit {
   editCodice(codice: Codice_Sconto): void {
     this.isEditing = true;
     this.editingId = codice.id;
+    let giornoInizioString:string;
+    let meseInizioString:string;
+    let giornoFineString:string;
+    let meseFineString:string;
+    let giornoInizio:number = codice.data_inizio.getDate();
+    giornoInizioString = (giornoInizio < 10) ? "0" + giornoInizio : "" + giornoInizio;
+    let meseInizio:number = codice.data_inizio.getMonth() + 1;
+    meseInizioString = (meseInizio < 10) ? "0" + meseInizio : "" + meseInizio;
+    let giornoFine:number = codice.data_fine.getDate();
+    giornoFineString = (giornoFine < 10) ? "0" + giornoFine : "" + giornoFine;
+    let meseFine:number = codice.data_fine.getMonth() + 1;
+    meseFineString = (meseFine < 10) ? "0" + meseFine : "" + meseFine;
     this.codiceScontoForm.patchValue({
       codice: codice.codice,
       valore: codice.valore,
       descrizione: codice.descrizione,
       tipo: codice.tipo,
-      data_inizio: codice.data_inizio,
-      data_fine: codice.data_fine,
+      data_inizio: codice.data_inizio.getFullYear() + "-" + meseInizioString + "-" + giornoInizioString,
+      data_fine: codice.data_fine.getFullYear() + "-" + meseFineString + "-" + giornoFineString,
       uso_massimo: codice.uso_massimo,
       uso_per_utente: codice.uso_per_utente,
       minimo_acquisto: codice.minimo_acquisto,
