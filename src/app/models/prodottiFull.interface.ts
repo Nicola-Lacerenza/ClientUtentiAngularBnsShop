@@ -1,6 +1,7 @@
 import { Taglia } from "./taglia.interface";
 import { Taglie_Has_Prodotti } from "./taglie_has_prodotti.interface";
 
+
 export interface ProdottiFull{
     id : number;
     id_modello : number;
