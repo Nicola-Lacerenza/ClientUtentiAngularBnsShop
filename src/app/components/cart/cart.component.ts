@@ -3,6 +3,8 @@ import { CartService } from '../../services/cart.service';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { GestioneImmaginiService } from '../../services/gestione-immagini.service';
 
 @Component({
   selector: 'app-cart',
@@ -22,7 +24,11 @@ export class CartComponent implements OnInit {
   selectedSize: string = '';
   availableSizes = ['33', '36', '36.5', '37.5', '38', '38.5', '39'];
 
-  constructor(private cartService: CartService, private router: Router) {}
+  constructor(
+    private cartService: CartService, 
+    private router: Router,
+    private gestioneImmagini : GestioneImmaginiService
+  ) {}
 
   ngOnInit() {
     this.items = this.cartService.getListProducts();
@@ -103,9 +109,9 @@ export class CartComponent implements OnInit {
   goToCheckout() {
     this.router.navigate(['/checkout']);
   }
-
-  public createUrlByString(filename: string): string {
-    return `${environment.serverUrl}/${filename}`;
+    
+  public getImageUrl(imageName: string): Observable<string | undefined> {
+    return this.gestioneImmagini.getUrlImmagine(imageName);
   }
   
   calculateTotal() {

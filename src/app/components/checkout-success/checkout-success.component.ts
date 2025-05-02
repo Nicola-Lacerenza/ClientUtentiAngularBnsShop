@@ -26,7 +26,8 @@ private executePayment(): void {
 			next: (params:Params) => {
 				const token:string = params["token"];
 				const payerId:string = params["PayerID"];
-				this.paypalService.executePayment(token,payerId).subscribe({
+				const cartItems = this.cartService.getListProducts();
+				this.paypalService.executePayment(token,payerId,cartItems).subscribe({
 					next: (response:ServerResponse) => {
 						console.log('Payment executed successfully:', response);
 						this.cartService.clearCart();

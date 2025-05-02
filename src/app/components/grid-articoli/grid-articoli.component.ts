@@ -59,10 +59,6 @@ export class GridArticoliComponent implements OnInit {
      return this.gestioneImmagini.getUrlImmagine(imageName);
   }
 
-  public generateUrl(filename: string): string {
-    return `${environment.serverUrl}/${filename}`;
-  }
-
   public prevImage(productId: number, totalImages: number): void {
     if (this.currentImageIndex[productId] === undefined) {
       this.currentImageIndex[productId] = 0;

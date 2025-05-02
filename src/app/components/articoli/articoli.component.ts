@@ -7,6 +7,8 @@ import { ServerResponse } from '../../models/ServerResponse.interface';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { GestioneImmaginiService } from '../../services/gestione-immagini.service';
+import { Observable } from 'rxjs';
 
 interface ProductGroup {
   modello: string;
@@ -41,7 +43,8 @@ export class ArticoliComponent implements OnInit {
   constructor(   
     private prodottiService: ProdottiService,
     private auth: AuthappService,
-    private router: Router
+    private router: Router,
+    private gestioneImmagini : GestioneImmaginiService
   ) {}
 
   ngOnInit(): void {
@@ -225,6 +228,10 @@ export class ArticoliComponent implements OnInit {
   
   public generateUrl(filename: string): string {
     return `${environment.serverUrl}/${filename}`;
+  }
+
+  public getImageUrl(imageName: string): Observable<string | undefined> {
+    return this.gestioneImmagini.getUrlImmagine(imageName);
   }
 
   public prevImage(productId: number, totalImages: number): void {

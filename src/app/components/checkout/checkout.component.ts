@@ -11,6 +11,8 @@ import { HttpRequestService } from '../../services/http-request.service';
 import { PaypalService } from '../../services/paypal.service';
 import { AuthappService } from '../../services/authapp.service';
 import { Router } from '@angular/router';
+import { GestioneImmaginiService } from '../../services/gestione-immagini.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
@@ -30,7 +32,7 @@ export class CheckoutComponent implements OnInit {
   // Flag per conferma delle sezioni
   shippingConfirmed = false;
   paymentConfirmed = false;
-
+  messaggioErrore : string= '';
   // Controllo per mostrare/nascondere il form di aggiunta o modifica indirizzo
   editingAddress: Indirizzo | null = null;   // Se non è null, stiamo modificando/aggiungendo un indirizzo
 
@@ -60,7 +62,8 @@ export class CheckoutComponent implements OnInit {
     private indirizzoService: IndirizzoService,
     private paypalService : PaypalService,
     private authService : AuthappService,
-    private router : Router
+    private router : Router,
+    private gestioneImmagini : GestioneImmaginiService
   ) {}
 
   ngOnInit() {
@@ -172,11 +175,10 @@ export class CheckoutComponent implements OnInit {
     alert('Ordine completato!');
   }
 
-  // Helper per generare url di immagini
-  public createUrlByString(filename: string): string {
-    return `${environment.serverUrl}/${filename}`;
+  public getImageUrl(imageName: string): Observable<string | undefined> {
+    return this.gestioneImmagini.getUrlImmagine(imageName);
   }
-
+  
   public createOrder() {
     this.paypalService.createOrder().subscribe({
       next: (res: ServerResponse) => {
@@ -186,6 +188,7 @@ export class CheckoutComponent implements OnInit {
         if(err.status === 401) {
           this.authService.doLogout();
         }else{
+          this.messaggioErrore = 'Errore durante la creazione dell\'ordine. Riprova.';
           console.error('Error creating order:', err);
         }
         

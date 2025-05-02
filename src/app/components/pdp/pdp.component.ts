@@ -7,6 +7,8 @@ import { ProdottiService } from '../../services/prodotti.service';
 import { AuthappService } from '../../services/authapp.service';
 import { environment } from '../../../environments/environment';
 import { CartService } from './../../services/cart.service';
+import { GestioneImmaginiService } from '../../services/gestione-immagini.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pdp',
@@ -61,7 +63,8 @@ export class PdpComponent implements OnInit {
     private auth: AuthappService,
     private route: ActivatedRoute,
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private gestioneImmagini : GestioneImmaginiService
   ) {
     const totalTaglie: string[] = [
       '35.5', '36', '36.5', '37', '37.5', '38', '38.5', '39', '39.5', '40',
@@ -146,8 +149,8 @@ export class PdpComponent implements OnInit {
     }
   }
 
-  createUrlByString(filename: string): string {
-    return `${environment.serverUrl}/${filename}`;
+  public getImageUrl(imageName: string): Observable<string | undefined> {
+    return this.gestioneImmagini.getUrlImmagine(imageName);
   }
 
   isTagliaAvailable(taglia: string): boolean {

@@ -9,13 +9,13 @@
             <video #mainVideo
                    (loadedmetadata)="onLoadedMetadata()"
                    (timeupdate)="onTimeUpdate()">
-              <source [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" type="video/mp4">
+              <source [src]="getImageUrl(urlListProductToUpdate[actualMainImage])" type="video/mp4">
               Il tuo browser non supporta il tag video.
             </video>
           </div>
         </ng-container>
         <ng-template #imgTemplate>
-          <img [src]="createUrlByString(urlListProductToUpdate[actualMainImage])" alt="Main Preview" />
+          <img [src]="getImageUrl(urlListProductToUpdate[actualMainImage])" alt="Main Preview" />
         </ng-template>
       </div>
       
@@ -33,7 +33,7 @@
       <div class="thumbnail-images">
         <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
           <img *ngIf="!isVideo(singleUrl)" 
-               [src]="createUrlByString(singleUrl)"
+               [src]="getImageUrl(singleUrl)"
                [class.active]="i === actualMainImage"
                alt="Thumbnail"
                (mouseenter)="setMainImage(i)" />
@@ -46,7 +46,7 @@
                 style="width:70px; height:70px; object-fit: cover; border-radius: 6px; cursor: pointer;"
                 (mouseenter)="setMainImage(i)"
                 (click)="preventVideoOpen($event)">
-                <source [src]="createUrlByString(singleUrl)" type="video/mp4">
+                <source [src]="getImageUrl(singleUrl)" type="video/mp4">
           </video>     
         </ng-container>
       </div>
@@ -65,7 +65,7 @@
         <h3>Colori</h3>
         <div class="thumbnail-images">
           <ng-container *ngFor="let prod of relatedProducts">
-            <img [src]="createUrlByString(prod.url[0])" 
+            <img [src]="getImageUrl(prod.url[0])" 
                  alt="{{ prod.nome_modello }}" 
                  (click)="selectRelatedProduct(prod)" />
           </ng-container>
@@ -130,7 +130,7 @@
     </div>
     <div class="popup-body">
       <div class="popup-image">
-        <img [src]="createUrlByString(urlListProductToUpdate![actualMainImage])" alt="Prodotto aggiunto" />
+        <img [src]="getImageUrl(urlListProductToUpdate![actualMainImage])" alt="Prodotto aggiunto" />
       </div>
       <div class="popup-info">
         <h4>{{ addedProductName }}</h4>

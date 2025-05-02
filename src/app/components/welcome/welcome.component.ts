@@ -6,6 +6,8 @@ import { ProdottiService } from '../../services/prodotti.service';
 import { AuthappService } from '../../services/authapp.service';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { environment } from '../../../environments/environment';
+import { GestioneImmaginiService } from '../../services/gestione-immagini.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
@@ -28,7 +30,8 @@ export class WelcomeComponent implements OnInit{
   constructor(
     private route:ActivatedRoute,
     private prodottiService: ProdottiService,
-    private auth: AuthappService
+    private auth: AuthappService,
+    private gestioneImmagini : GestioneImmaginiService
   ){}
 
   ngOnInit(): void {
@@ -38,9 +41,9 @@ export class WelcomeComponent implements OnInit{
 
   }
 
-  public generateUrl(filename: string): string {
-    return `${environment.serverUrl}/${filename}`;
- }
+  public getImageUrl(imageName: string): Observable<string | undefined> {
+    return this.gestioneImmagini.getUrlImmagine(imageName);
+  }
 
   private fetchProdotti(): void {
     this.prodottiUomo = [];

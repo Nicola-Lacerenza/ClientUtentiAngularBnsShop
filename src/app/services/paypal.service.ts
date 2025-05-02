@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { ServerResponse } from '../models/ServerResponse.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ProdottiFull } from '../models/prodottiFull.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class PaypalService {
     return this.httpRequest.postRequest(environment.serverUrl + "/CreaPagamento",{body});
   }
 
-  public executePayment(token: string, payerId: string): Observable<ServerResponse> {
-    return this.httpRequest.postRequest(environment.serverUrl + "/ConfermaPagamentoServlet",{token,payerId});
+  public executePayment(token: string, payerId: string,cartItems:{product : ProdottiFull, quantity : number, tagliaScelta : string}[]): Observable<ServerResponse> {
+    return this.httpRequest.postRequest(environment.serverUrl + "/ConfermaPagamentoServlet",{token,payerId,cartItems});
   }
 }

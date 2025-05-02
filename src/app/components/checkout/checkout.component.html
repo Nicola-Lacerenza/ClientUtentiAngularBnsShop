@@ -292,6 +292,7 @@
           </button>
         </form>
       </ng-container>
+      {{messaggioErrore}}
 
       <!-- Riepilogo del pagamento (visualizzato solo se confermato) -->
       <ng-container *ngIf="paymentConfirmed">
@@ -319,7 +320,7 @@
     <div *ngFor="let item of items" class="cart-item">
       <img
         *ngIf="item.product.url && item.product.url.length > 0"
-        [src]="createUrlByString(item.product.url[0])"
+        [src]="getImageUrl(item.product.url[0])"
         alt="{{ item.product.nome_modello }}"
         class="product-image"
       />

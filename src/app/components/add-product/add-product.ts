@@ -16,6 +16,8 @@ import { UpdateCategoriaComponent } from '../update-categoria/update-categoria.c
 import { ActivatedRoute } from '@angular/router';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { environment } from '../../../environments/environment';
+import { GestioneImmaginiService } from '../../services/gestione-immagini.service';
+import { Observable } from 'rxjs';
 
 
 interface MediaPreview {
@@ -105,7 +107,8 @@ colorCode:{[key: string]: string} = {
     private brandService: BrandService,
     private categoriaService: CategoriaService,
     private popUp: PopUpManagerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private gestioneImmagini : GestioneImmaginiService
   ) {}
 
   public get actualBrandSelected(): number | undefined {
@@ -472,6 +475,10 @@ colorCode:{[key: string]: string} = {
   
   public createUrlByString(filename: string): string {
     return `${environment.serverUrl}/${filename}`;
+  }
+  
+  public getImageUrl(imageName: string): Observable<string | undefined> {
+     return this.gestioneImmagini.getUrlImmagine(imageName);
   }
 
   // Gestione della selezione colore
