@@ -30,7 +30,7 @@ export class GestioneImmaginiService {
     }
     return this.urlsEstratti.asObservable().pipe(
       map((urls : Map<string,string | null>) => {
-        if(urls.has(nomeFile)){
+        if(urls.get(nomeFile) !== undefined){
           if(urls.get(nomeFile) !== null){
             return <string>urls.get(nomeFile);
           }else{
