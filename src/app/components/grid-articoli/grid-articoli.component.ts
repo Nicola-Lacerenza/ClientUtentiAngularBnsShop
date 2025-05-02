@@ -6,6 +6,8 @@ import { AuthappService } from '../../services/authapp.service';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
+import { GestioneImmaginiService } from '../../services/gestione-immagini.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-grid-articoli',
@@ -19,7 +21,8 @@ export class GridArticoliComponent implements OnInit {
   constructor(
     private prodottiService: ProdottiService,
     private auth: AuthappService,
-    private router: Router
+    private router: Router,
+    private gestioneImmagini : GestioneImmaginiService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +53,10 @@ export class GridArticoliComponent implements OnInit {
         }
       }
     });
+  }
+
+  public getImageUrl(imageName: string): Observable<string | undefined> {
+     return this.gestioneImmagini.getUrlImmagine(imageName);
   }
 
   public generateUrl(filename: string): string {

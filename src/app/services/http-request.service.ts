@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ServerResponse } from '../models/ServerResponse.interface';
 
 import { ServerRequest } from '../models/ServerRequest.interface';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -15,6 +16,10 @@ export class HttpRequestService {
 
   public getRequest(url:string):Observable<ServerResponse>{
     return this.http.get<ServerResponse>(url);
+  }
+
+  public getImmagine(url:string):Observable<Blob>{
+    return this.http.get(environment.serverUrl+ "/ImmagineServlet?immagine=" + url,{responseType:'blob'});
   }
 
   public postRequest(url:string,body:ServerRequest | {message:string | null} | FormData | {token:string,payerId:string}):Observable<ServerResponse>{

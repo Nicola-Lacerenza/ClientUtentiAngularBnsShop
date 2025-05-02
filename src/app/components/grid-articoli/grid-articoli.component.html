@@ -41,13 +41,13 @@
               <!-- Visualizza immagine o video -->
               <ng-container *ngIf="!isVideo(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])">
                 <img 
-                  [src]="generateUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])"
+                  [src]="getImageUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0]) | async"
                   alt="Immagine prodotto" 
                   class="carousel-image">
               </ng-container>
               <ng-container *ngIf="isVideo(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])">
                 <video 
-                  [src]="generateUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0])" 
+                  [src]="getImageUrl(prodotto.immagini[currentImageIndex[prodotto.prodotto.id] || 0]  ) | async" 
                   poster="URL_della_tua_miniatura" 
                   preload="metadata" 
                   muted

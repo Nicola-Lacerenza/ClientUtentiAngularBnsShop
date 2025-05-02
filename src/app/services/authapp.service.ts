@@ -3,10 +3,7 @@ import { HttpRequestService } from './http-request.service';
 import { environment } from '../../environments/environment';
 import { Observable, map } from 'rxjs';
 import { ServerResponse } from '../models/ServerResponse.interface';
-import { UserRegister } from '../models/UserRegister.interface';
-import { UserLogin } from '../models/UserLogin.interface';
 import { Router } from '@angular/router';
-import { NewUserComponent } from './../components/new-user/new-user.component';
 import { ServerRequest } from '../models/ServerRequest.interface';
 
 @Injectable({
@@ -14,9 +11,10 @@ import { ServerRequest } from '../models/ServerRequest.interface';
 })
 export class AuthappService {
 
-  constructor(private httprequest:HttpRequestService,private router:Router) { 
-  
-  }
+  constructor(
+    private httprequest:HttpRequestService,
+    private router:Router
+    ){ }
 
   public doLogin(body:ServerRequest):Observable<ServerResponse>{
     return this.httprequest.postRequest(environment.serverUrl + "/LoginServlet",body);
@@ -31,7 +29,7 @@ export class AuthappService {
   }
   
   public doLogout():void{
-    localStorage.removeItem("token");
+    localStorage.removeItem("token");  
   }
 
   public doRegister(body:ServerRequest):Observable<ServerResponse>{
@@ -64,4 +62,6 @@ export class AuthappService {
       map(response => response.message==="admin")
     )
   }
+
+
 }
