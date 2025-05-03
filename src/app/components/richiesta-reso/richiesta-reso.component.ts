@@ -6,6 +6,7 @@ import { ServerResponse } from '../../models/ServerResponse.interface';
 import { Ordine } from '../../models/ordine.interface';
 import { environment } from '../../../environments/environment';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
+import { Reso } from '../../models/reso.interface';
 
 @Component({
   selector: 'app-richiesta-reso',
@@ -46,13 +47,25 @@ export class RichiestaResoComponent {
       return;
     }
   
-    const richiestaReso = {
-      idOrdine: this.ordine.id,
-      motivo: this.motivo,
-      prodotti: this.prodottiSelezionati
-    };
+    const richieste : Reso[] = [];
+    /*for (const idProdotto of this.prodottiSelezionati) {
+      const richiestaReso : Reso = {
+        id_ordine: this.ordine.id,
+        id_prodotto: idProdotto,
+        motivo: this.motivo,
+        quantita: this.quantitaSelezionata[idProdotto] || 1, // Default to 1 if not specified
+        stato_reso: 'in attesa',
+        data_richiesta: new Date(),
+        id_taglia 
+
+      };
   
-    /*this.resoService.inviaRichiestaReso(richiestaReso).subscribe({
+      richieste.push(richiestaReso);
+
+    }
+   
+  
+    /*this.resoService.inviaRichiestaReso(richieste).subscribe({
       next: response => {
         alert("Richiesta di reso inviata con successo!");
       },

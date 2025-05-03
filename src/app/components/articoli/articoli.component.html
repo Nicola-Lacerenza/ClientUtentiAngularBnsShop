@@ -12,7 +12,7 @@
     <aside *ngIf="showFilters" class="filters">
       <h2>Filtri</h2>
       <form #filterForm="ngForm" (ngSubmit)="ApplicaFiltri(filterForm)">
-        <!-- Filtri per Genere -->
+        <!-- Genere -->
         <div class="filter-group">
           <h3 (click)="toggleGroup('genere')">
             Genere
@@ -20,12 +20,12 @@
           </h3>
           <div class="filter-options" *ngIf="isGroupExpanded('genere')">
             <label *ngFor="let genere of generi">
-              <input type="checkbox" [name]="genere" ngModel> {{ genere }}
+              <input type="checkbox" [name]="genere" ngModel /> {{ genere }}
             </label>
           </div>
         </div>
 
-        <!-- Filtri per Prezzo -->
+        <!-- Prezzo -->
         <div class="filter-group">
           <h3 (click)="toggleGroup('prezzo')">
             Acquista per Prezzo
@@ -34,16 +34,16 @@
           <div class="filter-options price-input-group" *ngIf="isGroupExpanded('prezzo')">
             <label>
               Inferiore a
-              <input type="number" name="prezzoInferiore" ngModel>
+              <input type="number" name="prezzoInferiore" ngModel />
             </label>
             <label>
               Superiore a
-              <input type="number" name="prezzoSuperiore" ngModel>
+              <input type="number" name="prezzoSuperiore" ngModel />
             </label>
           </div>
         </div>
 
-        <!-- Filtri per Colore -->
+        <!-- Colore -->
         <div class="filter-group">
           <h3 (click)="toggleGroup('colore')">
             Colore
@@ -51,14 +51,14 @@
           </h3>
           <div class="filter-options color-filter" *ngIf="isGroupExpanded('colore')">
             <label *ngFor="let colore of colori" class="color-option">
-              <input type="checkbox" [name]="colore" ngModel>
+              <input type="checkbox" [name]="colore" ngModel />
               <span class="color-circle" [style.background]="colore"></span>
               {{ colore }}
             </label>
           </div>
         </div>
 
-        <!-- Filtri per Taglia -->
+        <!-- Taglia -->
         <div class="filter-group">
           <h3 (click)="toggleGroup('taglia')">
             Taglia/Misura
@@ -66,13 +66,13 @@
           </h3>
           <div class="filter-options size-filter" *ngIf="isGroupExpanded('taglia')">
             <label *ngFor="let taglia of taglie" class="size-option">
-              <input type="checkbox" [name]="taglia" ngModel>
+              <input type="checkbox" [name]="taglia" ngModel />
               <span class="size-box">{{ taglia }}</span>
             </label>
           </div>
         </div>
 
-        <!-- Filtri per Brand -->
+        <!-- Brand -->
         <div class="filter-group">
           <h3 (click)="toggleGroup('brand')">
             Brand
@@ -80,12 +80,12 @@
           </h3>
           <div class="filter-options" *ngIf="isGroupExpanded('brand')">
             <label *ngFor="let brand of brands">
-              <input type="checkbox" [name]="brand" ngModel> {{ brand }}
+              <input type="checkbox" [name]="brand" ngModel /> {{ brand }}
             </label>
           </div>
         </div>
 
-        <!-- Filtri per Categoria -->
+        <!-- Categoria -->
         <div class="filter-group">
           <h3 (click)="toggleGroup('categoria')">
             Categoria
@@ -93,54 +93,78 @@
           </h3>
           <div class="filter-options" *ngIf="isGroupExpanded('categoria')">
             <label *ngFor="let categoria of categorie">
-              <input type="checkbox" [name]="categoria" ngModel> {{ categoria }}
+              <input type="checkbox" [name]="categoria" ngModel /> {{ categoria }}
             </label>
           </div>
         </div>
-      
+
         <button type="submit">Applica filtri</button>
       </form>
     </aside>
 
-    <!-- Contenitore dei prodotti raggruppati per modello -->
+    <!-- Prodotti raggruppati per modello -->
     <div class="products-container">
-      <div class="model-group" *ngFor="let group of prodottiFiltrati" (click)="viewProduct(group.currentProductId)">
+      <div
+        class="model-group"
+        *ngFor="let group of prodottiFiltrati"
+        (click)="viewProduct(group.currentProductId)"
+      >
+        <!-- Main image / video -->
         <div class="main-image">
-          <ng-container *ngIf="isVideo(group.currentImage); else imageTemplate">
-            <video [src]="group.currentImage" muted loop playsinline 
-                   (mouseenter)="playVideo($event)" 
-                   (mouseleave)="pauseVideo($event)">
+          <ng-container *ngIf="isVideo(group.currentImage); else imageTpl">
+            <video
+              [src]="generateUrl(group.currentImage)"
+              muted
+              loop
+              playsinline
+              (mouseenter)="playVideo($event)"
+              (mouseleave)="pauseVideo($event)"
+              style="width:100%; height:auto;"
+            >
+              Il tuo browser non supporta il video.
             </video>
           </ng-container>
-          <ng-template #imageTemplate>
-            <img [src]="getImageUrl(group.currentImage) | async" [alt]="group.modello">
+          <ng-template #imageTpl>
+            <img
+              [src]="getImageUrl(group.currentImage) | async"
+              [alt]="group.modello"
+              style="width:100%; height:auto;"
+            />
           </ng-template>
         </div>
-        
-        
-        <!-- Informazioni del modello sotto l'immagine -->
+
+        <!-- Info modello -->
         <div class="model-info">
           <h3 class="model-title">{{ group.modello }}</h3>
-          <p class="model-target">Target: {{ group.prodotti[0].prodotto.target }}</p>
-          <p class="model-brand">Brand: {{ group.prodotti[0].prodotto.nome_brand }}</p>
+          <p class="model-target">
+            Target: {{ group.prodotti[0].prodotto.target }}
+          </p>
+          <p class="model-brand">
+            Brand: {{ group.prodotti[0].prodotto.nome_brand }}
+          </p>
         </div>
+
+        <!-- Thumbnails -->
         <div class="thumbnail-container">
           <ng-container *ngFor="let item of group.prodotti">
-            <img *ngIf="!isVideo(item.immagini[0]); else videoThumb"
-                 [src]="getImageUrl(item.immagini[0]) | async"
-                 class="thumbnail"
-                 [alt]="'Immagine di ' + group.modello"
-                 (mouseenter)="changeMainImage(group, generateUrl(item.immagini[0]), item.prodotto.id)">
-            <ng-template #videoThumb>
-              <img [src]="generateThumbnailUrl(item.immagini[0])"
-                   class="thumbnail"
-                   [alt]="'Thumbnail video di ' + group.modello"
-                   (mouseenter)="changeMainImage(group, generateThumbnailUrl(item.immagini[0]), item.prodotto.id)">
+            <ng-container *ngIf="!isVideo(item.immagini[0]); else vidThumb">
+              <img
+                [src]="getImageUrl(item.immagini[0]) | async"
+                class="thumbnail"
+                [alt]="'Immagine di ' + group.modello"
+                (mouseenter)="changeMainImage(group, item.immagini[0], item.prodotto.id)"
+              />
+            </ng-container>
+            <ng-template #vidThumb>
+              <img
+                [src]="generateThumbnailUrl(item.immagini[0])"
+                class="thumbnail"
+                [alt]="'Thumbnail video di ' + group.modello"
+                (mouseenter)="changeMainImage(group, item.immagini[0], item.prodotto.id)"
+              />
             </ng-template>
           </ng-container>
         </div>
-        
-        
       </div>
     </div>
   </div>
