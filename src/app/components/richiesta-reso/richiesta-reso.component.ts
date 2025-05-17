@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrdineService } from '../../services/ordine.service';
 import { ResoService } from '../../services/reso.service';
@@ -7,104 +7,117 @@ import { Ordine } from '../../models/ordine.interface';
 import { environment } from '../../../environments/environment';
 import { ProdottiFull } from '../../models/prodottiFull.interface';
 import { Reso } from '../../models/reso.interface';
+import { GestioneImmaginiService } from '../../services/gestione-immagini.service';
+import { Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-richiesta-reso',
   templateUrl: './richiesta-reso.component.html',
-  styleUrl: './richiesta-reso.component.css'
+  styleUrls: ['./richiesta-reso.component.css']
 })
-export class RichiestaResoComponent {
+export class RichiestaResoComponent implements OnInit {
   ordine!: Ordine;
   motivo: string = '';
-  prodottiSelezionati: number[] = [];
-  quantitaSelezionata: Record<number, number> = {};
-
+  prodottiSelezionati: string[] = [];
+  quantitaSelezionata: Record<string, number> = {};
 
   constructor(
     private route: ActivatedRoute,
     private ordineService: OrdineService,
     private resoService: ResoService,
-  ) { }
+    private gestioneImmagini : GestioneImmaginiService
+  ) {}
 
   ngOnInit(): void {
     this.getOrdine();
   }
 
-  
-  toggleProdotto(idProdotto: number, event: Event) {
-    const input = event.target as HTMLInputElement;
-  
-    if (input.checked) {
-      this.prodottiSelezionati.push(idProdotto);
-    } else {
-      this.prodottiSelezionati = this.prodottiSelezionati.filter(id => id !== idProdotto);
-    }
+  public getImageUrl(imageName: string): Observable<string | undefined> {
+    return this.gestioneImmagini.getUrlImmagine(imageName);
   }
   
-  submitReso() {
-    if (this.prodottiSelezionati.length === 0) {
-      alert('Seleziona almeno un prodotto da restituire.');
-      return;
-    }
-  
-    const richieste : Reso[] = [];
-    /*for (const idProdotto of this.prodottiSelezionati) {
-      const richiestaReso : Reso = {
-        id_ordine: this.ordine.id,
-        id_prodotto: idProdotto,
-        motivo: this.motivo,
-        quantita: this.quantitaSelezionata[idProdotto] || 1, // Default to 1 if not specified
-        stato_reso: 'in attesa',
-        data_richiesta: new Date(),
-        id_taglia 
-
-      };
-  
-      richieste.push(richiestaReso);
-
-    }
-   
-  
-    /*this.resoService.inviaRichiestaReso(richieste).subscribe({
-      next: response => {
-        alert("Richiesta di reso inviata con successo!");
-      },
-      error: err => {
-        console.error("Errore nell'invio del reso", err);
-      }
-    });*/
-  }
-  
-  
-  private getOrdine() {
-    const idOrdine = Number(this.route.snapshot.paramMap.get('id'));
-
-    this.ordineService.getOrdine(idOrdine).subscribe({
-      next: (data:ServerResponse) => {
-        this.ordine = <Ordine>data.message;
-        console.log(this.ordine);
-      },
-      error: (error) => {
-        console.error('Errore nel recupero degli ordini:', error);
-      }
-    });
-  }
-
-  public generateUrl(filename: string): string {
-    return `${environment.serverUrl}/${filename}`;
+  public getTagliaEu(prodotto: ProdottiFull): string {
+    return prodotto.taglieProdotto[0]?.taglia.taglia_Eu || '';
   }
 
   getDisponibilita(prodotto: ProdottiFull): number {
-    const wrapper = prodotto.taglieProdotto.find(tp => tp.taglia_prodotti.id_prodotto === prodotto.id);
-    return wrapper?.taglia_prodotti.quantita ?? 1;
+    return prodotto.taglieProdotto[0]?.taglia_prodotti.quantita || 1;
   }
 
   getRange(max: number): number[] {
     return Array.from({ length: max }, (_, i) => i + 1);
   }
 
-  isSelected(id: number): boolean {
-    return this.prodottiSelezionati.includes(id);
+  /** Chiave composita id-taglia-index */
+  prodottoKey(prodotto: ProdottiFull, index: number): string {
+    return `${prodotto.id}-${this.getTagliaEu(prodotto)}-${index}`;
   }
 
+  /**
+   * ARROW FUNCTION per mantenere il contesto di `this` correttamente
+   * Angular la chiamerà sempre con il `this` del componente
+   */
+  trackByProdotto = (index: number, prodotto: ProdottiFull): string =>
+    this.prodottoKey(prodotto, index);
+
+  isSelected(key: string): boolean {
+    return this.prodottiSelezionati.includes(key);
+  }
+
+  toggleProdotto(key: string, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      this.prodottiSelezionati.push(key);
+    } else {
+      this.prodottiSelezionati = this.prodottiSelezionati.filter(k => k !== key);
+      delete this.quantitaSelezionata[key];
+    }
+  }
+
+  submitReso() {
+
+    if (this.prodottiSelezionati.length === 0) {
+      alert('Seleziona almeno un prodotto da restituire.');
+      return;
+    }
+
+    const elencoResi : Reso[] = [];
+    for(const prodottoSelezionato of this.prodottiSelezionati){
+      const [idStr, tag, idx] = prodottoSelezionato.split('-');
+      const quantita : number = this.quantitaSelezionata[prodottoSelezionato];
+      const nuovoReso : Reso = {
+        id:0,
+        id_ordine: this.ordine.id,
+        id_prodotto : parseInt(idStr),
+        numero_taglia : tag,
+        data_richiesta : new Date(),
+        motivo : this.motivo,
+        prezzo_unitario : this.ordine.prodotti[parseInt(idx)].prezzo,
+        quantita : quantita,
+        valuta : this.ordine.valuta,
+        stato_reso : 'IN ATTESA DI APPROVAZIONE',
+        data_rimborso : new Date(),
+        importo : 0
+      };
+      elencoResi.push(nuovoReso);
+    }
+
+    this.resoService.creaReso({body:elencoResi}).subscribe({
+      next: (data: ServerResponse) => {
+        console.log(data);
+      },
+      error: (error : HttpErrorResponse) => {
+        console.error(error);
+      }
+    });
+  }
+
+  private getOrdine() {
+    const idOrdine = Number(this.route.snapshot.paramMap.get('id'));
+    this.ordineService.getOrdine(idOrdine).subscribe({
+      next: (data: ServerResponse) => this.ordine = data.message as Ordine,
+      error: error => console.error('Errore nel recupero dell\'ordine:', error)
+    });
+  }
 }

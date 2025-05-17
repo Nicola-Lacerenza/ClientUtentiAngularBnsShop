@@ -1,4 +1,6 @@
 <form #shoeForm="ngForm" (ngSubmit)="actionProdotti(shoeForm)" enctype="multipart/form-data">
+  
+  <!-- Campo Immagini -->
   <div class="form-group">
     <label for="media">Media del prodotto (immagini e video)</label>
     <input type="file" id="media" name="media" (change)="onMediaChange($event)" multiple accept="image/*,video/*" ngModel />

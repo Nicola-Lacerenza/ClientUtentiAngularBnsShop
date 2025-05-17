@@ -13,6 +13,6 @@ export class ResoService {
   constructor(private httprequest:HttpRequestService) { }
 
     public creaReso(body:ServerRequest):Observable<ServerResponse>{
-      return this.httprequest.postRequest(environment.serverUrl + "/ResoServlet",body)
+      return this.httprequest.postRequest(environment.serverUrl + "/ResiServlet",body)
     }
 }

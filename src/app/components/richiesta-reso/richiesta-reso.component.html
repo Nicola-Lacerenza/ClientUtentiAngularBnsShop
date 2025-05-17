@@ -4,34 +4,49 @@
   <form (ngSubmit)="submitReso()" #resoForm="ngForm">
     <div class="prodotti-lista">
       <h3>Prodotti acquistati</h3>
-      <ng-container *ngFor="let prodotto of ordine.prodotti">
+
+      <ng-container *ngFor="let prodotto of ordine.prodotti; let i = index; trackBy: trackByProdotto">
         <div class="prodotto-item">
           <label class="prodotto-label">
+            <!-- Checkbox con key composita id-taglia -->
             <input
               type="checkbox"
-              [checked]="isSelected(prodotto.id)"
-              (change)="toggleProdotto(prodotto.id, $event)"
+              [checked]="isSelected(prodottoKey(prodotto, i))"
+              (change)="toggleProdotto(prodottoKey(prodotto, i), $event)"
             />
+
             <div class="img-wrapper">
-              <img [src]="generateUrl(prodotto.url[0])" alt="{{ prodotto.nome_modello }}" />
+              <ng-container *ngIf="getImageUrl(prodotto.url[0]) | async as imageUrl">
+                <img
+                  [src]="imageUrl"
+                  alt="{{ prodotto.nome_modello }} taglia {{ getTagliaEu(prodotto) }}"
+                />
+              </ng-container>
             </div>
+
             <div class="prodotto-info">
               <strong>{{ prodotto.nome_modello }}</strong><br />
+              Taglia: <em>{{ getTagliaEu(prodotto) }}</em><br />
               {{ prodotto.nome_brand }} - {{ prodotto.nome_colore.join(', ') }}<br />
               Prezzo: €{{ prodotto.prezzo | number:'1.2-2' }}
             </div>
           </label>
 
-          <div *ngIf="isSelected(prodotto.id)" class="quantita-reso">
-            <label for="qta-{{ prodotto.id }}">Quantità da rendere:</label>
+          <div *ngIf="isSelected(prodottoKey(prodotto, i))" class="quantita-reso">
+            <label for="qta-{{ prodottoKey(prodotto, i) }}">
+              Quantità da rendere:
+            </label>
             <select
-              id="qta-{{ prodotto.id }}"
-              name="qta-{{ prodotto.id }}"
-              [(ngModel)]="quantitaSelezionata[prodotto.id]"
+              id="qta-{{ prodottoKey(prodotto, i) }}"
+              name="qta-{{ prodottoKey(prodotto, i) }}"
+              [(ngModel)]="quantitaSelezionata[prodottoKey(prodotto, i)]"
               required
             >
               <option value="" disabled>Seleziona...</option>
-              <option *ngFor="let q of getRange(getDisponibilita(prodotto))" [value]="q">
+              <option
+                *ngFor="let q of getRange(getDisponibilita(prodotto))"
+                [value]="q"
+              >
                 {{ q }}
               </option>
             </select>
@@ -51,6 +66,8 @@
       ></textarea>
     </div>
 
-    <button type="submit" [disabled]="!resoForm.form.valid">Invia Richiesta di Reso</button>
+    <button type="submit" [disabled]="!resoForm.form.valid">
+      Invia Richiesta di Reso
+    </button>
   </form>
 </div>

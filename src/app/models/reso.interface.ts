@@ -4,7 +4,7 @@ export interface Reso {
     id : number;
     id_ordine : number;
     id_prodotto : number;
-    id_taglia : number; 
+    numero_taglia : string; 
     data_richiesta : Date;
     motivo : string;
     prezzo_unitario : number;
