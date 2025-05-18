@@ -105,10 +105,13 @@ export class RichiestaResoComponent implements OnInit {
 
     this.resoService.creaReso({body:elencoResi}).subscribe({
       next: (data: ServerResponse) => {
-        console.log(data);
-      },
+        setTimeout(() => {
+          window.history.back();
+          }, 2000);      },
       error: (error : HttpErrorResponse) => {
         console.error(error);
+              setTimeout(() => {
+              }, 3000);
       }
     });
   }

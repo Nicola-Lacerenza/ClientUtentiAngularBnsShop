@@ -6,11 +6,10 @@
         <div class="filter-item">
           <label for="status">Stato:</label>
           <select id="status" [(ngModel)]="statusFilter" (change)="onStatusFilterChange(statusFilter)">
-            <option value="all">Tutti</option>
-            <option value="requested">In richieste</option>
-            <option value="approved">Approvati</option>
-            <option value="rejected">Rifiutati</option>
-            <option value="completed">Completati</option>
+            <option value="IN ATTESA DI APPROVAZIONE">IN ATTESA DI APPROVAZIONE</option>
+            <option value="IN ATTESA DI RICEZIONE">IN ATTESA DI RICEZIONE</option>
+            <option value="APPROVATO E RIMBORSATO">APPROVATO E RIMBORSATO</option>
+            <option value="NEGATO">NEGATO</option>
           </select>
         </div>
         <div class="filter-item">
@@ -35,39 +34,43 @@
             <th>Cliente</th>
             <th>Data</th>
             <th>Stato</th>
+            <th>Prezzo</th>
+            <th>Motivo</th>
             <th class="actions-col">Azioni</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let r of filteredReturns">
+          <tr *ngFor="let r of resi">
             <td>{{ r.id }}</td>
-            <td>{{ r.orderNumber }}</td>
-            <td>{{ r.customerName }}</td>
-            <td>{{ r.dateRequested | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ r.id_ordine }}</td>
+            <td>{{ "NOME CLIENTE" }}</td>
+            <td>{{ r.data_richiesta| date: 'dd/MM/yyyy' }}</td>
             <td>
-              <span class="badge" [ngClass]="'badge-' + r.status">
-                {{ r.status }}
+              <span class="badge" [ngClass]="'badge-' + r.stato_reso">
+                {{ r.stato_reso }}
               </span>
             </td>
+            <td>{{ r.importo| currency : 'EUR' }}</td>
+            <td>{{ r.motivo }}</td>
             <td class="actions-col">
-              <button class="btn btn-approve" *ngIf="r.status==='requested'" (click)="approveReturn(r.id)">
+              <button class="btn btn-approve" *ngIf="r.stato_reso==='IN ATTESA DI APPROVAZIONE'" (click)="approveReturn(r.id)">
                 ✔
               </button>
-              <button class="btn btn-reject" *ngIf="r.status==='requested'" (click)="rejectReturn(r.id,'')">
+              <button class="btn btn-reject" *ngIf="r.stato_reso==='IN ATTESA DI RICEZIONE'" (click)="rejectReturn(r.id,'')">
                 ✖
               </button>
-              <button class="btn btn-complete" *ngIf="r.status==='approved'" (click)="completeReturn(r.id)">
+              <button class="btn btn-complete" *ngIf="r.stato_reso==='IN ATTESA DI RICEZIONE'" (click)="completeReturn(r.id)">
                 🏷
               </button>
-              <button class="btn btn-label" *ngIf="r.labelUrl" (click)="downloadLabel(r.id)">
+              <button class="btn btn-label" *ngIf="" (click)="downloadLabel(r.id)">
                 📄
               </button>
-              <button class="btn btn-refund" *ngIf="r.status==='completed'" (click)="issueRefund(r.id)">
+              <button class="btn btn-refund" *ngIf="r.stato_reso==='APPROVATO E RIMBORSATO'" (click)="issueRefund(r.id)">
                 💶
               </button>
             </td>
           </tr>
-          <tr *ngIf="filteredReturns.length === 0">
+          <tr *ngIf="resi.length === 0">
             <td colspan="6" class="empty">Nessun reso trovato.</td>
           </tr>
         </tbody>
