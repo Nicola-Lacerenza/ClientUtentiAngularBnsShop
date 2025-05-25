@@ -21,6 +21,8 @@ import { CheckoutFailureComponent } from './components/checkout-failure/checkout
 import { ListaOrdiniComponent } from './components/lista-ordini/lista-ordini.component';
 import { RichiestaResoComponent } from './components/richiesta-reso/richiesta-reso.component';
 import { GestioneOrdiniAdminComponent } from './components/gestione-ordini-admin/gestione-ordini-admin.component';
+import { RiceviCodiceGoogleComponent } from './components/ricevi-codice-google/ricevi-codice-google.component';
+import { GoogleLoginComponent } from './components/google-login/google-login.component';
 
 const routes: Routes = [
   {path:'',component:WelcomeComponent},
@@ -44,6 +46,8 @@ const routes: Routes = [
   {path:'cart',component:CartComponent},
   {path:'size-selector',component:SizeSelectorComponent},
   {path:'logout',component:LogoutComponent},
+  {path:'ricevi-codice-google',component:RiceviCodiceGoogleComponent},
+  {path:'login-google',component:GoogleLoginComponent},
   {path:'**',component:ErrorComponent}
 ];
 
