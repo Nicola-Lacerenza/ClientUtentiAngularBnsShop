@@ -1,0 +1,39 @@
+<form [formGroup]="emailForm" (ngSubmit)="sendEmail()" novalidate>
+  <div class="form-group">
+    <label for="recipient">Destinatario</label>
+    <input id="recipient" type="email" formControlName="recipient" placeholder="es. nome@example.com" />
+    <div class="error" *ngIf="emailForm.get('recipient')?.touched && emailForm.get('recipient')?.invalid">
+      <small *ngIf="emailForm.get('recipient')?.hasError('required')">Il destinatario è obbligatorio.</small>
+      <small *ngIf="emailForm.get('recipient')?.hasError('email')">Formato email non valido.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="subject">Oggetto</label>
+    <input id="subject" type="text" formControlName="subject" />
+    <div class="error" *ngIf="emailForm.get('subject')?.touched && emailForm.get('subject')?.invalid">
+      <small>L'oggetto è obbligatorio.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="body">Testo</label>
+    <textarea id="body" formControlName="body" rows="5"></textarea>
+    <div class="error" *ngIf="emailForm.get('body')?.touched && emailForm.get('body')?.invalid">
+      <small>Il testo è obbligatorio.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="fileInput">Allega PDF</label>
+    <input id="fileInput" type="file" (change)="onFileSelected($event)" accept="application/pdf" />
+    <div class="error" *ngIf="emailForm.get('attachment')?.touched && emailForm.get('attachment')?.invalid">
+      <small>È necessario allegare un PDF.</small>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button type="button" (click)="close()">Annulla</button>
+    <button type="submit" [disabled]="emailForm.invalid">Invia</button>
+  </div>
+</form>

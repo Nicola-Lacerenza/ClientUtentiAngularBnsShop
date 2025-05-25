@@ -3,16 +3,21 @@ import { HttpRequestService } from './http-request.service';
 import { ServerRequest } from '../models/ServerRequest.interface';
 import { ServerResponse } from '../models/ServerResponse.interface';
 import { environment } from '../../environments/environment';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { Reso_Ricevuto_Server } from '../models/reso_ricevuto_server.interface';
 import { Reso } from '../models/reso.interface';
+import { OrdineService } from './ordine.service';
+import { Ordine } from '../models/ordine.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResoService {
 
-  constructor(private httprequest:HttpRequestService) { }
+  constructor(
+    private httprequest:HttpRequestService,
+    private ordineService :OrdineService
+  ) { }
 
     public creaReso(body:ServerRequest):Observable<ServerResponse>{
       return this.httprequest.postRequest(environment.serverUrl + "/ResiServlet",body)
@@ -37,6 +42,16 @@ export class ResoService {
 
 
     private convertServerResponseToReso(reso:Reso_Ricevuto_Server):Reso{
+      /*const ordine1 : ServerResponse = this.ordineService.getOrdine(reso.id_ordine)
+        .subscribe({
+          next: (response: ServerResponse) => {
+            return response.message as Ordine;
+          },
+          error: (error: any) => {
+            console.error('Errore durante il recupero dell\'ordine:', error);
+            return null; // O gestisci l'errore come preferisci
+          }
+        });*/
       return {
           id : reso.id,
           id_ordine : reso.id_ordine,

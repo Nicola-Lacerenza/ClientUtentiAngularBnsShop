@@ -46,8 +46,8 @@ const routes: Routes = [
   {path:'cart',component:CartComponent},
   {path:'size-selector',component:SizeSelectorComponent},
   {path:'logout',component:LogoutComponent},
-  {path:'ricevi-codice-google',component:RiceviCodiceGoogleComponent},
-  {path:'login-google',component:GoogleLoginComponent},
+  {path:'ricevi-codice-google',component:RiceviCodiceGoogleComponent, canActivate:[authGuard,roleGuard]},
+  {path:'login-google',component:GoogleLoginComponent, canActivate:[authGuard,roleGuard]},
   {path:'**',component:ErrorComponent}
 ];
 

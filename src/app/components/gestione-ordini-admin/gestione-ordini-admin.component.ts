@@ -5,6 +5,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ServerResponse } from '../../models/ServerResponse.interface';
 import { Reso } from '../../models/reso.interface';
 import { Reso_Ricevuto_Server } from '../../models/reso_ricevuto_server.interface';
+import { PopUpManagerService } from '../../services/pop-up-manager.service';
+import { GestioneOrdiniInviaEmailComponent } from '../gestione-ordini-invia-email/gestione-ordini-invia-email.component';
+import { Ordine } from '../../models/ordine.interface';
+import { OrdineService } from '../../services/ordine.service';
 
 @Component({
   selector: 'app-gestione-ordini-admin',
@@ -17,7 +21,9 @@ export class GestioneOrdiniAdminComponent implements OnInit {
   searchTerm: string = '';
 
   constructor(
-    private resoService : ResoService
+    private resoService : ResoService,
+    private ordineService : OrdineService,
+    private popUp: PopUpManagerService,
     ) {}
 
 
@@ -54,7 +60,7 @@ export class GestioneOrdiniAdminComponent implements OnInit {
   }
 
   approveReturn(id: number): void {
-   
+    //this.popUp.openForm(GestioneOrdiniInviaEmailComponent, { recipient : this.});
   }
 
   rejectReturn(id: number, comment: string = ''): void {

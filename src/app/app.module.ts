@@ -33,6 +33,7 @@ import { ListaResiComponent } from './components/lista-resi/lista-resi.component
 import { ListaIndirizziComponent } from './components/lista-indirizzi/lista-indirizzi.component';
 import { RichiestaResoComponent } from './components/richiesta-reso/richiesta-reso.component';
 import { GestioneOrdiniAdminComponent } from './components/gestione-ordini-admin/gestione-ordini-admin.component';
+import { GestioneOrdiniInviaEmailComponent } from './components/gestione-ordini-invia-email/gestione-ordini-invia-email.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { GestioneOrdiniAdminComponent } from './components/gestione-ordini-admin
     ListaResiComponent,
     ListaIndirizziComponent,
     RichiestaResoComponent,
-    GestioneOrdiniAdminComponent
+    GestioneOrdiniAdminComponent,
+    GestioneOrdiniInviaEmailComponent
   ],
   imports: [
   BrowserModule,
