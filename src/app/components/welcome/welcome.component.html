@@ -96,7 +96,7 @@
         <ng-container>
           <a routerLink="/articoli">
             <div class="image-container">
-              <img [src]="getImageUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
+              <img [src]="getImageUrl(item.immagini[0])| async" alt="{{ item.prodotto.nome_modello}}">
               <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
             </div>
           </a>
@@ -117,7 +117,7 @@
         <ng-container>
           <a routerLink="/articoli">
             <div class="image-container">
-              <img [src]="getImageUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
+              <img [src]="getImageUrl(item.immagini[0])| async" alt="{{ item.prodotto.nome_modello}}">
               <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
             </div>
           </a>
@@ -138,7 +138,7 @@
         <ng-container>
           <a routerLink="/articoli">
             <div class="image-container">
-              <img [src]="getImageUrl(item.immagini[0])" alt="{{ item.prodotto.nome_modello}}">
+              <img [src]="getImageUrl(item.immagini[0])| async" alt="{{ item.prodotto.nome_modello}}">
               <button class="shoe-button">{{ item.prodotto.nome_modello}}</button>
             </div>
           </a>

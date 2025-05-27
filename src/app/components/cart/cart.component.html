@@ -6,7 +6,7 @@
         <td class="product-container">
           <div class="image-container">
             <a (click)="openPDP(item.product.id)" class="pdp-link">
-              <img [src]="getImageUrl(item.product.url[0])" alt="{{ item.product.nome_modello }}" class="product-image">
+              <img [src]="getImageUrl(item.product.url[0]) | async" alt="{{ item.product.nome_modello }}" class="product-image">
             </a>
           </div>
           <div class="info-container">
@@ -70,7 +70,7 @@
   <div class="popup-overlay" (click)="closeSizeSelector()"></div>
   <div class="popup">
     <div class="popup-content">
-      <img [src]="getImageUrl(selectedItem.url[0])" alt="{{ selectedItem.nome_modello}}" class="popup-product-image">
+      <img [src]="getImageUrl(selectedItem.url[0])| async" alt="{{ selectedItem.nome_modello}}" class="popup-product-image">
       <div class="popup-details">
         <h3>Seleziona la taglia per {{ selectedItem.nome_modello }}</h3>
         <div class="sizes-container">

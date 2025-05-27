@@ -9,13 +9,13 @@
             <video #mainVideo
                    (loadedmetadata)="onLoadedMetadata()"
                    (timeupdate)="onTimeUpdate()">
-              <source [src]="getImageUrl(urlListProductToUpdate[actualMainImage])" type="video/mp4">
+              <source [src]="getImageUrl(urlListProductToUpdate[actualMainImage])| async" type="video/mp4">
               Il tuo browser non supporta il tag video.
             </video>
           </div>
         </ng-container>
         <ng-template #imgTemplate>
-          <img [src]="getImageUrl(urlListProductToUpdate[actualMainImage])" alt="Main Preview" />
+          <img [src]="getImageUrl(urlListProductToUpdate[actualMainImage])| async" alt="Main Preview" />
         </ng-template>
       </div>
       
@@ -33,7 +33,7 @@
       <div class="thumbnail-images">
         <ng-container *ngFor="let singleUrl of urlListProductToUpdate; index as i">
           <img *ngIf="!isVideo(singleUrl)" 
-               [src]="getImageUrl(singleUrl)"
+               [src]="getImageUrl(singleUrl)| async"
                [class.active]="i === actualMainImage"
                alt="Thumbnail"
                (mouseenter)="setMainImage(i)" />
@@ -130,7 +130,7 @@
     </div>
     <div class="popup-body">
       <div class="popup-image">
-        <img [src]="getImageUrl(urlListProductToUpdate![actualMainImage])" alt="Prodotto aggiunto" />
+        <img [src]="getImageUrl(urlListProductToUpdate![actualMainImage]) | async" alt="Prodotto aggiunto" />
       </div>
       <div class="popup-info">
         <h4>{{ addedProductName }}</h4>
