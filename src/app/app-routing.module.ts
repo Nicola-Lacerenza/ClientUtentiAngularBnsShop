@@ -37,7 +37,7 @@ const routes: Routes = [
   {path:'checkout-failure',component:CheckoutFailureComponent},
   {path:'addProduct', component: AddProductComponent, canActivate:[authGuard,roleGuard]},
   {path:'addCodiceSconto', component: AddCodicescontoComponent, canActivate:[authGuard,roleGuard]},
-  {path:'member', component: MemberComponent, canActivate:[authGuard,roleGuard],children:[
+  {path:'member', component: MemberComponent, canActivate:[authGuard],children:[
     {path:'listaOrdini', component: ListaOrdiniComponent},
     {path:'reso/:id', component: RichiestaResoComponent}
   ]},
