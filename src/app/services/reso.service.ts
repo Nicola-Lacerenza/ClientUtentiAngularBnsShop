@@ -1,9 +1,9 @@
-import { Injectable, resolveForwardRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpRequestService } from './http-request.service';
 import { ServerRequest } from '../models/ServerRequest.interface';
 import { ServerResponse } from '../models/ServerResponse.interface';
 import { environment } from '../../environments/environment';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Reso_Ricevuto_Server } from '../models/reso_ricevuto_server.interface';
 import { Reso } from '../models/reso.interface';
 import { OrdineService } from './ordine.service';
@@ -28,9 +28,9 @@ export class ResoService {
       return this.httprequest.getRequest(environment.serverUrl + "/ResiServlet?id="+id);
     }
 
-    public async getResi(): Promise<Observable<Reso[]>>{
-      return new Promise<Observable<Reso[]>>((resolve,reject) => {
-        this.httprequest.getRequest(environment.serverUrl + "/ResiServlet").pipe(
+    public async getResi(): Promise<Observable<Promise<Reso[]>>>{
+      return new Promise<Observable<Promise<Reso[]>>>((resolve,reject) => {
+        const array:Observable<Promise<Reso[]>> = this.httprequest.getRequest(environment.serverUrl + "/ResiServlet").pipe(
           map(async(data:ServerResponse) => {
             const tmp:Reso_Ricevuto_Server[] = <Reso_Ricevuto_Server[]>data.message;
             const resi:Reso[] = [];
@@ -38,9 +38,11 @@ export class ResoService {
               const reso : Reso = await this.convertServerResponseToReso(tmp[i])
                 resi.push(reso);
             }
-            resolve(of(resi));
-        })
-      )});
+            return resi;
+          })
+        )
+        resolve(array);
+      });
     }
 
     private getOrdine(id_ordine:number):Promise<Ordine>{
@@ -65,7 +67,7 @@ export class ResoService {
             id : reso.id,
             ordine : ordine,
             id_prodotto : reso.id_prodotto,
-            numero_taglia : reso.numero_taglia, 
+            numero_taglia : reso.numero_taglia,
             data_richiesta : new Date(
               reso.data_richiesta.year,
               reso.data_richiesta.month - 1,

@@ -2,12 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ResoService } from '../../services/reso.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ServerResponse } from '../../models/ServerResponse.interface';
 import { Reso } from '../../models/reso.interface';
-import { Reso_Ricevuto_Server } from '../../models/reso_ricevuto_server.interface';
 import { PopUpManagerService } from '../../services/pop-up-manager.service';
-import { GestioneOrdiniInviaEmailComponent } from '../gestione-ordini-invia-email/gestione-ordini-invia-email.component';
-import { Ordine } from '../../models/ordine.interface';
 import { OrdineService } from '../../services/ordine.service';
 import { Observable } from 'rxjs';
 
@@ -34,10 +30,10 @@ export class GestioneOrdiniAdminComponent implements OnInit {
 
   private async getResi() {
     this.resoService.getResi()
-    .then((response: Observable<Reso[]>) => {
+    .then((response: Observable<Promise<Reso[]>>) => {
       response.subscribe({
-        next: (response : Reso[]) => {
-          this.resi = response;
+        next: async (response : Promise<Reso[]>) => {
+          this.resi = await response;
           console.log('Resi recuperati:', this.resi);
         },
         error: (error : HttpErrorResponse) => {
@@ -68,15 +64,12 @@ export class GestioneOrdiniAdminComponent implements OnInit {
   }
 
   rejectReturn(id: number, comment: string = ''): void {
-    
   }
 
   completeReturn(id: number): void {
-    
   }
 
   downloadLabel(id: number): void {
-    
   }
 
   issueRefund(id: number): void {
