@@ -41,7 +41,8 @@ export class GestioneImmaginiService {
   }
 
   public caricaImmagine(nomeFile : string) : void {
-    this.httpRequest.getImmagine(nomeFile).subscribe({
+    const url:string = nomeFile.split("/")[1];
+    this.httpRequest.getImmagine(url).subscribe({
       next : (Immagine: Blob) => {
         const nuovoUrl : string = URL.createObjectURL(Immagine);
         this.urls.set(nomeFile, nuovoUrl);
