@@ -88,7 +88,7 @@ export class RichiestaResoComponent implements OnInit {
       const quantita : number = this.quantitaSelezionata[prodottoSelezionato];
       const nuovoReso : Reso = {
         id:0,
-        id_ordine: this.ordine.id,
+        ordine: this.ordine,
         id_prodotto : parseInt(idStr),
         numero_taglia : tag,
         data_richiesta : new Date(),
@@ -119,7 +119,7 @@ export class RichiestaResoComponent implements OnInit {
   private getOrdine() {
     const idOrdine = Number(this.route.snapshot.paramMap.get('id'));
     this.ordineService.getOrdine(idOrdine).subscribe({
-      next: (data: ServerResponse) => this.ordine = data.message as Ordine,
+      next: (data: Ordine) => this.ordine = data,
       error: error => console.error('Errore nel recupero dell\'ordine:', error)
     });
   }

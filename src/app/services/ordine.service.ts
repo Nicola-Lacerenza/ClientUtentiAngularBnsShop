@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestService } from './http-request.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ServerResponse } from '../models/ServerResponse.interface';
 import { environment } from '../../environments/environment';
 import { ServerRequest } from '../models/ServerRequest.interface';
+import { Ordine } from '../models/ordine.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,13 @@ export class OrdineService {
 
   constructor(private httprequest:HttpRequestService) { }
 
-  public getOrdine(id:number):Observable<ServerResponse>{
-    return this.httprequest.getRequest(environment.serverUrl + "/OrdineServlet?id="+id);
+  public getOrdine(id:number):Observable<Ordine>{
+    return this.httprequest.getRequest(environment.serverUrl + "/OrdineServlet?id="+id).pipe(
+      map((response: ServerResponse) => {
+        const data = <Ordine>response.message;
+        return data;
+      })
+    );
   }
 
   public getOrdini(): Observable<ServerResponse>{

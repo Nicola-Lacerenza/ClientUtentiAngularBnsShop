@@ -9,6 +9,7 @@ import { PopUpManagerService } from '../../services/pop-up-manager.service';
 import { GestioneOrdiniInviaEmailComponent } from '../gestione-ordini-invia-email/gestione-ordini-invia-email.component';
 import { Ordine } from '../../models/ordine.interface';
 import { OrdineService } from '../../services/ordine.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-gestione-ordini-admin',
@@ -31,15 +32,18 @@ export class GestioneOrdiniAdminComponent implements OnInit {
     this.getResi();
   }
 
-  private getResi() {
-    this.resoService.getResi().subscribe({
-      next: (response : Reso[]) => {
-        this.resi = response;
-        console.log('Resi recuperati:', this.resi);
-      },
-      error: (error : HttpErrorResponse) => {
-        console.error('Errore durante il recupero dei resi:', error);
-      }
+  private async getResi() {
+    this.resoService.getResi()
+    .then((response: Observable<Reso[]>) => {
+      response.subscribe({
+        next: (response : Reso[]) => {
+          this.resi = response;
+          console.log('Resi recuperati:', this.resi);
+        },
+        error: (error : HttpErrorResponse) => {
+          console.error('Errore durante il recupero dei resi:', error);
+        }
+      });
     });
   }
 

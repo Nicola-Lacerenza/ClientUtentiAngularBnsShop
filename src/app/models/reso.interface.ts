@@ -1,8 +1,8 @@
-import { ProdottiFull } from "./prodottiFull.interface";
+import { Ordine } from "./ordine.interface";
 
 export interface Reso {
     id : number;
-    id_ordine : number;
+    ordine : Ordine;
     id_prodotto : number;
     numero_taglia : string; 
     data_richiesta : Date;
