@@ -12,8 +12,8 @@ import { ServerResponse } from '../../models/ServerResponse.interface';
 })
 export class LoginComponent implements OnInit{
 
-  errMsg : string="Spiacente, la userId e/o la password sono errati";
-  
+  errMsg: string = "";    
+
   titolo : string="Accesso & Autentificazione";
 
   sottotitolo : string="Procedi ad inserire la UserId e la Password";
@@ -25,12 +25,16 @@ export class LoginComponent implements OnInit{
   
    public loginNow(form:NgForm){
       if(form.valid){
+
+        this.errMsg = "";  
+
         this.BasicAuth.doLogin(form.value).subscribe({
           next:(response:ServerResponse)=>{
             this.BasicAuth.setLogged(<string>response.message);
           },
           error:(error:HttpErrorResponse)=>{
             console.error(error);
+            this.errMsg = "Spiacente, la userId e/o la password sono errati";
           }
         })
       }
