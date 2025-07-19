@@ -1,7 +1,11 @@
-/* gestione-ordini-invia-email.component.ts */
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ResoService } from './../../services/reso.service';
+import { ServerRequest } from '../../models/ServerRequest.interface';
+import { ServerResponse } from '../../models/ServerResponse.interface';
+import { Reso } from '../../models/reso.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface EmailDialogData {
   recipient: string;
@@ -14,21 +18,43 @@ export interface EmailDialogData {
 })
 
 export class GestioneOrdiniInviaEmailComponent implements OnInit {
-  emailForm: FormGroup;
+  emailForm: FormGroup = this.fb.group({
+    recipient: ['', [Validators.required, Validators.email]],
+    subject: ['', Validators.required],
+    body: ['', Validators.required],
+    attachment: [null]
+  });
   selectedFile: File | null = null;
+  idReso : number | undefined;
 
   constructor(
     private fb: FormBuilder,
+    private resoService : ResoService,
     private dialogRef: MatDialogRef<GestioneOrdiniInviaEmailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EmailDialogData
+    @Inject(MAT_DIALOG_DATA) public data: { _id : number | undefined }
   ) {
-    // Inizializzo il form con il destinatario passato dal parent
-    this.emailForm = this.fb.group({
-      recipient: [data.recipient || '', [Validators.required, Validators.email]],
-      subject: ['', Validators.required],
-      body: ['', Validators.required],
-      attachment: [null, Validators.required]
-    });
+    this.idReso = data._id;
+    if(!this.idReso){
+      return;
+    }
+    this.resoService.getReso(this.idReso)
+    .then(response => {
+      response.subscribe({
+        next: (response : Promise<Reso>) => {
+          response.then(reso => {
+            /*ìthis.emailForm.patchValue({
+              recipient: reso.,
+              subject: `Reso #${reso.id} - ${reso.prodotto}`,
+              body: `Richiesta di reso per il prodotto ${reso.prodotto}`
+            });  */
+            console.log('Reso recuperato:', reso);       
+          }).catch(error => console.error(error));
+        },
+        error: (error : HttpErrorResponse) => {
+          console.error(error);
+        }
+      })
+    })
   }
 
   ngOnInit(): void {}

@@ -6,6 +6,7 @@ import { Reso } from '../../models/reso.interface';
 import { PopUpManagerService } from '../../services/pop-up-manager.service';
 import { OrdineService } from '../../services/ordine.service';
 import { Observable } from 'rxjs';
+import { GestioneOrdiniInviaEmailComponent } from '../gestione-ordini-invia-email/gestione-ordini-invia-email.component';
 
 @Component({
   selector: 'app-gestione-ordini-admin',
@@ -60,7 +61,7 @@ export class GestioneOrdiniAdminComponent implements OnInit {
   }
 
   approveReturn(id: number): void {
-    //this.popUp.openForm(GestioneOrdiniInviaEmailComponent, { recipient : this.});
+    this.popUp.openForm(GestioneOrdiniInviaEmailComponent,id);
   }
 
   rejectReturn(id: number, comment: string = ''): void {

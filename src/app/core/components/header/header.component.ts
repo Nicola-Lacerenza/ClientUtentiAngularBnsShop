@@ -3,6 +3,7 @@ import { AuthappService } from '../../../services/authapp.service';
 import { user } from './../../../models/user';
 import { UserRegister } from '../../../models/UserRegister.interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -28,8 +29,8 @@ export class HeaderComponent implements OnInit {
     return this.BasicAuth.isLogged();
   }
 
-  public get isAdmin(): boolean{
-    this.BasicAuth.isAdmin().subscribe({
+  public get isAdmin(): Observable<boolean> {
+    /*this.BasicAuth.isAdmin().subscribe({
       next:(ruolo:boolean)=>{
         this._isAdmin=ruolo;
       },
@@ -38,6 +39,7 @@ export class HeaderComponent implements OnInit {
         console.error(error);
       }
     });
-    return this._isAdmin;
+    return this._isAdmin;*/
+    return this.BasicAuth.isAdmin();    
   }
 }

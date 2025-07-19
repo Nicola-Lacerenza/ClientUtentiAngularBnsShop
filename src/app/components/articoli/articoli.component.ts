@@ -103,9 +103,10 @@ export class ArticoliComponent implements OnInit {
     });
   }
 
-  public ApplicaFiltri(form: NgForm): void {
+  /*public ApplicaFiltri(form: NgForm): void {
     const f = form.value;
     let filtered = [...this._prodotti];
+    console.log('Prodotti iniziali:', filtered);
     // Logiche di filtro…
     const grp: Record<string, { immagini: string[]; prodotto: ProdottiFull }[]> = {};
     filtered.forEach(item => {
@@ -119,7 +120,81 @@ export class ArticoliComponent implements OnInit {
       currentImage: grp[idM][0].immagini[0],
       currentProductId: grp[idM][0].prodotto.id
     }));
+  }*/
+ public ApplicaFiltri(form: NgForm): void {
+  const f = form.value;         // es. { Uomo: true, Donna: false, ... }
+  let filtered = [...this._prodotti];
+
+  // 1. Generi selezionati
+  const selectedGeneri = this.generi.filter(g => f[g]);
+  if (selectedGeneri.length) {
+    filtered = filtered.filter(item =>
+      selectedGeneri.includes(item.prodotto.target)
+    );
   }
+
+  // 2. Colori selezionati
+  const selectedColori = this.colori.filter(c => f[c]);
+  if (selectedColori.length) {
+    filtered = filtered.filter(item =>
+      item.prodotto.nome_colore.some(col => selectedColori.includes(col))
+    );
+  }
+
+  // 3. Taglie selezionate
+  const selectedTaglie = this.taglie.filter(t => f[t]);
+  if (selectedTaglie.length) {
+    filtered = filtered.filter(item =>
+      item.prodotto.taglieProdotto.some(tp =>
+        selectedTaglie.includes(tp.taglia.taglia_Eu)
+      )
+    );
+  }
+
+  // 4. Brand selezionati
+  const selectedBrands = this.brands.filter(b => f[b]);
+  if (selectedBrands.length) {
+    filtered = filtered.filter(item =>
+      selectedBrands.includes(item.prodotto.nome_brand)
+    );
+  }
+
+  // 5. Categorie selezionate
+  const selectedCategorie = this.categorie.filter(ca => f[ca]);
+  if (selectedCategorie.length) {
+    filtered = filtered.filter(item =>
+      selectedCategorie.includes(item.prodotto.nome_categoria)
+    );
+  }
+
+  // 6. Prezzo
+  if (f.prezzoInferiore != null) {
+    filtered = filtered.filter(item =>
+      item.prodotto.prezzo <= +f.prezzoInferiore
+    );
+  }
+  if (f.prezzoSuperiore != null) {
+    filtered = filtered.filter(item =>
+      item.prodotto.prezzo >= +f.prezzoSuperiore
+    );
+  }
+
+  // Infine raggruppa come prima
+  const grp: Record<string, typeof this._prodotti> = {};
+  filtered.forEach(item => {
+    const idM = item.prodotto.id_modello.toString();
+    if (!grp[idM]) grp[idM] = [];
+    grp[idM].push(item);
+  });
+  this.prodottiFiltrati = Object.keys(grp).map(idM => ({
+    modello: grp[idM][0].prodotto.nome_modello,
+    prodotti: grp[idM],
+    currentImage: grp[idM][0].immagini[0],
+    currentProductId: grp[idM][0].prodotto.id
+  }));
+}
+
+
 
   public generateUrl(fileName: string): string {
     return `${environment.serverUrl}/${fileName}`;

@@ -59,7 +59,12 @@ export class AuthappService {
 
   public isAdmin():Observable<boolean>{
     return this.checkRuolo().pipe(
-      map(response => response.message==="admin")
+      map(response => {
+        if (response.message==="admin"){
+          return true;
+        }
+        return false;
+      })
     )
   }
 

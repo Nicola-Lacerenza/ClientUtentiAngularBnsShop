@@ -23,7 +23,8 @@ export class HttpRequestService {
     return this.http.get(environment.serverUrl+ "/ImmagineServlet?immagine=" + url,{responseType:'blob'});
   }
 
-  public postRequest(url:string,body:ServerRequest | {message:string | null} | FormData | {token:string,payerId:string,cartItems:{product : ProdottiFull, quantity : number, tagliaScelta : string}[]} | {code:string}):Observable<ServerResponse>{
+  public postRequest(url:string,body:ServerRequest | {message:string | null} | FormData | {token:string,payerId:string,cartItems:
+                    {product : ProdottiFull, quantity : number, tagliaScelta : string}[]} | {code:string}):Observable<ServerResponse>{
     return this.http.post<ServerResponse>(url,body);
   }
 

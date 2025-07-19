@@ -123,7 +123,7 @@
     border-radius: 12px;
     text-transform: capitalize;
     font-size: 0.85rem;
-    color: #fff;
+    color: #000000;
   }
   
   .badge-requested { background: var(--color-warning); }

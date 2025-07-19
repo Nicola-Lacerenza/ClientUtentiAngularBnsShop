@@ -24,8 +24,14 @@ export class ResoService {
       return this.httprequest.postRequest(environment.serverUrl + "/ResiServlet",body)
     }
 
-    public getReso(id:number):Observable<ServerResponse>{
-      return this.httprequest.getRequest(environment.serverUrl + "/ResiServlet?id="+id);
+    public getReso(id:number): Promise<Observable<Promise<Reso>>>{
+      return new Promise<Observable<Promise<Reso>>>((resolve,reject) => {
+        return this.httprequest.getRequest(environment.serverUrl + "/ResiServlet?id="+id).pipe(
+          map((data : ServerResponse) => {
+            return this.convertServerResponseToReso(<Reso_Ricevuto_Server>data.message);
+          })
+        );
+      });
     }
 
     public async getResi(): Promise<Observable<Promise<Reso[]>>>{

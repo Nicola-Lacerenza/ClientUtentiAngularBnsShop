@@ -42,7 +42,7 @@
           <tr *ngFor="let r of resi">
             <td>{{ r.id }}</td>
             <td>{{ r.ordine.id }}</td>
-            <td>{{ "NOME CLIENTE" }}</td>
+            <td>{{ "Mario Rossi" }}</td>
             <td>{{ r.data_richiesta| date: 'dd/MM/yyyy' }}</td>
             <td>
               <span class="badge" [ngClass]="'badge-' + r.stato_reso">

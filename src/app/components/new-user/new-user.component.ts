@@ -17,6 +17,8 @@ import { Taglia } from '../../models/taglia.interface';
 export class NewUserComponent implements OnInit {
   public _taglie: Taglia[] = [];
   public _colori: Colore[] = [];
+  public selectedTaglia: number|null = null;
+  public selectedColore: number|string = '';            
 
   private _message:string;
   @Output() registrationSuccess:EventEmitter<string>;
@@ -83,7 +85,8 @@ export class NewUserComponent implements OnInit {
       this.auth.doRegister(form.value).subscribe({
         next:(response:ServerResponse)=>{
           this.registrationSuccess.emit(<string>response.message);
-          this.router.navigateByUrl("/");
+          //this.router.navigateByUrl("/");
+          this.auth.setLogged(<string>response.message);
         },
         error:(error:HttpErrorResponse)=>{
           console.log(error,error.status,error.statusText);

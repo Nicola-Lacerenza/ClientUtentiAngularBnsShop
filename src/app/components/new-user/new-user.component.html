@@ -32,19 +32,36 @@
       <div class="form-group">
         <input type="text" class="form-control" name="telefono" id="telefono" placeholder="Cellulare" required ngModel [minLength]="10" maxlength="10">
       </div>
-      <div class="form-group">
-        <select class="form-control" name="id_taglia_preferita" id="id_taglia_preferita" ngModel>
+      <!-- <div class="form-group">
+        <select class="form-control" name="id_taglia_preferita" id="id_taglia_preferita" placeholder="La tua taglia" ngModel>
           <option [ngValue]="null" disabled selected>-- Seleziona taglia preferita (facoltativa) --</option>
           <option *ngFor="let taglia of _taglie" [value]="taglia.id">{{ taglia.taglia_Eu }}</option>
         </select>
-      </div>
-      
+      </div> -->
       <div class="form-group">
-        <select class="form-control" name="id_colore_preferito" id="id_colore_preferito" ngModel>
+        <select class="form-control" name="id_taglia_preferita" id="id_taglia_preferita" [(ngModel)]="selectedTaglia" required>
+          <option [value]="null" disabled hidden>-- La tua taglia --</option>
+          <option *ngFor="let taglia of _taglie" [value]="taglia.id">
+          {{ taglia.taglia_Eu }}
+          </option>
+        </select>
+      </div>    
+
+      <!-- <div class="form-group">
+        <select class="form-control" name="id_colore_preferito" id="id_colore_preferito" placeholder="Colore Preferito"ngModel>
           <option [ngValue]="null" disabled selected>-- Seleziona colore preferito (facoltativo) --</option>
           <option *ngFor="let colore of _colori" [value]="colore.id">{{ colore.nome }}</option>
         </select>
+      </div> -->
+      <div class="form-group">
+        <select class="form-control" name="id_colore_preferito" id="id_colore_preferito" [(ngModel)]="selectedColore">
+          <option value="" disabled hidden>-- Seleziona colore preferito (facoltativo) --</option>
+          <option *ngFor="let colore of _colori" [value]="colore.id">
+          {{ colore.nome }}
+          </option>
+        </select>
       </div>
+
       
       <div class="form-group text-center">
         <button type="submit" class="btnSubmit">Registrati</button>

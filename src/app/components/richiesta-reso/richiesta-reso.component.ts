@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrdineService } from '../../services/ordine.service';
 import { ResoService } from '../../services/reso.service';
@@ -17,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./richiesta-reso.component.css']
 })
 export class RichiestaResoComponent implements OnInit {
+  @ViewChild('bottoneCreaReso') bottoneCreaReso!: ElementRef<HTMLButtonElement>;
   ordine!: Ordine;
   motivo: string = '';
   prodottiSelezionati: string[] = [];
@@ -102,6 +103,7 @@ export class RichiestaResoComponent implements OnInit {
       };
       elencoResi.push(nuovoReso);
     }
+    this.bottoneCreaReso.nativeElement.disabled=true;
 
     this.resoService.creaReso({body:elencoResi}).subscribe({
       next: (data: ServerResponse) => {
